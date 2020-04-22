@@ -15,7 +15,17 @@ mongoose.connect('mongodb://localhost:27017/' + dbName, { useNewUrlParser: true,
 
 // Import mongoose models
 let models = [
-  require('./models/Cat')
+  require('./models/Cat'),
+  require('./models/Cup'),
+  require('./models/Cup_preset'),
+  require('./models/Arena'),
+  require('./models/Field'),
+  require('./models/Match'),
+  require('./models/Team'),
+  require('./models/Participant'),
+  require('./models/Referee'),
+  require('./models/Account'),
+  require('./models/Admin')
 ];
 
 // Create rest routes
