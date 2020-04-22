@@ -1,1 +1,0 @@
-# cupspels-planering
