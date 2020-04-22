@@ -9,7 +9,7 @@ app.listen(3001, () => console.log('API server listening on port 3001'));
 
 // connect to mongoDB via mongoose
 const mongoose = require('mongoose');
-let dbName = 'testytest' // replace with a better db name like cupdb 
+let dbName = 'cupdb'
 
 mongoose.connect('mongodb://localhost:27017/' + dbName, { useNewUrlParser: true, useUnifiedTopology: true });
 
