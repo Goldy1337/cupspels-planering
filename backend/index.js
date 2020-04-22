@@ -15,18 +15,18 @@ mongoose.connect('mongodb://localhost:27017/' + dbName, { useNewUrlParser: true,
 
 // Import mongoose models
 let models = [
-  require('./models/Cat'),
-  require('./models/Cup'),
-  require('./models/CupPreset'),
-  require('./models/Arena'),
-  require('./models/Field'),
-  require('./models/Match'),
-  require('./models/Team'),
-  require('./models/Participant'),
-  require('./models/Referee'),
-  require('./models/Account'),
-  require('./models/Admin')
-];
+  'Cup',
+  'CupPreset',
+  'Arena',
+  'Field',
+  'Match',
+  'Team',
+  'Participant',
+  'Referee',
+  'Account',
+  'Admin',
+  'Cup'
+].map(x => require('./models/' + x));
 
 // Create rest routes
 for (let model of models) {
