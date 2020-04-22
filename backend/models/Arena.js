@@ -8,7 +8,7 @@ let schema = new Schema ({
     long: {type: String, required: true},
     lat: {type: String, required: true},
     capacity: {type: Number, required: true},
-    home_team: String
+    homeTeam: String
 });
 
 let model = mongoose.model(modelName, schema);

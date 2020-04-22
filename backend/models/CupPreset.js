@@ -1,12 +1,12 @@
-const modelName = 'Cup_preset';
+const modelName = 'CupPreset';
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Types = Schema.Types;
 
 let schema = new Schema ({
-    cup_type: {type: String, required: true},
-    match_lenght: {type: Number, required: true},
-    players_on_field: {type: Number, required: true}
+    cupType: {type: String, required: true},
+    matchLenght: {type: Number, required: true},
+    playersOnField: {type: Number, required: true}
 });
 
 let model = mongoose.model(modelName, schema);

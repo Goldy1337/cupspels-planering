@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017/' + dbName, { useNewUrlParser: true,
 let models = [
   require('./models/Cat'),
   require('./models/Cup'),
-  require('./models/Cup_preset'),
+  require('./models/CupPreset'),
   require('./models/Arena'),
   require('./models/Field'),
   require('./models/Match'),
