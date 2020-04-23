@@ -5,11 +5,12 @@ const Types = Schema.Types;
 
 
 let schema = new Schema ({
+    presetId: {type: Types.ObjectId, ref: 'CupPreset'},
     name: {type: String, required: true},
     organizer: {type: String, required: true},
-    startDate: {type: String, required: true},
-    endDate: {type: String, required: true},
-    cupPresetId: {type: Types.ObjectId, ref: 'cup_type'}
+    startDate: {type: Date, required: true},
+    endDate: {type: Date, required: true},
+    
 });
 
 let model = mongoose.model(modelName, schema);

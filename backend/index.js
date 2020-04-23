@@ -17,14 +17,12 @@ mongoose.connect('mongodb://localhost:27017/' + dbName, { useNewUrlParser: true,
 let models = [
   'Cup',
   'CupPreset',
+  'Address',
   'Arena',
   'Field',
   'Match',
   'Team',
-  'Participant',
-  'Referee',
-  'Account',
-  'Admin',
+  'User',
   'Cup'
 ].map(x => require('./models/' + x));
 
