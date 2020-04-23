@@ -5,7 +5,7 @@ export default function NewTeam() {
   const [teamName, setTeamName] = useState(null);
   const [teamGender, setTeamGender] = useState(null);
   const [ageGroup, setAgeGroup] = useState(null);
-  const [team, setTeam] = useState(null)
+ // const [team, setTeam] = useState(null)
 
   let team = {
     name: teamName,
@@ -24,7 +24,7 @@ export default function NewTeam() {
     });
 
     result = await result.json();
-    setTeam(result)
+    //setTeam(result)
   };
 
   return (
