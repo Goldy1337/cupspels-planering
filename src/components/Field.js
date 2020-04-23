@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
+import { Button, ButtonGroup, Form, FormGroup, Input } from 'reactstrap'
+import mongoosy from 'mongoosy/frontend';
+const {
+  Field
+} = mongoosy;
 
 export default function NewField(){
 
@@ -20,6 +24,8 @@ export default function NewField(){
             outdoors
         })
 
+        addFieldToDatabase({name, size, surface, outdoors})
+
         setName('')
         setSize('')
         setSurface('')
@@ -27,7 +33,22 @@ export default function NewField(){
 
     }
 
+    async function addFieldToDatabase(Input) {
+        
+        // Create a new field and save to db
+        let aField = new Field(Input);
+        await aField.save();
+        // after saving the field it has an id
+        console.log('aField', aField.js);
 
+        // Read that field again from the db
+        let foundField = await Field.findOne({ _id: aField._id });
+        console.log('foundField', foundField.js);
+
+        // Read all field from the db
+        let allFields = await Field.find();
+        console.log('allFields', allFields.js);
+    }
 
   const onCheckboxBtnClick = (selected) => {
     const index = cSelected.indexOf(selected);

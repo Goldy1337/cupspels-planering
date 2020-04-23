@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
-import { Button, Form, FormGroup, Input} from 'reactstrap'
+import { Button, Form, FormGroup, Input } from 'reactstrap'
+import mongoosy from 'mongoosy/frontend';
+const {
+  Arena
+} = mongoosy;
 
 export default function NewArena(){
 
@@ -16,10 +20,28 @@ export default function NewArena(){
             homeTeam
         })
 
+        addArenaToDatabase({ name, capacity, homeTeam })
+        
         setName('')
         setCapacity('')
         setHomeTeam('')
+    }
 
+    async function addArenaToDatabase(Input) {
+        
+        // Create a new arena and save to db
+        let anArena = new Arena(Input);
+        await anArena.save();
+        // after saving the arena it has an id
+        console.log('anArena', anArena.js);
+
+        // Read that arena again from the db
+        let foundArena = await Arena.findOne({ _id: anArena._id });
+        console.log('foundArena', foundArena.js);
+
+        // Read all arenas from the db
+        let allArenas = await Arena.find();
+        console.log('allArenas', allArenas.js);
     }
 
     return (
