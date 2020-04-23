@@ -1,51 +1,67 @@
-import React from 'react'
-import { model } from 'mongoose';
+import React, { useState } from "react";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 
+export default function NewTeam() {
+  const [teamName, setTeamName] = useState(null);
+  const [teamGender, setTeamGender] = useState(null);
+  const [ageGroup, setAgeGroup] = useState(null);
+  const [team, setTeam] = useState(null)
 
-const NewTeam = () => {
+  let team = {
+    name: teamName,
+    gender: teamGender,
+    age: ageGroup,
+  };
 
-  
+  const postTeam = async (e) => {
+    e.preventDefault();
+    let result = await fetch("/api/teams", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(team),
+    });
 
-        // const team = {
-        //     name, 
-        //     gender,
-        //     age
-        // }
+    result = await result.json();
+    setTeam(result)
+  };
 
-        // const postTeam = async () => {
-            let team = {
-              name: 'IFK Malmö',
-              gender: 'Male',
-              age: 15
-            }
-        
-
-        const postTeam = async () => {
-        let result = await fetch('/api/teams', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(team)
-          })
-        
-          result = await result.json()
-          console.log(result);
-
-        }
-
-        postTeam()
-
-        // var teamInstance = new model.team({
-        //     name: 'IFK Malmö',
-        //     gender: 'Male',
-        //     ange: 15
-        // })
-
-        // teamInstance.save(function (err) {
-        //     if (err) return console.log('error');
-        //   });
-    
+  return (
+    <div>
+      <Form inline>
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <Input
+            type="name"
+            id="teamName"
+            placeholder="Lagnamn"
+            value={teamName}
+            onChange={(e) => setTeamName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Input
+            type="select"
+            id="teamGender"
+            value={teamGender}
+            onChange={(e) => setTeamGender(e.target.value)}
+          >
+            <option>Alla</option>
+            <option>Man</option>
+            <option>Kvinna</option>
+          </Input>
+        </FormGroup>
+        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+          <Input
+            type="age"
+            id="ageGroup"
+            placeholder="Åldersgrupp"
+            value={ageGroup}
+            onChange={(e) => setAgeGroup(e.target.value)}
+          />
+        </FormGroup>
+        <Button onClick={postTeam()}>Bekräfta</Button>
+      </Form>
+    </div>
+  );
 }
-
-export default NewTeam();
