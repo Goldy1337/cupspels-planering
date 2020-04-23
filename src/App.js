@@ -1,4 +1,6 @@
 import React from 'react';
+import NewArena from './components/Arena';
+import NewField from './components/Field';
 import mongoosy from 'mongoosy/frontend';
 const {
   User,
@@ -44,6 +46,7 @@ export default function App() {
   return (
     <div>
       <h1>Hello world!</h1>
+      <NewArena></NewArena>
     </div>
   );
 }
