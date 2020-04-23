@@ -1,28 +1,30 @@
 import React from 'react';
 import mongoosy from 'mongoosy/frontend';
 const {
-  Admin,
+  User,
   Team
 } = mongoosy;
 
 export default function App() {
 
   async function doStuff() {
+
+    await Team.remove({})
     // Use mongoose from the frontend
     // through mongoosy
 
     // Create a new admin and save to db
-    let anAdmin = new Admin({ name: 'Olle' });
-    await anAdmin.save();
-    // after saving the admin it has an id
-    console.log('anAdmin', anAdmin.js);
+    // let anAdmin = new Admin({ name: 'Olle' });
+    // await anAdmin.save();
+    // // after saving the admin it has an id
+    // console.log('anAdmin', anAdmin.js);
 
     // Read all admins from the db
-    let allAdmins = await Admin.find();
-    console.log('allAdmins', allAdmins.js);
+    // let allAdmins = await Admin.find();
+    // console.log('allAdmins', allAdmins.js);
 
     // Create a new team and save to db
-    let aTeam = new Team({ name: 'IFK', gender: 'girls', age: 9 });
+    let aTeam = new Team({ name: 'IFK', gender: 'Female', age: 9 });
     await aTeam.save();
     // after saving the team it has an id
     console.log('aTeam', aTeam.js);
