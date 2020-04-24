@@ -1,10 +1,10 @@
 import React from 'react';
 import mongoosy from 'mongoosy/frontend';
+import UserForm from './components/UserForm'
 const {
   User,
   Team
 } = mongoosy;
-import UserForm from './components/UserForm'
 
 export default function App() {
 
