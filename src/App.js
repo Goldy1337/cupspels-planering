@@ -9,7 +9,7 @@ export default function App() {
 
   async function doStuff() {
 
-    await Team.remove({})
+   // await Team.deleteMany({})
     // Use mongoose from the frontend
     // through mongoosy
 
@@ -24,18 +24,18 @@ export default function App() {
     // console.log('allAdmins', allAdmins.js);
 
     // Create a new team and save to db
-    let aTeam = new Team({ name: 'IFK', gender: 'Female', age: 9 });
-    await aTeam.save();
-    // after saving the team it has an id
-    console.log('aTeam', aTeam.js);
+    // let aTeam = new Team({ name: 'IFK', gender: 'Female', age: 9 });
+    // await aTeam.save();
+    // // after saving the team it has an id
+    // console.log('aTeam', aTeam.js);
 
-    // Read that team again from the db
-    let foundTeam = await Team.findOne({ _id: aTeam._id });
-    console.log('foundTeam', foundTeam.js);
+    // // Read that team again from the db
+    // let foundTeam = await Team.findOne({ _id: aTeam._id });
+    // console.log('foundTeam', foundTeam.js);
 
-    // Read all teams from the db
-    let allTeams = await Team.find();
-    console.log('allTeams', allTeams.js);
+    // // Read all teams from the db
+    // let allTeams = await Team.find();
+    // console.log('allTeams', allTeams.js);
 
   }
 

@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './scss/style.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import NewTeam from './components/NewTeam';
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    <NewTeam></NewTeam>
   </React.StrictMode>,
   document.querySelector('#root')
 );
