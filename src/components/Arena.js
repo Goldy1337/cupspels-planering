@@ -30,12 +30,7 @@ export default function NewArena(){
         let allArenas = await Arena.find();
         console.log('allArenas', allArenas.js);
 
-        emptyObject();
-
-    }
-
-    function emptyObject() {
-        updateArena({name: '', capacity: '', homeTeam: ''})
+        updateArena({name: '', capacity: '', homeTeam: ''});
     }
 
     return (
