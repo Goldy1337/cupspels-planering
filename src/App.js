@@ -1,5 +1,10 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import mongoosy from 'mongoosy/frontend';
+import NewTeam from './components/NewTeam';
+import NewTeamMember from './components/NewTeamMember';
+import UserContextProvider from './contexts/UserContextProvider';
+import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
 const {
   User,
   Team
@@ -43,7 +48,16 @@ export default function App() {
 
   return (
     <div>
-      <h1>Hello world!</h1>
+      <TeamContextProvider>
+        <UserContextProvider>
+          <Router>
+            <main>
+            <Route exact path="/addTeam" component={NewTeam} />
+            <Route exact path="/addTeamMember/:id" component={NewTeamMember} />
+            </main>
+          </Router>
+        </UserContextProvider>
+      </TeamContextProvider>
     </div>
   );
 }

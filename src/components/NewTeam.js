@@ -1,8 +1,17 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input, Col, Jumbotron, Container } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Col,
+  Jumbotron,
+  Container,
+} from "reactstrap";
 import mongoosy from "mongoosy/frontend";
+import { TeamContext } from "../contexts/TeamContextProvider";
 
-export default function NewTeam() {
+export default function NewTeam(props) {
   const [clubName, setClubName] = useState('');
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('');
@@ -18,15 +27,20 @@ export default function NewTeam() {
       age: ageGroup,
     });
     await aTeam.save();
-    console.log("aTeam", aTeam.js);
+    console.log("aTeam", aTeam._id);
 
     let allTeams = await Team.find();
-    console.log('allTeams', allTeams.js);
+    console.log("allTeams", allTeams.js);
+
+    props.history.push("/addTeamMember/" + aTeam._id);
   }
 
-  
+  async function clearTeams(){
+     let allTeams = await Team.find();
 
-
+    await Team.deleteMany({});
+    console.log("clear", allTeams.js);
+  }
 
   return (
     <div>
@@ -69,8 +83,8 @@ export default function NewTeam() {
                 >
                   <option>N/A</option>
                   <option>Mixed</option>
-                  <option>Man</option>
-                  <option>Woman</option>
+                  <option>Male</option>
+                  <option>Female</option>
                 </Input>
               </Col>
             </FormGroup>
@@ -88,7 +102,10 @@ export default function NewTeam() {
               </Col>
             </FormGroup>
             <FormGroup>
-              <Button className="ml-4" onClick={addTeam}>Confirm</Button>
+              <Button className="ml-4" onClick={addTeam}>
+                Confirm
+              </Button>
+              <Button className="m-4" onClick={clearTeams}>Clear</Button>
             </FormGroup>
           </Form>
         </Container>
