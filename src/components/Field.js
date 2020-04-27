@@ -15,8 +15,6 @@ export default function NewField() {
   async function addFieldToDatabase(e) {
 
     e.preventDefault()
-      
-    await Field.remove({})
         
     // Create a new field and save to db
     let aField = new Field(field);
