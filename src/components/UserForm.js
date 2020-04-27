@@ -5,6 +5,10 @@ const {
   User
 } = mongoosy;
 
+// TODO: HÄMTA TEAMS
+// TODO: DÖLJ VISSA FÄLT NÄR MAN VÄLJER REFEREE
+// TODO:
+
 
 function WarningBanner(props) {
      if (!props.warn) {
@@ -21,7 +25,7 @@ async function uploadData() {
     console.log('Uploading data');
 
     // Create a new referee and save to db
-    let newReferee = new User({ name: this.state.firstName, role: "Referee", email: "morris@gmail.com", phoneNumber: 12332131, password: "secret-code", salt: "salty" });
+    let newReferee = new User({ name: "this.state.firstName", role: "Referee", email: "this.state.email", phoneNumber: "this.state.phoneNumber", password: "secret-code", salt: "salty" });
     await newReferee.save();
 
     console.log('newReferee', newReferee.js); // after saving the team it has an id
@@ -134,11 +138,11 @@ export default class UserForm extends React.Component {
 
                     </div>
                   
-                    <input
+                    {/* <input
                         name="team"
                         placeholder='Team'
                         value={this.state.phoneNumber}
-                        onChange={e => this.change(e)} /><br/>
+                        onChange={e => this.change(e)} /><br/> */}
                 </form>
                 <div class="button-container">
                     <button class="submit-btn" onClick={e => this.onSubmit(e)}>Add</button> 
