@@ -30,6 +30,9 @@ export default function NewArena(){
         let allArenas = await Arena.find();
         console.log('allArenas', allArenas.js);
 
+        // This will reset the inputfields
+        // when the object is submitted
+        // to enhance the user experience
         updateArena({name: '', capacity: '', homeTeam: ''});
     }
 
