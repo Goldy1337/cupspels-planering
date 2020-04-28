@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Collapse, Card, CardBody, Button, Col, FormGroup, Form, Input, Table } from 'reactstrap'
 import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
+import '../scss/_variable-overrides.scss' 
 
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
@@ -12,11 +13,11 @@ const NewTeamMember = (props) => {
   const [name, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [subrole, setSubrole] = useState('');
+  const [subRole, setSubRole] = useState('');
   const [password, setPassword] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
-  const [newMember, setMember] = useState('');
+  // const [newMember, setMember] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
 
   let {id} = useParams()
@@ -24,39 +25,48 @@ const NewTeamMember = (props) => {
   const toggle = () => setIsOpen(!isOpen);
   const generatePassword = () => setPassword(Math.random().toString(36).slice(-8))
 
+  useEffect(()=> {
+    getTeamMembers()
+  }, [])
+
+  useEffect(()=> {
+    generatePassword()
+  }, [])
+
   async function getTeamName(){
     
   let foundTeam = await Team.findOne({ _id: id });
   setTeamName(foundTeam.name);
   }
 
+
   const addTeamMember = async (e) =>{
 
     e.preventDefault()
-    generatePassword()
 
     let aMember = new User({
       teamId: id,
       name: name,
       role: "Participant",
-      subrole: subrole,
+      subRole: subRole,
       email: email,
       phoneNumber: phoneNumber,
       password: password,
-      salt: "hej"
+      salt: "hej",
     });
 
     await aMember.save();
     console.log("aMember", aMember.js);
-    setMember(aMember)
+    // setMember(aMember)
 
+    appendUser(aMember)
 
     getTeamMembers();
 
     setPlayerName('')
     setEmail('')
     setPhoneNumber('')
-    setSubrole('')
+    setSubRole('')
   }
 
   const getTeamMembers = async () =>{
@@ -68,45 +78,34 @@ const NewTeamMember = (props) => {
 
   }
 
-  // getTeamMembers();
-  // async function getTeamMembers(){
-  //   let foundTeamMember = await User.find({ id: User.teamId });
-  //   console.log('foundTeam', foundTeamMember.js);
-  // }
-
-  //  appendTeamMember = (newMember) => {
-  //    setTeamMembers = ([...teamMembers, newMember])
-  //   }
-
-
-
   getTeamName();
 
   return (
     <div>
       <h1>{teamName}</h1>
-      <Table dark>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-        </tr>
-      </thead>
-      {teamMembers.map((member) =>
-      <tbody>
-        <tr>
-          <th scope="row"></th>
-          <td>{member.User.name}</td>
-          <td>{member.User.role}</td>
-      <td>{member.User.email}</td>
-      <td>{member.User.phone}</td>
-        </tr>
-        </tbody>
-       ) }
+      {teamMembers ? (
+        <Table dark>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+            </tr>
+          </thead>
+          {teamMembers.map((member, i) => (
+            <tbody key={i}>
+              <tr className="playersTable">
+                <td>{member.name}</td>
+                <td>{member.subRole}</td>
+                <td>{member.email}</td>
+                <td>{member.phoneNumber}</td>
+              </tr>
+            </tbody>
+          ))}
         </Table>
+      ) : (
+        '')}
       <Collapse isOpen={isOpen}>
         <Card>
           <CardBody>
@@ -125,8 +124,8 @@ const NewTeamMember = (props) => {
                 <Col>
                   <Input
                     placeholder="Position"
-                    value={subrole}
-                    onChange={(e) => setSubrole(e.target.value)}
+                    value={subRole}
+                    onChange={(e) => setSubRole(e.target.value)}
                   />
                 </Col>
               </FormGroup>

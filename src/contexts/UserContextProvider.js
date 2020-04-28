@@ -34,15 +34,15 @@ export default function UserContextProvider(props) {
     fetchUsers();
   }, []);
 
-  // const values = {
-  //   users,
-  //   setUsers,
-  //   appendUser,
-  //   removeUser
-  // };
+  const values = {
+    users,
+    setUsers,
+    appendUser,
+    removeUser
+  };
 
   return (
-    <UserContext.Provider value={(users, setUsers, appendUser, removeUser)}>
+    <UserContext.Provider value={values}>
       {props.children}
     </UserContext.Provider>
   );

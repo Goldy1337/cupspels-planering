@@ -47,13 +47,17 @@ export default function App() {
   doStuff();
 
   return (
-    <div>
+    <div className="App">
       <TeamContextProvider>
         <UserContextProvider>
           <Router>
             <main>
-            <Route exact path="/addTeam" component={NewTeam} />
-            <Route exact path="/addTeamMember/:id" component={NewTeamMember} />
+              <Route exact path="/addTeam" component={NewTeam} />
+              <Route
+                exact
+                path="/addTeamMember/:id"
+                component={NewTeamMember}
+              />
             </main>
           </Router>
         </UserContextProvider>
