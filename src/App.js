@@ -1,8 +1,10 @@
 import React from 'react';
 import mongoosy from 'mongoosy/frontend';
-import UserForm from './components/UserForm'
+import RefereeContextProvider from './contexts/RefereeContextProvider'
+import NewReferee from './pages/NewReferee'
+import RefereeList from './components/RefereeList'
 const {
-  User,
+  //User,
   Team
 } = mongoosy;
 
@@ -44,8 +46,12 @@ export default function App() {
 
   return (
     <div>
-      <h1>Hello world!</h1>
-      <UserForm />
+      <RefereeContextProvider>
+        <h1>Hello world!</h1>
+        <NewReferee />
+        <RefereeList/>
+
+      </RefereeContextProvider>
     </div>
   );
 }

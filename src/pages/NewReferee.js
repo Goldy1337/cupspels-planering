@@ -8,10 +8,12 @@ const {
   User
 } = mongoosy;
 
-//const NewReferee = (props) => {
-const NewReferee = () => {
+function NewReferee() {
+//const NewReferee = () => {
 
-  const { appendReferee } = useContext(RefereeContext)
+  const { referees, appendReferee } = useContext(RefereeContext)
+
+  const { fetchReferee } = useContext(RefereeContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -31,10 +33,9 @@ const NewReferee = () => {
       phoneNumber
     }
 
-    console.log(referee)
-
+    console.log("before" + referee)
     appendReferee(referee)
-
+    console.log("after" + referee)
 
     sendToDatabase(referee)
 
@@ -45,11 +46,7 @@ const NewReferee = () => {
   }
 
   async function sendToDatabase(referee) {
-  //const sendToDatabase = (e) => {
 
-     //e.preventDefault();
-    
-    console.log(referee.firstName)
     // Create a new referee and save to db
     let newReferee = new User({
       name: referee.lastName + ' ' + referee.firstName,
@@ -60,18 +57,20 @@ const NewReferee = () => {
       salt: "salty-b"
     });
     
+
+
     await newReferee.save();
 
-    console.log('newReferee', newReferee.js); // after saving the team it has an id
+    //console.log('newReferee', newReferee.js); // after saving the team it has an id
 
     // Read that team again from the db
     let foundReferee = await User.findOne({ _id: newReferee._id });
-    console.log('found referee', foundReferee.js);
+    //console.log('found referee', foundReferee.js);
 
     // Read all teams from the db
     let allReferees = await User.find();
     
-    console.log('all Referees', allReferees.js);
+    //console.log('all Referees', allReferees.js);
   }
 
   return (
@@ -138,4 +137,3 @@ const NewReferee = () => {
 }
 
 export default NewReferee
-//export default withRouter(NewReferee)

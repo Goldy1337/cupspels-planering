@@ -1,41 +1,41 @@
-import React, { createContext, useState } from 'react';
-// import mongoosy from 'mongoosy/frontend';
-// const {
-//     User
-// } = mongoosy;
+import React, { createContext, useState, useEffect } from 'react';
+import mongoosy from 'mongoosy/frontend';
+const {
+    User
+} = mongoosy;
 
 export const RefereeContext = createContext();
 
 export default function RefereeContextProvider(props) {
-    const [referees, setReferees] = useState([
-        {
-            firstName: 'Hank',
-            lastName: 'Ky',
-            email: 'asd@asd.com',
-            phoneNumber: '231312',
-        },
-        {
-            firstName: 'Henk',
-            lastName: 'He',
-            email: '',
-            phoneNumber: '',
-        }
-    ])
+
+  const [referees, setReferees] = useState([]) 
+  
+
+  async function fetchReferees() {
+    let initReferees = await User.find()
+    setReferees(initReferees)
+  }
   
   const appendReferee = (referee) => {
       setReferees([...referees, referee]) // three dots (...) is called spread syntax, and this will copy the content of the array
   }
+
+ 
+
+  useEffect(() => {
+    fetchReferees()
+  }, [])
   
+
   const values = {
     referees,
-    appendReferee
+    appendReferee,
+    fetchReferees
   }
 
   return (
-    <RefereeContext.Provider value={{ values }}>
+    <RefereeContext.Provider value={ values }>
       {props.children}
     </RefereeContext.Provider>
   )
-
-
 }
