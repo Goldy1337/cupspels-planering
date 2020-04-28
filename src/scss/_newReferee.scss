@@ -1,0 +1,50 @@
+.referee-form {
+  background-color: wheat;
+  width: 65vw;
+  margin: auto;
+}
+
+.form-title {
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  
+}
+
+.enter-name-title {
+  padding-left: 15px;
+}
+
+.name-fields {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.referee-firstName {
+  width: 30vw;
+}
+
+.referee-lastName {
+  background-color: gold;
+  margin-top: 0px;
+  //margin-top: 15px;
+}
+
+.group-lastname {
+  margin-top: 0px;
+}
+
+.contact-title {
+  padding-left: 15px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
+
+.button-container {
+
+}
+
+.form-btn {
+  width: 30vw;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,71 @@
+.userform-base {
+  width: 60vw;
+  margin: auto;
+  background-color: wheat;
+
+}
+
+
+
+.userform-title {
+  padding-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.userform-select {
+  display: inline-block;
+  margin-left: 15px; 
+  margin-right: 20px;
+  color: navy;
+}
+
+.user-form {
+  display: flex-block;
+  align-items: flex-end;
+  margin-left: 15px;
+
+}
+
+.name-label {
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+.fname-field {
+  margin-right: 20px;
+}
+
+.fname-label {
+  margin-right: 117px;
+}
+
+
+
+.contact-label {
+  font-weight: bold;
+  margin-bottom: 3px;
+  margin-top: 30px;
+}
+
+.email-field {
+  margin-bottom: 3px;
+  width: 40vw;
+}
+
+
+.button-container {
+  margin-top: 30px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-btn {
+
+  width: 25vw;
+  margin: auto;
+}
+
+.fname-field {
+  
+}
