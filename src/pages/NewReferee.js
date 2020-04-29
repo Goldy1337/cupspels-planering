@@ -2,46 +2,42 @@ import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { RefereeContext } from '../contexts/RefereeContextProvider'
 import mongoosy from 'mongoosy/frontend';
-import { userInfo } from 'os';
-// import { withRouter } from 'react-router-dom'
 const {
   User
 } = mongoosy;
 
 function NewReferee() {
-//const NewReferee = () => {
 
-  const { referees, appendReferee } = useContext(RefereeContext)
-
-  const { fetchReferee } = useContext(RefereeContext)
+  const { appendReferee } = useContext(RefereeContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
 
   const addReferee = (e) => {
     e.preventDefault();
     
-    if (!lastName.trim() || !firstName.trim() || !email.trim() || !phoneNumber.trim()) {
+    if (!lastName.trim() || !firstName.trim() || !email.trim() || !phoneNumber.trim() || !password.trim()) {
       return
     }
-
     const referee = {
       firstName,
       lastName,
       email,
+      password,
       phoneNumber
     }
 
-    console.log("before" + referee)
-    appendReferee(referee)
-    console.log("after" + referee)
+    console.log(referee)
 
+    appendReferee(referee)
     sendToDatabase(referee)
 
     setFirstName('')
     setLastName('')
     setEmail('')
+    setPassword('')
     setPhoneNumber('')
   }
 
@@ -53,7 +49,7 @@ function NewReferee() {
       role: "Referee",
       email: referee.email,
       phoneNumber: referee.phoneNumber,
-      password: "secret",
+      password: referee.password,
       salt: "salty-b"
     });
     
@@ -64,11 +60,11 @@ function NewReferee() {
     //console.log('newReferee', newReferee.js); // after saving the team it has an id
 
     // Read that team again from the db
-    let foundReferee = await User.findOne({ _id: newReferee._id });
+    //let foundReferee = await User.findOne({ _id: newReferee._id });
     //console.log('found referee', foundReferee.js);
 
     // Read all teams from the db
-    let allReferees = await User.find();
+    //let allReferees = await User.find();
     
     //console.log('all Referees', allReferees.js);
   }
@@ -86,6 +82,7 @@ function NewReferee() {
             <Input
               required
               type="text"
+              //placeholder="First name..."
               id="referee-firstName"
               class="referee-firstName"
               value={firstName}
@@ -113,8 +110,14 @@ function NewReferee() {
             id="referee-email"
             placeholder="Example@gmail.com"
             value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+            onChange={e => setEmail(e.target.value)}/>
+          <label for="referee-password">Password</label>
+          <Input
+            required
+            type="password"
+            id="referee-password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}/>
         </FormGroup>
         <FormGroup className="col-sm-12 col-md-8 col-lg-6">
           <label for="referee-firstName">Phone number</label>
