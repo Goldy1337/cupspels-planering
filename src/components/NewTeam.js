@@ -14,7 +14,7 @@ import { TeamContext } from "../contexts/TeamContextProvider";
 export default function NewTeam(props) {
   const [clubName, setClubName] = useState('');
   const [teamName, setTeamName] = useState('');
-  const [teamGender, setTeamGender] = useState('');
+  const [teamGender, setTeamGender] = useState('N/A');
   const [ageGroup, setAgeGroup] = useState('');
   const { Team } = mongoosy;
 

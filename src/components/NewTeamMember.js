@@ -8,13 +8,14 @@ import '../scss/_variable-overrides.scss'
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
  const {Team} = mongoosy;  
- const {appendUser} = useContext(UserContext)
+ const {appendUser, appendTeamMember} = useContext(UserContext)
 
   const [name, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [subRole, setSubRole] = useState('');
   const [password, setPassword] = useState('');
+  const [salt, setSalt] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
   // const [newMember, setMember] = useState('');
@@ -24,6 +25,8 @@ const NewTeamMember = (props) => {
 
   const toggle = () => setIsOpen(!isOpen);
   const generatePassword = () => setPassword(Math.random().toString(36).slice(-8))
+  const generateSalt = () => setSalt(Math.random().toString(36).slice(-8))
+   
 
   useEffect(()=> {
     getTeamMembers()
@@ -33,12 +36,15 @@ const NewTeamMember = (props) => {
     generatePassword()
   }, [])
 
+  useEffect(()=> {
+    generateSalt()
+  }, [])
+
   async function getTeamName(){
     
   let foundTeam = await Team.findOne({ _id: id });
   setTeamName(foundTeam.name);
   }
-
 
   const addTeamMember = async (e) =>{
 
@@ -83,7 +89,7 @@ const NewTeamMember = (props) => {
   return (
     <div>
       <h1>{teamName}</h1>
-      {teamMembers ? (
+      {teamMembers[0] ? (
         <Table dark>
           <thead>
             <tr>

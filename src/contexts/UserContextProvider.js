@@ -8,9 +8,15 @@ export const UserContext = createContext();
 
 export default function UserContextProvider(props) {
   const [users, setUsers] = useState([]);
+  const [teamUsers, setTeamUsers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
 
   const  appendUser = (user) => {
     setUsers([...users, user])
+  }
+
+  const appendTeamMember = (user) => {
+    setTeamMembers([...teamMembers, user])
   }
 
   const removeUser = (id) => {
@@ -30,14 +36,24 @@ export default function UserContextProvider(props) {
      setUsers(allUsers);
   };
 
+  const fetchTeamUsers = async (id) => {
+    let foundTeamUsers = await User.find({ teamId: id });
+    setTeamUsers(foundTeamUsers)
+    console.log("context ", teamUsers.js)
+
+  }
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const values = {
     users,
+    teamMembers,
+    fetchUsers,
     setUsers,
     appendUser,
+    appendTeamMember,
     removeUser
   };
 
