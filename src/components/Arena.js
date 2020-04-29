@@ -31,9 +31,9 @@ export default function NewArena() {
     setHomeTeam('')
   }
 
+  //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arena) {
 
-    // Create a new arena and save to db
     let NewArena = new Arena({
       name: arena.name,
       capacity: arena.capacity,
@@ -42,6 +42,8 @@ export default function NewArena() {
     
     await NewArena.save();
   }
+
+  //The form for adding the arena
   return (
     <div>
       <Form onSubmit={addArena}>

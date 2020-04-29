@@ -35,9 +35,9 @@ export default function NewField() {
 
   }
 
+  //Creates a new Field entry and adds it to the database
   async function sendToDatabase(field) {
 
-    // Create a new field and save to db
     let NewField = new Field({
       name: field.name,
       size: field.size,
@@ -46,6 +46,7 @@ export default function NewField() {
     });
     await NewField.save();
   }
+  //The form for adding the field
   return (
     <div>
       <Form onSubmit={addField}>

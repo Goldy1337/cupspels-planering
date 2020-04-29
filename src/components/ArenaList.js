@@ -21,12 +21,12 @@ export default function ArenaList() {
           inverse 
           className="mb-2"
           style={{ 
-            backgroundColor: 'gray', 
+            backgroundColor: 'green', 
             borderColor: '#333'
           }}>
             <Container>
               <Row>
-                <span style={{fontSize: '2em'}}>🍲</span>
+                <span style={{fontSize: '2em'}}>⚽️</span>
               <Col>
                 <h1>{arena.name}</h1>
                   <CardTitle>{arena.capacity}</CardTitle>

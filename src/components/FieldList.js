@@ -21,12 +21,12 @@ export default function FieldList() {
           inverse 
           className="mb-2"
           style={{ 
-            backgroundColor: 'gray', 
+            backgroundColor: 'green', 
             borderColor: '#333'
           }}>
             <Container>
               <Row>
-                <span style={{fontSize: '2em'}}>🍲</span>
+                <span style={{fontSize: '2em'}}>⚽️</span>
               <Col>
                 <h1>{field.name}</h1>
                 <CardTitle>{field.size}</CardTitle>
