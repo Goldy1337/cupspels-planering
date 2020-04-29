@@ -1,59 +1,69 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
+import {FieldContext} from '../contexts/FieldContextProvider'
 const {
   Field
 } = mongoosy;
 
 export default function NewField() {
   
+  const { appendField } = useContext(FieldContext)
+  const [name, setName] = useState('')
+  const [size, setSize] = useState('')
+  const [surface, setSurface] = useState('')
+  const [outdoors, setOutdoors] = useState(true)
 
-  const [field, setField] = useState({ name: '', size: '', surface: '', outdoors: true })
-
-  const updateField = update => setField({ ...field, ...update })
-
-  async function addFieldToDatabase(e) {
-
+  async function addField(e) {
     e.preventDefault()
-        
-    // Create a new field and save to db
-    let aField = new Field(field);
-    await aField.save();
-    // after saving the field it has an id
-    console.log('aField', aField.js);
 
-    // Read that field again from the db
-    let foundField = await Field.findOne({ _id: aField._id });
-    console.log('foundField', foundField.js);
+    const field = {
+      name,
+      size,
+      surface,
+      outdoors
+    }
 
-    // Read all fields from the db
-    let allFields = await Field.find();
-    console.log('allFields', allFields.js);
-      
-    // This won't reset the choice for outdoors/indoors
-    // to minimize clicking if several fields of the same
-    // type is to be added
-    updateField({name: '', size: '', surface: ''});
+    appendField(field)
+
+    sendToDatabase(field)
+
+    setName('')
+    setSize('')
+    setSurface('')
+
+
   }
 
+  async function sendToDatabase(field) {
+
+    // Create a new field and save to db
+    let NewField = new Field({
+      name: field.name,
+      size: field.size,
+      surface: field.surface,
+      outdoors: field.outdoors
+    });
+    await NewField.save();
+  }
   return (
     <div>
-      <Form onSubmit={addFieldToDatabase}>
+      <Form onSubmit={addField}>
         <FormGroup>
           <Input type="text" placeholder="Add field name" 
-          value={field.name} onChange={e => updateField({name: e.target.value})} 
+          value={name} onChange={e => setName(e.target.value)} 
           required>
           </Input>
           <Input type="number" placeholder="Add field size" 
-          value={field.size} onChange={e => updateField({size: e.target.value})} 
+          value={size} onChange={e => setSize(e.target.value)} 
           required>
           </Input>
           <Input type="text" placeholder="Add field surface" 
-          value={field.surface} onChange={e => updateField({surface: e.target.value})}>
+          value={surface} onChange={e => setSurface(e.target.value)}>
           </Input>
           <ButtonGroup>
-            <Button color="primary" onClick={() =>updateField({outdoors: true})} active={field.outdoors === true}>Outdoors</Button>
-            <Button color="primary" onClick={() =>updateField({outdoors: false})} active={field.outdoors === false}>Indoors</Button>
+            <Button color="primary" onClick={() =>setOutdoors(true)} active={outdoors === true}>Outdoors</Button>
+            <Button color="primary" onClick={() =>setOutdoors(false)} active={outdoors === false}>Indoors</Button>
           </ButtonGroup>
           <br></br>
           <Button>Add Field</Button>
@@ -61,5 +71,4 @@ export default function NewField() {
       </Form>
     </div>
   )
-
 }

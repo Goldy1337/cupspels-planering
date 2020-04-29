@@ -1,60 +1,65 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Input } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
+import {ArenaContext} from '../contexts/ArenaContextProvider'
 const {
   Arena
 } = mongoosy;
 
-export default function NewArena(){
+export default function NewArena() {
 
+  const { appendArena } = useContext(ArenaContext)
+  const [name, setName] = useState('')
+  const [capacity, setCapacity] = useState('')
+  const [homeTeam, setHomeTeam] = useState('')
+    
+  const addArena = (e) => {
+    e.preventDefault();
 
-    const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
-
-    const updateArena = update => setArena({ ...arena, ...update })
-
-    async function addArenaToDatabase(e) {
-
-        e.preventDefault()
-        
-        // Create a new arena and save to db
-        let anArena = new Arena(arena);
-        await anArena.save();
-        // after saving the arena it has an id
-        console.log('anArena', anArena.js);
-
-        // Read that arena again from the db
-        let foundArena = await Arena.findOne({ _id: anArena._id });
-        console.log('foundArena', foundArena.js);
-
-        // Read all arenas from the db
-        let allArenas = await Arena.find();
-        console.log('allArenas', allArenas.js);
-
-        // This will reset the inputfields
-        // when the object is submitted
-        // to enhance the user experience
-        updateArena({name: '', capacity: '', homeTeam: ''});
+    const arena = {
+      name,
+      capacity,
+      homeTeam
     }
 
-    return (
-        <div>
-            <Form onSubmit={addArenaToDatabase}>
-                <FormGroup>
-                    <Input type="text" placeholder="Add arena name" 
-                    value={arena.name} onChange={e => updateArena({name: e.target.value})} 
-                    required>
-                    </Input>
-                    <Input type="number" placeholder="Add arena capacity" 
-                    value={arena.capacity} onChange={e => updateArena({capacity: e.target.value})} 
-                    required>
-                    </Input>
-                    <Input type="text" placeholder="Add arena home team" 
-                    value={arena.homeTeam} onChange={e => updateArena({homeTeam: e.target.value})}>
-                    </Input>
-                    <Button>Add Arena</Button>
-                </FormGroup>
-            </Form>
-        </div>
-    )
+    appendArena(arena)
 
+    sendToDatabase(arena)
+
+    setName('')
+    setCapacity('')
+    setHomeTeam('')
+  }
+
+  async function sendToDatabase(arena) {
+
+    // Create a new arena and save to db
+    let NewArena = new Arena({
+      name: arena.name,
+      capacity: arena.capacity,
+      homeTeam: arena.homeTeam
+    });
+    
+    await NewArena.save();
+  }
+  return (
+    <div>
+      <Form onSubmit={addArena}>
+        <FormGroup>
+          <Input type="text" placeholder="Add arena name" 
+          value={name} onChange={e => setName(e.target.value)} 
+          required>
+          </Input>
+          <Input type="number" placeholder="Add arena capacity" 
+          value={capacity} onChange={e => setCapacity(e.target.value)} 
+          required>
+          </Input>
+          <Input type="text" placeholder="Add arena home team" 
+          value={homeTeam} onChange={e => setHomeTeam(e.target.value)}>
+          </Input>
+          <Button>Add Arena</Button>
+        </FormGroup>
+      </Form>
+    </div>
+  )
 }
