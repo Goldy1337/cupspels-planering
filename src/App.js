@@ -65,6 +65,8 @@ export default function App() {
           </Router>
         </UserContextProvider>
       </TeamContextProvider>
+      <RefereeContextProvider>
+      </RefereeContextProvider>
     </div>
   );
 }
