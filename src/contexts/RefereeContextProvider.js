@@ -17,7 +17,7 @@ export default function RefereeContextProvider(props) {
   }
   
   const appendReferee = (referee) => {
-      setReferees([...referees, referee]) // three dots (...) is called spread syntax, and this will copy the content of the array
+      setReferees([...referees, referee]) 
   }
 
  

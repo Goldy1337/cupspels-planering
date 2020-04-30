@@ -8,7 +8,7 @@ import '../scss/_variable-overrides.scss'
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
  const {Team} = mongoosy;  
- const {appendUser, appendTeamMember} = useContext(UserContext)
+ const {appendUser} = useContext(UserContext)
 
   const [name, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,7 +18,6 @@ const NewTeamMember = (props) => {
   const [salt, setSalt] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
-  // const [newMember, setMember] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
 
   let {id} = useParams()
@@ -30,14 +29,9 @@ const NewTeamMember = (props) => {
 
   useEffect(()=> {
     getTeamMembers()
-  }, [])
-
-  useEffect(()=> {
+    getTeamName()
     generatePassword()
-  }, [])
-
-  useEffect(()=> {
-    generateSalt()
+    generateSalt();
   }, [])
 
   async function getTeamName(){
@@ -58,12 +52,10 @@ const NewTeamMember = (props) => {
       email: email,
       phoneNumber: phoneNumber,
       password: password,
-      salt: "hej",
+      salt: salt,
     });
 
     await aMember.save();
-    console.log("aMember", aMember.js);
-    // setMember(aMember)
 
     appendUser(aMember)
 
@@ -78,13 +70,12 @@ const NewTeamMember = (props) => {
   const getTeamMembers = async () =>{
     
     let teamUsers = await User.find({teamId: id});
-    console.log("team ", teamUsers)
 
     setTeamMembers(teamUsers)
 
   }
 
-  getTeamName();
+  
 
   return (
     <div>

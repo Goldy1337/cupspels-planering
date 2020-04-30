@@ -71,7 +71,7 @@ export default function NewField() {
           <Button>Add Field</Button>
         </FormGroup>
       </Form>
-      <Field />
+      <FieldList />
     </div>
   )
 }

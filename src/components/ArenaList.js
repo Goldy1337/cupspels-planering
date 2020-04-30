@@ -26,7 +26,7 @@ export default function ArenaList() {
           }}>
             <Container>
               <Row>
-                <span style={{fontSize: '2em'}}>⚽️</span>
+                <span role="img" aria-label="football" style={{fontSize: '2em'}}>⚽️</span>
               <Col>
                 <h1>{arena.name}</h1>
                   <CardTitle>{arena.capacity}</CardTitle>

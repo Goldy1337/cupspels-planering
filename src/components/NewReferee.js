@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Form, FormGroup, Input } from 'reactstrap'
 import { RefereeContext } from '../contexts/RefereeContextProvider'
 import RefereeList from './RefereeList'
 import mongoosy from 'mongoosy/frontend';
@@ -58,16 +58,6 @@ function NewReferee() {
 
     await newReferee.save();
 
-    //console.log('newReferee', newReferee.js); // after saving the team it has an id
-
-    // Read that team again from the db
-    //let foundReferee = await User.findOne({ _id: newReferee._id });
-    //console.log('found referee', foundReferee.js);
-
-    // Read all teams from the db
-    //let allReferees = await User.find();
-    
-    //console.log('all Referees', allReferees.js);
   }
 
   return (
@@ -83,7 +73,6 @@ function NewReferee() {
             <Input
               required
               type="text"
-              //placeholder="First name..."
               id="referee-firstName"
               class="referee-firstName"
               value={firstName}

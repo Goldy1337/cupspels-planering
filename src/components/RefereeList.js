@@ -1,7 +1,5 @@
 import React, { useContext } from 'react'
-import { Card, 
-  CardTitle, 
-  CardText, 
+import { Card,
   Container, 
   Row, 
   Col } from 'reactstrap';
@@ -27,7 +25,7 @@ export default function RefereeList() {
           }}>
             <Container>
               <Row>
-                <span style={{fontSize: '2em'}}>📕</span>
+                <span role="img" aria-label="book" style={{fontSize: '2em'}}>📕</span>
               <Col>
                 <h1>{referee.name}</h1>
                 <h3>{referee.role}</h3>
@@ -35,11 +33,9 @@ export default function RefereeList() {
                   <h3>Mail: {referee.email}</h3>
                   <h3>Phone: {referee.phoneNumber}</h3>
                 </div>
-                
-                  {/* <CardTitle>{referee.lastName}</CardTitle>
-                  <CardText>{referee.firstName}</CardText> */}
                 </Col>
-                <span 
+                <span role="img"
+                aria-label="bin"
                   style={{cursor: 'pointer'}}
                 >🗑️</span>
               </Row>

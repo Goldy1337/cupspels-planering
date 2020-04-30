@@ -26,7 +26,7 @@ export default function FieldList() {
           }}>
             <Container>
               <Row>
-                <span style={{fontSize: '2em'}}>⚽️</span>
+                <span role="img" aria-label="football" style={{fontSize: '2em'}}>⚽️</span>
               <Col>
                 <h1>{field.name}</h1>
                 <CardTitle>{field.size}</CardTitle>
