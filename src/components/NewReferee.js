@@ -32,7 +32,6 @@ function NewReferee() {
 
     console.log(referee)
 
-    appendReferee(referee)
     sendToDatabase(referee)
 
     setFirstName('')
@@ -55,8 +54,8 @@ function NewReferee() {
     });
     
 
-
     await newReferee.save();
+    appendReferee(newReferee)
 
   }
 
