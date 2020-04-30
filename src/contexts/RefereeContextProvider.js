@@ -12,7 +12,7 @@ export default function RefereeContextProvider(props) {
   
 
   async function fetchReferees() {
-    let initReferees = await User.find()
+    let initReferees = await User.find({role: "Referee"})
     setReferees(initReferees)
   }
   

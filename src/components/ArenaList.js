@@ -32,9 +32,6 @@ export default function ArenaList() {
                   <CardTitle>{arena.capacity}</CardTitle>
                   <CardText>{arena.homeTeam}</CardText>
                 </Col>
-                <span 
-                  style={{cursor: 'pointer'}}
-                >🗑️</span>
               </Row>
             </Container>
           </Card>

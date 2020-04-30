@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { RefereeContext } from '../contexts/RefereeContextProvider'
+import RefereeList from './RefereeList'
 import mongoosy from 'mongoosy/frontend';
 const {
   User
@@ -133,7 +134,7 @@ function NewReferee() {
           <Button color="info" className="m1-3 form-btn">Add Referee</Button>
         </div>
       </Form>
-
+      <RefereeList />
     </div>
 
   )
