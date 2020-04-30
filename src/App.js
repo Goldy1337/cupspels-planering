@@ -8,6 +8,7 @@ import NewTeam from './components/NewTeam';
 import NewTeamMember from './components/NewTeamMember';
 import UserContextProvider from './contexts/UserContextProvider';
 import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
+import RegisterAccount from './components/RegisterAccount';
 const {
   //User,
   Team
@@ -61,6 +62,7 @@ export default function App() {
                 path="/addTeamMember/:id"
                 component={NewTeamMember}
               />
+              {/* <Route exact path="/auth/register/" component={RegisterAccount} /> */}
             </main>
           </Router>
         </UserContextProvider>

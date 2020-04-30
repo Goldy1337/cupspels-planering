@@ -1,23 +1,22 @@
 import React, { createContext, useState, useEffect } from "react";
 import mongoosy from "mongoosy/frontend";
-const{
-  User
-} = mongoosy 
+const { User } = mongoosy;
 
 export const UserContext = createContext();
 
 export default function UserContextProvider(props) {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState("");
   const [teamUsers, setTeamUsers] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
 
-  const  appendUser = (user) => {
-    setUsers([...users, user])
-  }
+  const appendUser = (user) => {
+    setUsers([...users, user]);
+  };
 
   const appendTeamMember = (user) => {
-    setTeamMembers([...teamMembers, user])
-  }
+    setTeamMembers([...teamMembers, user]);
+  };
 
   const removeUser = (id) => {
     // updates the array with a filtered array
@@ -33,15 +32,17 @@ export default function UserContextProvider(props) {
     let allUsers = await User.find();
     // let res = await fetch("/api/users");
     // res = await res.json();
-     setUsers(allUsers);
+    setUsers(allUsers);
   };
 
-  const fetchTeamUsers = async (id) => {
-    let foundTeamUsers = await User.find({ teamId: id });
-    setTeamUsers(foundTeamUsers)
-    console.log("context ", teamUsers.js)
+  const saveUser = async (user) => {
+    await user.save();
+  };
 
-  }
+  const fetchUser = async (email) => {
+    let foundUser = await User.findOne({ email: email });
+    setUser(foundUser);
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -51,15 +52,15 @@ export default function UserContextProvider(props) {
     users,
     teamMembers,
     fetchUsers,
+    fetchUser,
+    saveUser,
     setUsers,
     appendUser,
     appendTeamMember,
-    removeUser
+    removeUser,
   };
 
   return (
-    <UserContext.Provider value={values}>
-      {props.children}
-    </UserContext.Provider>
+    <UserContext.Provider value={values}>{props.children}</UserContext.Provider>
   );
 }

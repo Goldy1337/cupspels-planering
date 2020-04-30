@@ -4,11 +4,12 @@ import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import '../scss/_variable-overrides.scss' 
+import RegisterAccount from './RegisterAccount'
 
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
  const {Team} = mongoosy;  
- const {appendUser, appendTeamMember} = useContext(UserContext)
+ const {appendUser, saveUser, fetchUser} = useContext(UserContext)
 
   const [name, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const NewTeamMember = (props) => {
   const [salt, setSalt] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
-  // const [newMember, setMember] = useState('');
+  const [newMember, setMember] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
 
   let {id} = useParams()
@@ -58,14 +59,19 @@ const NewTeamMember = (props) => {
       email: email,
       phoneNumber: phoneNumber,
       password: password,
-      salt: "hej",
+      salt: salt,
     });
 
-    await aMember.save();
-    console.log("aMember", aMember.js);
+    // await aMember.save();
+    // console.log("aMember", aMember.js);
     // setMember(aMember)
 
+    saveUser(aMember)
     appendUser(aMember)
+    //setMember(aMember)
+    console.log(aMember)
+
+    nodeRegister()
 
     getTeamMembers();
 
@@ -85,6 +91,29 @@ const NewTeamMember = (props) => {
   }
 
   getTeamName();
+
+   async function nodeRegister() {
+     
+     const credentials = {
+       password, 
+       salt
+     };
+
+     let response = await fetch("auth/register/", {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify(credentials),
+     });
+
+     try {
+       response = await response.json();
+       console.log("registered")
+      //  setUsername(response);
+      //  props.history.push("/");
+     } catch {
+       console.log("Bad credentials");
+     }
+   }
 
   return (
     <div>
