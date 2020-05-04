@@ -30,15 +30,10 @@ const NewTeamMember = (props) => {
    
 
   useEffect(()=> {
+     getTeamName();
     getTeamMembers()
-  }, [])
-
-  useEffect(()=> {
-    generatePassword()
-  }, [])
-
-  useEffect(()=> {
-    generateSalt()
+     generatePassword();
+      generateSalt();
   }, [])
 
   async function getTeamName(){
@@ -71,9 +66,9 @@ const NewTeamMember = (props) => {
     //setMember(aMember)
     console.log(aMember)
 
-    nodeRegister()
+    register()
 
-    getTeamMembers();
+    getTeamMembers();1
 
     setPlayerName('')
     setEmail('')
@@ -90,15 +85,18 @@ const NewTeamMember = (props) => {
 
   }
 
-  getTeamName();
 
-   async function nodeRegister() {
+  //Denna delen ska nog vara i register komponenten
+   async function register() {
      
      const credentials = {
        password, 
+       email,
        salt
      };
 
+     //här försöker jag göra en rest api för att skicka password, email och salt till backenden 
+     //dvs till PasswordSecurity
      let response = await fetch("auth/register/", {
        method: "POST",
        headers: { "Content-Type": "application/json" },
