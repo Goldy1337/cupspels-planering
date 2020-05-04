@@ -9,40 +9,34 @@ const {
 export default function NewField() {
   
   const { appendField } = useContext(FieldContext)
-  const [name, setName] = useState('')
-  const [size, setSize] = useState('')
-  const [surface, setSurface] = useState('')
-  const [outdoors, setOutdoors] = useState(true)
+  const [field, setField] = useState({ name: '', size: '', surface: '', outdoors: 'Outdoors' })
+  const updateField = update => setField({ ...field, ...update })
+  // const [name, setName] = useState('')
+  // const [size, setSize] = useState('')
+  // const [surface, setSurface] = useState('')
+  // const [outdoors, setOutdoors] = useState('Outdoors')
 
   async function addField(e) {
     e.preventDefault()
-
-    const field = {
-      name,
-      size,
-      surface,
-      outdoors
-    }
-
-    appendField(field)
-
-    sendToDatabase(field)
-
-    setName('')
-    setSize('')
-    setSurface('')
-
-
-  }
-
-  //Creates a new Field entry and adds it to the database
-  async function sendToDatabase(field) {
-
-    let NewField = new Field({
+    const fieldAdded = {
       name: field.name,
       size: field.size,
       surface: field.surface,
       outdoors: field.outdoors
+    }
+    appendField(fieldAdded)
+    sendToDatabase(fieldAdded)
+    updateField({ name: '', size: '', surface: '' })
+  }
+
+  //Creates a new Field entry and adds it to the database
+  async function sendToDatabase(fieldAdded) {
+
+    let NewField = new Field({
+      name: fieldAdded.name,
+      size: fieldAdded.size,
+      surface: fieldAdded.surface,
+      outdoors: fieldAdded.outdoors
     });
     await NewField.save();
   }
@@ -52,19 +46,19 @@ export default function NewField() {
       <Form onSubmit={addField}>
         <FormGroup>
           <Input type="text" placeholder="Add field name" 
-          value={name} onChange={e => setName(e.target.value)} 
+          value={field.name} onChange={e => updateField({name: e.target.value})} 
           required>
           </Input>
           <Input type="number" placeholder="Add field size" 
-          value={size} onChange={e => setSize(e.target.value)} 
+          value={field.size} onChange={e => updateField({size: e.target.value})} 
           required>
           </Input>
           <Input type="text" placeholder="Add field surface" 
-          value={surface} onChange={e => setSurface(e.target.value)}>
+          value={field.surface} onChange={e => updateField({surface: e.target.value})}>
           </Input>
           <ButtonGroup>
-            <Button color="primary" onClick={() =>setOutdoors(true)} active={outdoors === true}>Outdoors</Button>
-            <Button color="primary" onClick={() =>setOutdoors(false)} active={outdoors === false}>Indoors</Button>
+            <Button color="primary" onClick={() => updateField({outdoors: 'Outdoors'})} active={field.outdoors === 'Outdoors'}>Outdoors</Button>
+            <Button color="primary" onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
           </ButtonGroup>
           <br></br>
           <Button>Add Field</Button>

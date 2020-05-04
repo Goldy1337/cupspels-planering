@@ -9,37 +9,29 @@ const {
 export default function NewArena() {
 
   const { appendArena } = useContext(ArenaContext)
-  const [name, setName] = useState('')
-  const [capacity, setCapacity] = useState('')
-  const [homeTeam, setHomeTeam] = useState('')
+  const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
+  const updateArena = update => setArena({ ...arena, ...update })
     
   const addArena = (e) => {
     e.preventDefault();
-
-    const arena = {
-      name,
-      capacity,
-      homeTeam
-    }
-
-    appendArena(arena)
-
-    sendToDatabase(arena)
-
-    setName('')
-    setCapacity('')
-    setHomeTeam('')
-  }
-
-  //Creates a new Arena entry and saves it to the database
-  async function sendToDatabase(arena) {
-
-    let NewArena = new Arena({
+    const arenaAdded = {
       name: arena.name,
       capacity: arena.capacity,
       homeTeam: arena.homeTeam
+    }
+    appendArena(arenaAdded)
+    sendToDatabase(arenaAdded)
+    updateArena({ name: '', capacity: '', homeTeam: '' })
+  }
+
+  //Creates a new Arena entry and saves it to the database
+  async function sendToDatabase(arenaAdded) {
+    console.log(arenaAdded)
+    let NewArena = new Arena({
+      name: arenaAdded.name,
+      capacity: arenaAdded.capacity,
+      homeTeam: arenaAdded.homeTeam
     });
-    
     await NewArena.save();
   }
 
@@ -49,15 +41,15 @@ export default function NewArena() {
       <Form onSubmit={addArena}>
         <FormGroup>
           <Input type="text" placeholder="Add arena name" 
-          value={name} onChange={e => setName(e.target.value)} 
+          value={arena.name} onChange={e => updateArena({name: e.target.value})} 
           required>
           </Input>
           <Input type="number" placeholder="Add arena capacity" 
-          value={capacity} onChange={e => setCapacity(e.target.value)} 
+          value={arena.capacity} onChange={e => updateArena({capacity: e.target.value})} 
           required>
           </Input>
           <Input type="text" placeholder="Add arena home team" 
-          value={homeTeam} onChange={e => setHomeTeam(e.target.value)}>
+          value={arena.homeTeam} onChange={e => updateArena({homeTeam: e.target.value})}>
           </Input>
           <Button>Add Arena</Button>
         </FormGroup>
