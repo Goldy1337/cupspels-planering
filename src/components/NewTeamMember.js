@@ -66,9 +66,10 @@ const NewTeamMember = (props) => {
     //setMember(aMember)
     console.log(aMember)
 
+   // testApi()
     register()
 
-    getTeamMembers();1
+    getTeamMembers();
 
     setPlayerName('')
     setEmail('')
@@ -82,11 +83,19 @@ const NewTeamMember = (props) => {
     console.log("team ", teamUsers)
 
     setTeamMembers(teamUsers)
-
   }
 
+  //test get api request
+  async function testApi() {
+    let response = await fetch("/api/users", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    response = await response.json;
+    console.log(response);
+  }
 
-  //Denna delen ska nog vara i register komponenten
+  //post api request för registrering
    async function register() {
      
      const credentials = {
@@ -95,9 +104,7 @@ const NewTeamMember = (props) => {
        salt
      };
 
-     //här försöker jag göra en rest api för att skicka password, email och salt till backenden 
-     //dvs till PasswordSecurity
-     let response = await fetch("auth/register/", {
+     let response = await fetch("/auth/register", {
        method: "POST",
        headers: { "Content-Type": "application/json" },
        body: JSON.stringify(credentials),
