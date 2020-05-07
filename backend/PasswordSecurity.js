@@ -1,15 +1,25 @@
 const bcrypt = require("bcrypt");
 const router = express.Router
 const saltRounds = 10;
+const mongoose = require('mongoose');
 
-var user = require('./models/User')
+//
+// const express = require('express')
+// const app = express()
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+
+//var user = require('./models/User')
 
 //test get api
 app.get('/api/users', (req, res) => {
 
-  let res = await user.find()
+ // let res = await user.find()
+ let res = users
   res = await res.json()
 });
+
+app.get('/api/elefant', (req,res) => res.json({elefant: true}))
 
 //api för registrering
 app.post("/auth/register", (req, res, next) => {

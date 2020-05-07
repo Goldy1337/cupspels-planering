@@ -1,4 +1,6 @@
 const dbName = 'cupdb'
+const bcrypt = require('bcrypt')
+const saltRounds = 10;
 const { mongoose, express, app } = require('mongoosy')({
   // settings for mongoosy
   connect: {
@@ -7,3 +9,17 @@ const { mongoose, express, app } = require('mongoosy')({
 });
 
 app.listen(3001, () => console.log('API server listening on port 3001'));
+
+app.post("/api/register", (req, res, next) => 
+  // res.json({elefant: true})
+  
+  
+  bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+    console.log("backend", req.body.password, " ", hash)
+    
+ res.json({ hash: hash})
+
+    // Store hash in database
+    
+  })
+);

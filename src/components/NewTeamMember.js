@@ -31,9 +31,9 @@ const NewTeamMember = (props) => {
 
   useEffect(()=> {
      getTeamName();
-    getTeamMembers()
-     generatePassword();
-      generateSalt();
+    getTeamMembers() 
+    generateSalt();
+    generatePassword();
   }, [])
 
   async function getTeamName(){
@@ -57,6 +57,8 @@ const NewTeamMember = (props) => {
       salt: salt,
     });
 
+   
+
     // await aMember.save();
     // console.log("aMember", aMember.js);
     // setMember(aMember)
@@ -66,7 +68,6 @@ const NewTeamMember = (props) => {
     //setMember(aMember)
     console.log(aMember)
 
-   // testApi()
     register()
 
     getTeamMembers();
@@ -85,15 +86,6 @@ const NewTeamMember = (props) => {
     setTeamMembers(teamUsers)
   }
 
-  //test get api request
-  async function testApi() {
-    let response = await fetch("/api/users", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    response = await response.json;
-    console.log(response);
-  }
 
   //post api request för registrering
    async function register() {
@@ -104,7 +96,7 @@ const NewTeamMember = (props) => {
        salt
      };
 
-     let response = await fetch("/auth/register", {
+     let response = await fetch("/api/register", {
        method: "POST",
        headers: { "Content-Type": "application/json" },
        body: JSON.stringify(credentials),
@@ -112,12 +104,13 @@ const NewTeamMember = (props) => {
 
      try {
        response = await response.json();
-       console.log("registered")
+       console.log(response)
       //  setUsername(response);
       //  props.history.push("/");
      } catch {
        console.log("Bad credentials");
      }
+     generatePassword()
    }
 
   return (
