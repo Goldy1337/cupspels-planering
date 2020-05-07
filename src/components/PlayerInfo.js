@@ -8,6 +8,12 @@ const {
 } = mongoosy;
 
 
+// FÅ ut vilka lag som spelar...
+// vilken plan?
+// Dela in listan i sektioner av datum tex: fre 21/11: lista matcher.... lör 22/11: lista matcher..
+// Gör tvärtom ?? populerat team istället för match?
+
+
 // Hämta kommande matcher, samt vilken tid och spelplan... (INGET TeamID i matches?)
 // FETCH ALL MATCHES, where teamId == nånting...
 
@@ -19,7 +25,8 @@ export default function PlayerInfo(props) {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   //const [matches, setMatches] = useState('matches')
-  const [matches, setMatches] = useState()
+  const [matches, setMatches] = useState([{ result: '', matchType: '', date: Date, startTime: Date, duration: Number, activeTeamSize: Number}])
+  //const [matches, setMatches] = useState([])
 
   useEffect(() => {
     fetchPlayerInfo()
@@ -35,7 +42,7 @@ export default function PlayerInfo(props) {
     setName(playerFound.name)
     setEmail(playerFound.email)
     setPhone(playerFound.phoneNumber)
-    console.log("Name: " + playerFound.name)
+    console.log("Name: ", playerFound.name)
 
     fetchTeamInfo(playerFound.teamId)
   }
@@ -67,15 +74,23 @@ export default function PlayerInfo(props) {
     //myMatch.teams.push(myTeam)
         //myMatch.teams = myTeam
 
-    await myMatch.save()
+    //await myMatch.save()
+
     //console.log("Saved match: " + myMatch.js)
     // --------------------
 
 
-    //await User.find({role: "Referee"})
-    let matches = await Match.find()
-    let playerMatches = await Match.find({ teams: team._id })
+    
+    //let matches = await Match.find()
+    //let playerMatches = await Match.find({ teams: team._id })
+
+    // when we're doing more than just "find", we have to end our statement with "exec()"
+    let playerMatches = await Match.find({ teams: team._id }).populate('teams').exec()
+
+
+    setMatches(playerMatches)
     console.log(playerMatches)
+    console.log("matches in const", matches)
     //console.log(matches)
   }
 
@@ -228,6 +243,11 @@ export default function PlayerInfo(props) {
       <h6 className="player-contact">{email} | tel: {phone}</h6>
 
       <h4 className="matches-title">Upcoming Games:</h4>
+      <ul>
+        {matches.map((match, index) => {
+          return <li key={index}>{match.result} {match.matchType}</li>
+        })}
+      </ul>
     </div>
   )
 }
