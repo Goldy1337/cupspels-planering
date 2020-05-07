@@ -16,24 +16,24 @@ const NewTeamMember = (props) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [subRole, setSubRole] = useState('');
   const [password, setPassword] = useState('');
+  const [plainTxtPassword, setPlainTxtPassword] = useState('');
   const [salt, setSalt] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
-  const [newMember, setMember] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
 
   let {id} = useParams()
 
   const toggle = () => setIsOpen(!isOpen);
-  const generatePassword = () => setPassword(Math.random().toString(36).slice(-8))
+  const generatePassword = () => setPlainTxtPassword(Math.random().toString(36).slice(-8))
   const generateSalt = () => setSalt(Math.random().toString(36).slice(-8))
-   
 
   useEffect(()=> {
      getTeamName();
     getTeamMembers() 
     generateSalt();
     generatePassword();
+    encryptPassword();
   }, [])
 
   async function getTeamName(){
@@ -43,8 +43,8 @@ const NewTeamMember = (props) => {
   }
 
   const addTeamMember = async (e) =>{
-
     e.preventDefault()
+    
 
     let aMember = new User({
       teamId: id,
@@ -57,43 +57,35 @@ const NewTeamMember = (props) => {
       salt: salt,
     });
 
-   
-
-    // await aMember.save();
-    // console.log("aMember", aMember.js);
-    // setMember(aMember)
-
-    saveUser(aMember)
     appendUser(aMember)
-    //setMember(aMember)
-    console.log(aMember)
+    saveUser(aMember);
 
-    register()
+    console.log(aMember)
+    
 
     getTeamMembers();
+    console.log("team members: ", teamMembers)
 
     setPlayerName('')
     setEmail('')
     setPhoneNumber('')
     setSubRole('')
+    generatePassword();
   }
 
   const getTeamMembers = async () =>{
     
     let teamUsers = await User.find({teamId: id});
-    console.log("team ", teamUsers)
-
     setTeamMembers(teamUsers)
   }
 
 
   //post api request för registrering
-   async function register() {
+   async function encryptPassword() {
      
+    console.log("unenc ", plainTxtPassword)
      const credentials = {
-       password, 
-       email,
-       salt
+       plainTxtPassword
      };
 
      let response = await fetch("/api/register", {
@@ -104,13 +96,14 @@ const NewTeamMember = (props) => {
 
      try {
        response = await response.json();
-       console.log(response)
-      //  setUsername(response);
+       console.log(response.hash)
+       
+       setPassword(response.hash);
+        
       //  props.history.push("/");
      } catch {
        console.log("Bad credentials");
      }
-     generatePassword()
    }
 
   return (
