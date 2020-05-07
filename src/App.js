@@ -6,11 +6,12 @@ import NewReferee from './pages/NewReferee'
 import RefereeList from './components/RefereeList'
 import NewTeam from './components/NewTeam';
 import NewTeamMember from './components/NewTeamMember';
+import Login from './components/Login'
 import UserContextProvider from './contexts/UserContextProvider';
 import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
 import RegisterAccount from './components/RegisterAccount';
 const {
-  //User,
+  User,
   Team
 } = mongoosy;
 
@@ -18,9 +19,11 @@ export default function App() {
 
   async function doStuff() {
 
-   // await Team.deleteMany({})
+    //await User.deleteMany({})
     // Use mongoose from the frontend
     // through mongoosy
+    // let allUsers = await User.find();
+    // console.log("users", allUsers)
 
     // Create a new admin and save to db
     // let anAdmin = new Admin({ name: 'Olle' });
@@ -62,6 +65,7 @@ export default function App() {
                 path="/addTeamMember/:id"
                 component={NewTeamMember}
               />
+              <Login />
               {/* <Route exact path="/auth/register/" component={RegisterAccount} /> */}
             </main>
           </Router>

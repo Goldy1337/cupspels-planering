@@ -71,6 +71,7 @@ const NewTeamMember = (props) => {
     setPhoneNumber('')
     setSubRole('')
     generatePassword();
+    encryptPassword();
   }
 
   const getTeamMembers = async () =>{
