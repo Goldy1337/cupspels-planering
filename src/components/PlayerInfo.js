@@ -4,11 +4,12 @@ import mongoosy from 'mongoosy/frontend';
 const {
   Team,
   User,
+  Match
 } = mongoosy;
 
 
 // Hämta kommande matcher, samt vilken tid och spelplan... (INGET TeamID i matches?)
-// 
+// FETCH ALL MATCHES, where teamId == nånting...
 
 
 export default function PlayerInfo(props) {
@@ -17,18 +18,20 @@ export default function PlayerInfo(props) {
   const [name, setName] = useState('Player')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [matches, setMatches] = useState('matches')
-
+  //const [matches, setMatches] = useState('matches')
+  const [matches, setMatches] = useState()
 
   useEffect(() => {
     fetchPlayerInfo()
+    //testData()
   }, [])
 
 
   const fetchPlayerInfo = async () => {
 
     console.log("Fetching Player!")
-    let playerFound = await User.findOne({ _id: "5eb168864f8d2442a9e39563" })
+    let playerFound = await User.findOne({ name: "Lasse Åhberg"})
+    //let playerFound = await User.findOne({ _id: "5eb168864f8d2442a9e39563" })
     setName(playerFound.name)
     setEmail(playerFound.email)
     setPhone(playerFound.phoneNumber)
@@ -40,14 +43,178 @@ export default function PlayerInfo(props) {
   const fetchTeamInfo = async (teamID) => {
     let foundTeam = await Team.findOne({ _id: teamID })
     setTeamName(foundTeam.name)
+
+
+    //foundTeam.matches 
+    fetchMatches(foundTeam)
   }
 
-  const fetchMatches = async (teamID) => {
-    
+  const fetchMatches = async (team) => {
+
+    // TEST DATA -----
+    var d = new Date()
+
+    let myMatch = new Match({
+      result: "10-6",
+      matchType: "Soccer",
+      date: d,
+      startTime: d,
+      duration: 180,
+      activeTeamSize: 11,
+      teams: team._id
+    })
+
+    //myMatch.teams.push(myTeam)
+        //myMatch.teams = myTeam
+
+    await myMatch.save()
+    //console.log("Saved match: " + myMatch.js)
+    // --------------------
+
+
+    //await User.find({role: "Referee"})
+    let matches = await Match.find()
+    let playerMatches = await Match.find({ teams: team._id })
+    console.log(playerMatches)
+    //console.log(matches)
   }
+
+
+
+  const testData = async () => {
+
+    // let myTeam = new Team({
+    //   club: "Club Alpha",
+    //   name: "The A Team",
+    //   gender: "Male",
+    //   age: 8,
+    // })
+
+    // //await myTeam.save()
+    // //console.log(myTeam.js)
+
+    // let myPlayer = new User({
+    //   teamId: myTeam._id,
+    //   name: "Lasse Åhberg",
+    //   role: "Participant",
+    //   email: "lasse@åh.com",
+    //   phoneNumber: 23342342,
+    //   password: "salty-babe",
+    //   salt: "salty"
+    // })
+
+    // //await myPlayer.save()
+    // //console.log(myPlayer.js)
+  
+
+
+
+
+
+    // var d = new Date()
+
+    // let myMatch = new Match({
+    //   result: "0-0",
+    //   matchType: "football",
+    //   date: d,
+    //   startTime: d,
+    //   duration: 180,
+    //   activeTeamSize: 11,
+    //   teams: [myTeam]
+    // })
+
+    // myMatch.teams.push(myTeam)
+    //     //myMatch.teams = myTeam
+
+    // await myTeam.save()
+    // console.log(myTeam.js)
+
+    //  await myPlayer.save()
+    // console.log(myPlayer.js)
+
+    // await myMatch.save()
+    // console.log(myMatch.js)
+
+    // let matches = await myMatch.find()
+    // console.log("Found matches:" + matches.js)
+
+
+
+
+
+
+    // // GET TEAM ISTÄLLET? Push 
+    // console.log("IN TEST DATA")
+    
+    // var d = new Date();
+
+    // let match = new Match({
+    //   result: "0-0",
+    //   matchType: "football",
+    //   date: d,
+    //   startTime: d,
+    //   duration: 180,
+    //   activeTeamSize: 11
+    // })
+
+    // let team1 = new Team({
+    //   club: "Club Alpha",
+    //   name: "The A Team",
+    //   gender: "Male",
+    //   age: 8,
+    //   matches: [match._id]
+    // })
+  
+
+    // let team2 = new Team({
+    //   club: "Club Bravo",
+    //   name: "The B Team",
+    //   gender: "Male",
+    //   age: 8,
+    //   matches: [match._id]
+    // })
+
+    // match.teams.push(team1)
+    // match.teams.push(team2)
+    // //match.teams = [team2._id, team1._id]
+
+
+    // let player1 = new User({
+    //   teamId: team1._id,
+    //   name: "Lasse Åhberg",
+    //   role: "Participant",
+    //   email: "lasse@åh.com",
+    //   phoneNumber: 23342342,
+    //   password: "salty-babe",
+    //   salt: "salty"
+    // })
+
+
+    // console.log("saving stuff")
+
+    // await team1.save();
+    // await team2.save();
+
+    // await match.save();
+    // await player1.save();
+
+    // console.log("Fetching stuff")
+    // console.log(team1.js)
+    // console.log(team2.js)
+    // console.log(match.js)
+    // console.log(player1.js)
+
+
+
+  }
+
+
+
+
+
 
   return (
-    <div class="player-info"
+    <div className="player-info"
       // style={{
       //   display: 'inline-block',
       //   border: '1px solid gray',
@@ -56,11 +223,11 @@ export default function PlayerInfo(props) {
       // }}
       //onClick={fetchPlayerInfo}
     >
-      <h1 class="info-team-name">{teamName}</h1>
-      <h4 class="info-player-name">{name}</h4>
-      <h6 class="player-contact">{email} | tel: {phone}</h6>
+      <h1 className="info-team-name">{teamName}</h1>
+      <h4 className="info-player-name">{name}</h4>
+      <h6 className="player-contact">{email} | tel: {phone}</h6>
 
-      <h4 class="matches-title">Upcoming Games:</h4>
+      <h4 className="matches-title">Upcoming Games:</h4>
     </div>
   )
 }
