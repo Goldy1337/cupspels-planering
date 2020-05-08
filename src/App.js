@@ -1,18 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import mongoosy from 'mongoosy/frontend';
-import RefereeContextProvider from './contexts/RefereeContextProvider'
-import NewReferee from './pages/NewReferee'
-import RefereeList from './components/RefereeList'
-import NewTeam from './components/NewTeam';
-import NewTeamMember from './components/NewTeamMember';
-import UserContextProvider from './contexts/UserContextProvider';
-import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
-import RegisterAccount from './components/RegisterAccount';
-const {
-  //User,
-  Team
-} = mongoosy;
+import LoginHeader from './components/UserLogin'
+
 
 export default function App() {
 
@@ -51,22 +39,9 @@ export default function App() {
   doStuff();
 
   return (
-    <div className="App">
-      <TeamContextProvider>
-        <UserContextProvider>
-          <Router>
-            <main>
-              <Route exact path="/addTeam" component={NewTeam} />
-              <Route
-                exact
-                path="/addTeamMember/:id"
-                component={NewTeamMember}
-              />
-              {/* <Route exact path="/auth/register/" component={RegisterAccount} /> */}
-            </main>
-          </Router>
-        </UserContextProvider>
-      </TeamContextProvider>
+    <div>
+      <LoginHeader />
+      <body></body>
     </div>
   );
 }
