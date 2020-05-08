@@ -9,11 +9,15 @@ const {
 
 
 
-// Hämta field id och gör populate?!
 
 // Fetcha lagen från match, kolla att laget inte är egna, spara som motståndar laget
 
+
+// Hämta field id och gör populate?!
+
+
 // Fixa tiden, date bara vissa dautm, startTIme bara vissa timmar och minuter etc...
+  // _ fixa så den hämta från T och framåt eller HH::mm
 
 // FÅ ut vilka lag som spelar...
 // Dela in listan i sektioner av datum tex: fre 21/11: lista matcher.... lör 22/11: lista matcher..
@@ -33,12 +37,28 @@ export default function PlayerInfo(props) {
   //const [matches, setMatches] = useState('matches')
   //const [matches, setMatches] = useState([{ result: '', matchType: '', date: Date, startTime: Date, duration: Number, activeTeamSize: Number}])
   const [matches, setMatches] = useState([])
+  const [oppositeTeam, setOppositeTeam] = useState('')
 
   useEffect(() => {
+
+    //removeAllMatchs()
+    //fetchAllTeams()
     fetchPlayerInfo()
     //testData()
   }, [])
 
+  const fetchAllTeams = async () => {
+    let allTeams = await Team.find();
+    console.log(allTeams.js)
+  }
+
+  const removeAllMatchs = async () => {
+    let allMatches = await Match.find();
+
+    await Match.deleteMany({});
+    console.log("clear", allMatches.js);
+  
+  }
 
   const fetchPlayerInfo = async () => {
 
@@ -66,16 +86,31 @@ export default function PlayerInfo(props) {
 
     // TEST DATA -----
     var d = new Date()
+    console.log("d is of type: ",typeof d)
 
-    let myMatch = new Match({
-      result: "10-6",
+    let secondTeam = new Team({
+      club: "Club Bravo",
+      name: "The B Team",
+      gender: "Male",
+      age: 8
+    })
+ 
+    //await secondTeam.save()
+
+    let newMatch = new Match({
+      result: "1-1",
       matchType: "Soccer",
       date: d,
       startTime: d,
       duration: 180,
       activeTeamSize: 11,
-      teams: team._id
+      teams: [team._id, "5eb3cead213a696bbab5ef4d"]
     })
+
+    //newMatch.teams.push(team)
+    //newMatch.teams.push(secondTeam)
+
+    //await newMatch.save()
 
     //myMatch.teams.push(myTeam)
         //myMatch.teams = myTeam
@@ -93,11 +128,41 @@ export default function PlayerInfo(props) {
     // when we're doing more than just "find", we have to end our statement with "exec()"
     let playerMatches = await Match.find({ teams: team._id }).populate('teams').exec()
 
+    //let oppositeTeam = playerMatches.teams.forEach(getOpposingTeam)
+    
+    //setOppositeTeam(playerMatches.teams.filter(getOpposingTeam))
 
     setMatches(playerMatches)
-    console.log('TEAMS', playerMatches[0].teams[0])
+
+    
+    let time = playerMatches[0].startTime
+    console.log("START TIME: ", time)
+    console.log("Type of time", typeof time)
+    console.log("TIme", time.fo)
+    console.log("Part of string", time.substr(11, 5))
+   // console.log("Part of string", time.substr(T, 2))
+
+    console.log("AMount", playerMatches.length)
+    //console.log('OWN TEAM', playerMatches[25].teams[0])
+    //console.log('Opposite Team', playerMatches[25].teams[1])
   }
 
+  const getOpposingTeam = (value) => {
+    console.log("Team NAMES??", matches.teams[0])
+    if (value.name != teamName) {
+      return value.name
+    }
+  }
+
+
+  const fetchOpposingTeam = (match) => {
+
+    //for (teams )
+    
+
+    //let oppositeTeam = playerMatches.teams
+    
+  }
 
 
   const testData = async () => {
@@ -247,29 +312,41 @@ export default function PlayerInfo(props) {
       <h6 className="player-contact">{email} | tel: {phone}</h6>
 
       <h4 className="matches-title">Upcoming Games:</h4>
-      <Table dark>
+      <Table dark className="matches-table">
         <thead>
           <tr>
             <th>Start Time</th>
             <th>Date</th>
-            <th>Result</th>
             <th>Field</th>
+            <th>Result</th>
             <th>Teams</th>
           </tr>
         </thead>
         {matches.map((match, index) => (
           <tbody key={index}>
             <tr className="matches-table">
-              <td>{match.startTime}</td>
-              <td>{match.date}</td>
+              <td>{match.startTime.substr(11, 5)}</td>
+              <td>{match.date.substr(0, 10)}</td>
               <td>{match.result}</td>
               <td>{match.matchType}</td>
+              <td>{match.teams[0].name} - {match.teams[1].name} </td>
               {/* <td>{match.teams[0]</td> */}
-              <td>{match.teams.map((team, index) => (
+
+
+                <td className="teams-cell">{match.teams.map((team, index) => (
+                <td className="teams-cell-specific" key={index}> 
+                  <td>{team.name}</td>
+                </td>
+              ))}</td>
+              
+              {/* <td>{match.teams.map((team, index) => (
                 <tbody key={index}>
                   <td>{team.name}</td>
                 </tbody>
-              ))}</td>
+              ))}</td> */}
+
+
+
             </tr>
           </tbody>
         ))}
