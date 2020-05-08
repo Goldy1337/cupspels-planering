@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'reactstrap'
+import { Table } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 const {
   Team,
@@ -8,8 +8,14 @@ const {
 } = mongoosy;
 
 
+
+// Hämta field id och gör populate?!
+
+// Fetcha lagen från match, kolla att laget inte är egna, spara som motståndar laget
+
+// Fixa tiden, date bara vissa dautm, startTIme bara vissa timmar och minuter etc...
+
 // FÅ ut vilka lag som spelar...
-// vilken plan?
 // Dela in listan i sektioner av datum tex: fre 21/11: lista matcher.... lör 22/11: lista matcher..
 // Gör tvärtom ?? populerat team istället för match?
 
@@ -25,8 +31,8 @@ export default function PlayerInfo(props) {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   //const [matches, setMatches] = useState('matches')
-  const [matches, setMatches] = useState([{ result: '', matchType: '', date: Date, startTime: Date, duration: Number, activeTeamSize: Number}])
-  //const [matches, setMatches] = useState([])
+  //const [matches, setMatches] = useState([{ result: '', matchType: '', date: Date, startTime: Date, duration: Number, activeTeamSize: Number}])
+  const [matches, setMatches] = useState([])
 
   useEffect(() => {
     fetchPlayerInfo()
@@ -89,9 +95,7 @@ export default function PlayerInfo(props) {
 
 
     setMatches(playerMatches)
-    console.log(playerMatches)
-    console.log("matches in const", matches)
-    //console.log(matches)
+    console.log('TEAMS', playerMatches[0].teams[0])
   }
 
 
@@ -243,11 +247,60 @@ export default function PlayerInfo(props) {
       <h6 className="player-contact">{email} | tel: {phone}</h6>
 
       <h4 className="matches-title">Upcoming Games:</h4>
+      <Table dark>
+        <thead>
+          <tr>
+            <th>Start Time</th>
+            <th>Date</th>
+            <th>Result</th>
+            <th>Field</th>
+            <th>Teams</th>
+          </tr>
+        </thead>
+        {matches.map((match, index) => (
+          <tbody key={index}>
+            <tr className="matches-table">
+              <td>{match.startTime}</td>
+              <td>{match.date}</td>
+              <td>{match.result}</td>
+              <td>{match.matchType}</td>
+              {/* <td>{match.teams[0]</td> */}
+              <td>{match.teams.map((team, index) => (
+                <tbody key={index}>
+                  <td>{team.name}</td>
+                </tbody>
+              ))}</td>
+            </tr>
+          </tbody>
+        ))}
+
+
+{/* 
+           {teamMembers.map((member, i) => (
+            <tbody key={i}>
+              <tr className="playersTable">
+                <td>{member.name}</td>
+                <td>{member.subRole}</td>
+                <td>{member.email}</td>
+                <td>{member.phoneNumber}</td>
+              </tr>
+            </tbody>
+          ))} */}
+
+
+      </Table>
       <ul>
         {matches.map((match, index) => {
-          return <li key={index}>{match.result} {match.matchType}</li>
+          return <li className="matches-card" key={index}>{match.result} {match.matchType} {match.teams.map((team, index) => {
+            return <li key={index}>{team.name}</li> 
+          })} </li>
         })}
       </ul>
+       {/* <ul>
+          {matches['teams'].map((team, index) => {
+            return <li key={index}>{team}</li>
+          })}
+        </ul> */}
     </div>
   )
 }
