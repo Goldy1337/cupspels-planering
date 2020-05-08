@@ -25,7 +25,22 @@ const LoginHeader = (props) => {
             </NavItem>
             <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
               <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
-              <ModalBody>Account Creation coming to a popup near YOU!</ModalBody>
+              <ModalBody>
+                <Form>
+                  <FormGroup row>
+                    <Label for="exampleEmail" sm={2}>Email</Label>
+                    <Col sm={10}>
+                      <Input type="email" name="accountCreationEmail" id="accountCreationEmailId" placeholder="Example@Email.com" required/>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label for="examplePassword" sm={2}>Password</Label>
+                    <Col sm={10}>
+                      <Input type="password" name="accountCreationPassword" id="accountCreationPasswordId" placeholder="Ex@mpl3~Pa$sw&rd" required/>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </ModalBody>
               <ModalFooter>
                 <Button color="primary" onClick={toggleCreateAccount}>Do Something</Button>{' '}
                 <Button color="secondary" onClick={toggleCreateAccount}>Cancel</Button>
@@ -41,13 +56,13 @@ const LoginHeader = (props) => {
                 <FormGroup row>
                   <Label for="exampleEmail" sm={2}>Email</Label>
                   <Col sm={10}>
-                    <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" required/>
+                    <Input type="email" name="loginEmail" id="loginEmailId" placeholder="Example@Email.com" required/>
                   </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>Password</Label>
                   <Col sm={10}>
-                    <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" required/>
+                    <Input type="password" name="loginPassword" id="loginPasswordId" placeholder="Ex@mpl3~Pa$sw&rd" required/>
                   </Col>
                 </FormGroup>
               </Form>
