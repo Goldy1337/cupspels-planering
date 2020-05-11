@@ -157,7 +157,11 @@ export default function PlayerInfo(props) {
             <th>Teams</th>
           </tr>
         </thead>
-        {matches.map((match, index) => (
+
+        
+        {matches
+          .sort((a, b) => a.startTime > b.startTime ? 1 : -1)
+          .map((match, index) => (
           <tbody key={index}>
             <tr className="matches-table">
               <td>{match.startTime.substr(11, 5)}</td>
@@ -174,6 +178,12 @@ export default function PlayerInfo(props) {
             </tr>
           </tbody>
         ))}
+        <br/>
+
+
+
+        
+      
       </Table>
     </div>
   )
