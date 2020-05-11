@@ -11,6 +11,7 @@ import {
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedin] = useState(false)
 
   const attemptLogin = async (e) => {
     const credentials = {

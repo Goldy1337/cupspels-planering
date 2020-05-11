@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
+import mongoosy from "mongoosy/frontend";
 
 export const TeamContext = createContext();
 
 export default function TeamContextProvider(props) {
   const [teams, setTeams] = useState([]);
+   const { Team } = mongoosy;
 
   const appendTeam = (team) => {
     // three dots (...) is called a
@@ -12,15 +14,12 @@ export default function TeamContextProvider(props) {
     setTeams([...teams, team]);
   };
 
-  const removeTeam = (id) => {
-    // updates the array with a filtered array
-    // where we filter out our recipe
-    setTeams(teams.filter((t) => t.id !== id));
+    async function clearTeams() {
+      let allTeams = await Team.find();
 
-    fetch("/api/teams/" + id, {
-      method: "DELETE",
-    });
-  };
+      await Team.deleteMany({});
+      console.log("clear", allTeams.js);
+    }
 
   const fetchTeams = async () => {
     let res = await fetch("/api/teams");
@@ -36,7 +35,8 @@ export default function TeamContextProvider(props) {
       teams,
       setTeams,
       appendTeam,
-      removeTeam
+      clearTeams,
+     // removeTeam
     };
 
   return (

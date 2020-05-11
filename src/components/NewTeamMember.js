@@ -1,50 +1,87 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Collapse, Card, CardBody, Button, Col, FormGroup, Form, Input, Table } from 'reactstrap'
+import {
+  Collapse,
+  Card,
+  CardBody,
+  Button,
+  Col,
+  FormGroup,
+  Form,
+  Input,
+  Table,
+} from "reactstrap";
 import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
-import '../scss/_variable-overrides.scss' 
-import RegisterAccount from './RegisterAccount'
+import "../scss/_variable-overrides.scss";
+import RegisterAccount from "./RegisterAccount";
 
 const NewTeamMember = (props) => {
- const {User} = mongoosy;
- const {Team} = mongoosy;  
- const {appendUser, saveUser, fetchUser} = useContext(UserContext)
+  const { User } = mongoosy;
+  const { Team } = mongoosy;
+  const { appendUser, saveUser, fetchUser } = useContext(UserContext);
 
-  const [name, setPlayerName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [subRole, setSubRole] = useState('');
-  const [password, setPassword] = useState('');
-  const [plainTxtPassword, setPlainTxtPassword] = useState('');
-  const [salt, setSalt] = useState('');
+  const [name, setPlayerName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [subRole, setSubRole] = useState("");
+  const [password, setPassword] = useState("");
+  const [plainTxtPassword, setPlainTxtPassword] = useState("");
+  const [salt, setSalt] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [teamName, setTeamName] = useState('');
+  const [teamName, setTeamName] = useState("");
   const [teamMembers, setTeamMembers] = useState([]);
 
-  let {id} = useParams()
+  let { id } = useParams();
 
   const toggle = () => setIsOpen(!isOpen);
-  const generatePassword = () => setPlainTxtPassword(Math.random().toString(36).slice(-8))
-  const generateSalt = () => setSalt(Math.random().toString(36).slice(-8))
+  const generatePassword = () =>
+    setPlainTxtPassword(Math.random().toString(36).slice(-8));
+  const generateSalt = () => setSalt(Math.random().toString(36).slice(-8));
 
-  useEffect(()=> {
-     getTeamName();
-    getTeamMembers() 
+  useEffect(() => {
+    getTeamName();
+    getTeamMembers();
     generateSalt();
     generatePassword();
-    encryptPassword();
-  }, [])
+  }, []);
 
-  async function getTeamName(){
-    
-  let foundTeam = await Team.findOne({ _id: id });
-  setTeamName(foundTeam.name);
+  useEffect(() => {
+    encryptPassword();
+    console.log("now")
+  }, [plainTxtPassword]);
+
+  async function getTeamName() {
+    let foundTeam = await Team.findOne({ _id: id });
+    setTeamName(foundTeam.name);
   }
 
-  const addTeamMember = async (e) =>{
-    e.preventDefault()
-    
+  async function encryptPassword() {
+    console.log("unenc ", plainTxtPassword);
+    const credentials = {
+      plainTxtPassword,
+    };
+
+    let response = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials),
+    });
+
+    try {
+      response = await response.json();
+      console.log(response.hash);
+
+      setPassword(response.hash);
+
+      //  props.history.push("/");
+    } catch {
+      console.log("Bad credentials");
+    }
+  }
+
+  const addTeamMember = async (e) => {
+    e.preventDefault();
 
     let aMember = new User({
       teamId: id,
@@ -57,55 +94,25 @@ const NewTeamMember = (props) => {
       salt: salt,
     });
 
-    appendUser(aMember)
+    appendUser(aMember);
     saveUser(aMember);
 
-    console.log(aMember)
-    
+    console.log(aMember, " plain text pw ", plainTxtPassword);
 
     getTeamMembers();
-    console.log("team members: ", teamMembers)
+    console.log("team members: ", teamMembers);
 
-    setPlayerName('')
-    setEmail('')
-    setPhoneNumber('')
-    setSubRole('')
+    setPlayerName("");
+    setEmail("");
+    setPhoneNumber("");
+    setSubRole("");
     generatePassword();
-    encryptPassword();
-  }
+  };
 
-  const getTeamMembers = async () =>{
-    
-    let teamUsers = await User.find({teamId: id});
-    setTeamMembers(teamUsers)
-  }
-
-
-  //post api request för registrering
-   async function encryptPassword() {
-     
-    console.log("unenc ", plainTxtPassword)
-     const credentials = {
-       plainTxtPassword
-     };
-
-     let response = await fetch("/api/register", {
-       method: "POST",
-       headers: { "Content-Type": "application/json" },
-       body: JSON.stringify(credentials),
-     });
-
-     try {
-       response = await response.json();
-       console.log(response.hash)
-       
-       setPassword(response.hash);
-        
-      //  props.history.push("/");
-     } catch {
-       console.log("Bad credentials");
-     }
-   }
+  const getTeamMembers = async () => {
+    let teamUsers = await User.find({ teamId: id });
+    setTeamMembers(teamUsers);
+  };
 
   return (
     <div>
@@ -132,7 +139,8 @@ const NewTeamMember = (props) => {
           ))}
         </Table>
       ) : (
-        '')}
+        ""
+      )}
       <Collapse isOpen={isOpen}>
         <Card>
           <CardBody>
@@ -188,6 +196,5 @@ const NewTeamMember = (props) => {
       </Button>
     </div>
   );
-
-}
-export default NewTeamMember
+};
+export default NewTeamMember;
