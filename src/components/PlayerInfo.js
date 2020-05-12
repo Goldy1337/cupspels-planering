@@ -75,7 +75,7 @@ export default function PlayerInfo(props) {
   const postDummyData = async (team) => {
 
     let field = new Field({
-      name: "Grand field",
+      name: "Field A",
       size: "300X150",
       outdoors: true
     })
@@ -84,10 +84,10 @@ export default function PlayerInfo(props) {
     //var d = new Date()
     
     let dateOfGame = new Date()
-    //dateOfGame.setMonth(9)
+    dateOfGame.setMonth(7)
 
     let secondTeam = new Team({
-      club: "The Redstone Rangers",
+      club: "The Hurrican Hooligans",
       name: "A Team",
       gender: "Male",
       age: 8
@@ -101,17 +101,12 @@ export default function PlayerInfo(props) {
       matchType: "Semi Final",
       date: dateOfGame,
       startTime: dateOfGame,
-      duration: 180,
+      duration: 90,
       activeTeamSize: 11,
       teams: [secondTeam._id, team._id]
     })
 
     await newMatch.save()
-
- 
-  
-
-
  }
 
   
@@ -169,12 +164,42 @@ export default function PlayerInfo(props) {
         
         {matches
           .filter(function (match) {
-            //let currentTime = new Date().toString()
-            let currentTime = new Date().toISOString()
-            console.log(currentTime, " type", typeof currentTime)
-            console.log(match.startTime, " type", typeof match.startTime )
-            console.log("comp", match.startTime < currentTime)
-            return match.startTime > currentTime }) 
+
+            console.log("START TO END:")
+            
+            //let matchEndTime = new Date(match.startTime.getTime() + match.duration*60000)
+            //console.log("END TIME: ", matchEndTime)
+            
+            
+
+            //console.log(match.startTime.toDate(), " type ", typeof match.startTime)
+
+            // console.log(currentTime, " type", typeof currentTime)
+            //console.log(match.startTime, " type", typeof match.startTime )
+            // console.log(match.startTime + match.duration, " time + duration")
+            // console.log("comp", match.startTime < currentTime)
+
+            let endTime = new Date(match.startTime)
+
+            //let newEndTime = endTime.setMinutes(endTime.getTime() + match.duration * 60000)
+            endTime.setMinutes( endTime.getMinutes() + match.duration )
+
+           // let timeEnd = new Date(match.startTime)
+            
+            //timeEnd.setTime(timeEnd.getTime() + (match.duration * 60000))
+            //timeEnd.setMinutes(match.duration)
+
+            console.log(endTime.toISOString())
+            //console.log(newEndTime.toISOString())
+
+            //console.log("START IN SEC: ", new Date(match.startTime).toString())
+            //console.log("END IN SEC: ", timeEnd.toString())
+          
+            //console.log("End time: ", endTime.toISOString())
+            //console.log("New End time: ", newEndTime.toISOString())
+        
+            return endTime.toISOString() > new Date().toISOString() })
+            //return match.startTime > new Date().toISOString() }) 
           .sort((a, b) => a.startTime > b.startTime ? 1 : -1)
           .map((match, index) => (
           <tbody key={index}>
