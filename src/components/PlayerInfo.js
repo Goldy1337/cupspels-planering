@@ -4,15 +4,18 @@ import mongoosy from 'mongoosy/frontend';
 const {
   Team,
   User,
-  Match
+  Match,
+  Field
 } = mongoosy;
 
 
+// Sortera bort redan gånga matcher, 
 // TODO: hämta field, och gör populate?!
-// TODO: sortera matcher efter tid och datum (spelade tas bort? eller läggs i en egen lista?)
-// TODO: gör hämtade eller visningen av tid och datum för match på ett snyggare sätt
-// Dela in listan i sektioner av datum tex: fre 21/11: lista matcher.... lör 22/11: lista matcher..
-// Gör tvärtom ?? populerat team istället för match?
+// TODO:  ta bort spelade matcher? eller läggs i en egen lista?) -- i sort(sortera matcher som är mer än date(Now) + 180. appenda i egen array.. )
+
+
+
+  
 
 export default function PlayerInfo(props) {
 
@@ -51,9 +54,13 @@ export default function PlayerInfo(props) {
   const fetchMatches = async (team) => {
    
     // when we're doing more than just "find", we have to end our statement with "exec()"
-    let playerMatches = await Match.find({ teams: team._id }).populate('teams').exec()
 
+    let playerMatches = await Match.find({ teams: team._id }).populate('teams').populate('fieldId').exec()
+
+ 
     setMatches(playerMatches)
+    fetchAllMatches()
+    //postDummyData(team)
   }
 
  
@@ -63,15 +70,25 @@ export default function PlayerInfo(props) {
 
 
 
+     // TEST DATA -----
 
-  const postDummyData = async () => {
-   // TEST DATA -----
-    var d = new Date()
-    console.log("d is of type: ",typeof d)
+  const postDummyData = async (team) => {
+
+    let field = new Field({
+      name: "Grand field",
+      size: "300X150",
+      outdoors: true
+    })
+    await field.save()
+
+    //var d = new Date()
+    
+    let dateOfGame = new Date()
+    //dateOfGame.setMonth(9)
 
     let secondTeam = new Team({
-      club: "Club Bravo",
-      name: "The B Team",
+      club: "The Redstone Rangers",
+      name: "A Team",
       gender: "Male",
       age: 8
     })
@@ -79,41 +96,30 @@ export default function PlayerInfo(props) {
     await secondTeam.save()
 
     let newMatch = new Match({
-      result: "1-1",
-      matchType: "Soccer",
-      date: d,
-      startTime: d,
+      fieldId: field._id,
+      result: "0-0",
+      matchType: "Semi Final",
+      date: dateOfGame,
+      startTime: dateOfGame,
       duration: 180,
       activeTeamSize: 11,
-      teams: [secondTeam._id, "5eb3cead213a696bbab5ef4d"]
+      teams: [secondTeam._id, team._id]
     })
 
-    let secondMatch = new Match({
-      result: "100-99",
-      matchType: "Quaret final",
-      date: d,
-      startTime: d,
-      duration: 180,
-      activeTeamSize: 5,
-      teams: [secondTeam._id, "5eb3cead213a696bbab5ef4d"]
-    })
+    await newMatch.save()
 
-    //newMatch.teams.push(team)
-    //newMatch.teams.push(secondTeam)
+ 
+  
 
-    //await secondMatch.save()
-    let allMatches = await Match.find()
-    console.log("MATCHES: ",allMatches.js)
-    //myMatch.teams.push(myTeam)
-        //myMatch.teams = myTeam
-
-    //await myMatch.save()
-
-    //console.log("Saved match: " + myMatch.js)
-    // --------------------
 
  }
 
+  
+  const fetchAllMatches = async () => {
+    let allMatches = await Match.find()
+    console.log("Matches", allMatches.js)
+  }
+  
   //  const fetchAllTeams = async () => {
   //   let allTeams = await Team.find();
   //   console.log(allTeams.js)
@@ -142,6 +148,7 @@ export default function PlayerInfo(props) {
       //onClick={fetchPlayerInfo}
     >
       <h1 className="info-team-name">{teamName}</h1>
+      <hr className="title-bar"></hr>
       <h4 className="info-player-name">{name}</h4>
       <h6 className="player-contact">{email} | tel: {phone}</h6>
 
@@ -151,24 +158,34 @@ export default function PlayerInfo(props) {
           <tr>
             <th>Start Time</th>
             <th>Date</th>
-            <th>Round</th>
-            <th>Field name</th>
+            <th>Fieldname</th>
             <th>Result</th>
-            <th>Teams</th>
+            <th>Round</th>
+            <th>Home Team</th>
+            <th>Away Team</th>
           </tr>
         </thead>
 
         
         {matches
+          .filter(function (match) {
+            //let currentTime = new Date().toString()
+            let currentTime = new Date().toISOString()
+            console.log(currentTime, " type", typeof currentTime)
+            console.log(match.startTime, " type", typeof match.startTime )
+            console.log("comp", match.startTime < currentTime)
+            return match.startTime > currentTime }) 
           .sort((a, b) => a.startTime > b.startTime ? 1 : -1)
           .map((match, index) => (
           <tbody key={index}>
             <tr className="matches-table">
               <td>{match.startTime.substr(11, 5)}</td>
-              <td>{match.date.substr(0, 10)}</td>
+                <td>{match.date.substr(0, 10)}</td>
+                <td>{match.fieldId.name != null ? match.fieldId.name : "Unkown"}</td>
               <td>{match.result}</td>
               <td>{match.matchType}</td>
-              <td>{match.teams[0].name} vs {match.teams[1].name} </td>
+                <td>{match.teams[0].name}</td>
+                <td>{match.teams[1].name}</td>
             
                 {/* <td className="teams-cell">{match.teams.map((team, index) => (
                 <td className="teams-cell-specific" key={index}> 
@@ -178,12 +195,7 @@ export default function PlayerInfo(props) {
             </tr>
           </tbody>
         ))}
-        <br/>
-
-
-
-        
-      
+        <br/>      
       </Table>
     </div>
   )
