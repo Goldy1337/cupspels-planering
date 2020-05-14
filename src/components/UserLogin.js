@@ -86,14 +86,15 @@ const LoginHeader = (props) => {
       password: createMemberAccountCredentials.password,
       salt: createMemberAccountCredentials.salt
     })
-    await newMember.save()
-    if (newMember.js.error) {
-      console.log(newMember.error)
+    let user = await User.find({}).sort(createMemberAccountCredentials.email)
+    console.log(user)
+    if (createMemberAccountCredentials.email =! user) {
+      await newMember.save()
+      toggleCreateAccount()
     }
-    // else {
-    //   console.log()
-    //   toggleCreateAccount()
-    // }
+    else {
+      console.log('That email is already taken')
+    }
   }
   //TODO Cleanup code
   return (
