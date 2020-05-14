@@ -1,58 +1,85 @@
 const dbName = 'cupdb'
-// const { mongoose, express, app } = require('mongoosy')({
-//   // settings for mongoosy
-//   connect: {
-//     url: 'mongodb://localhost/' + dbName
-//   }
-// });
-
-// app.listen(3001, () => console.log('API server listening on port 3001'));
-
+const serverPort = 3001;
 const path = require('path');
 const { mongoose, express, app, pwencrypt } = require('mongoosy')({
   // settings for mongoosy
   connect: {
     url: 'mongodb://localhost/' + dbName
   },
-  acl: {
-    query: aclQuery,
-    result: aclResult
-  }
+  login: {
+    encryptionSalt: 'Det coolaste saltet från den coola gruppen',
+  },
+   acl: {
+     query: aclSecurity
+   }
 });
  
-app.listen(3001, () => console.log('Server listening on port 3001'));
-app.use(express.static('models')); //TODO, stämmer detta? Ska det vara index eller annat i scr?
-app.get('/frontend', (req, res) => res.sendFile(path.resolve(__dirname, '../frontend.js')));
+app.listen(serverPort, () => console.log('Server listening on port ' + serverPort));
  
-function aclQuery({ user, model, instance, methods }) {
-  // blacklisting is safest 
-  // - i.e.return false unless you want to allow something
-  console.log('aclQuery', JSON.stringify(arguments, '', '  '));
-  return true ||
-    (user && user.roles.includes('god')) ||
-    (user && user.roles.includes('catwatcher') && methods[0].method === 'find' && methods.length === 1) ||
-    (user && user.roles.includes('catcreator') && methods[0].method === 'save' && methods.length === 1);
+function aclSecurity({ user, model, instance, methods }) {
+
+  // an array of methods names (skipping the argument to methods)
+  let methodNames = methods.map(x => x.method);
+
+  return false ||
+    // SuperAdmins can do anything
+    (user && user.role.includes('SuperAdmin')) ||
+    // Refereess can find and sort Users
+    (
+      user &&
+      user.role.includes('Referee') &&
+      model === 'User' &&
+      methodNames.filter(x => !['find', 'sort'].includes(x)).length === 0
+    ) ||
+    // Admins can save Users
+    (
+      user &&
+      user.role.includes('Admin') &&
+      model === 'User' &&
+      methodNames.filter(x => !['save'].includes(x)).length === 0
+    );
 }
  
-function aclResult({ user, model, instance, methods, result }) {
-  // can modify results
-  console.log('aclResult', JSON.stringify(arguments, '', '  '));
-  if (!user || !user.roles.includes('god') && model === 'Cat' && result instanceof Array) {
-    console.log('You are not a god so no Garfield for you!');
-    result = result.filter(x => x.name !== 'Garfield');
-  }
-  return result;
-}
- 
-async function createGodUser() {
-  let User = require('./models/User');
-  let foundGod = await User.findOne({ email: 'god@gmail.com' });
-  if (foundGod) { return; }
-  let god = new User({ name: 'godlyAdmin', role: 'SuperAdmin', email: 'god@gmail.com', phoneNumber: 123, password: pwencrypt('666'), salt: 'fasuhwbafka' });
-  console.log('Created god user...');
-  console.log(User);
-  console.log(foundGod);
+const User = require('./models/User')
+async function createUsers() {
+  let god = await User.findOne({ email: 'god@gmail.com' });
+  if (god) { return; }
+  god = new User({
+    name: 'Godly Admin',
+    role: 'SuperAdmin',
+    email: 'god@gmail.com',
+    phoneNumber: 0404040404,
+    password: pwencrypt('666'),
+    salt: 'test'
+  });
   await god.save();
+  console.log(god);
+
+  let admin = await User.findOne({ email: 'admin@gmail.com' });
+  if (admin) { return; }
+  admin = new User({
+    name: 'Test Admin',
+    role: 'Admin',
+    email: 'admin@gmail.com',
+    phoneNumber: 0405050505,
+    password: pwencrypt('100'),
+    salt: 'testIgen'
+  });
+  await admin.save();
+  console.log(admin);
+
+  let referee = await User.findOne({ email: 'ref@gmail.com' });
+  if (referee) { return; }
+  referee = new User({
+    name: 'Test Referee',
+    role: 'Referee',
+    email: 'ref@gmail.com',
+    phoneNumber: 0401010101,
+    password: pwencrypt('200'),
+    salt: 'behövsDetta?'
+  })
+  await referee.save();
+  console.log(referee)
 }
- 
-createGodUser();
+
+createUsers();

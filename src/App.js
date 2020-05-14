@@ -1,5 +1,10 @@
 import React from 'react';
 import LoginHeader from './components/UserLogin'
+import mongoosy from 'mongoosy/frontend';
+const {
+  Login,
+  User 
+} = mongoosy;
 
 
 export default function App() {
@@ -30,10 +35,9 @@ export default function App() {
     // let foundTeam = await Team.findOne({ _id: aTeam._id });
     // console.log('foundTeam', foundTeam.js);
 
-    // // Read all teams from the db
-    // let allTeams = await Team.find();
-    // console.log('allTeams', allTeams.js);
-
+    let allUsers = await User.find();
+    console.log('allUsers', allUsers.js);
+    // await User.deleteMany({})
   }
 
   doStuff();
@@ -41,7 +45,17 @@ export default function App() {
   return (
     <div>
       <LoginHeader />
-      <body></body>
+      <body>
+        <li>
+          Superadmin: god@gmail.com, 666
+        </li>
+        <li>
+          Testadmin: admin@gmail.com, 100
+        </li>
+        <li>
+          Testref: ref@gmail.com, 200
+        </li>
+      </body>
     </div>
   );
 }
