@@ -66,6 +66,12 @@ const LoginHeader = (props) => {
     }
   }
 
+  const logout = async e => {
+    e.preventDefault()
+    await Login.logout()
+    updateLoginStatus({ user: false })
+  }
+
   return (
     <div>
       <Navbar className="loginHeader" color="info" dark>
@@ -96,14 +102,15 @@ const LoginHeader = (props) => {
                 <Button color="primary" onClick={toggleCreateAccount}>Do Something</Button>{' '}
                 <Button color="secondary" onClick={toggleCreateAccount}>Cancel</Button>
               </ModalFooter>
-            </Modal>
-          <NavItem>
-            if (user.role ==="SuperAdmin") {
+          </Modal>
+          {loginStatus.user ? <NavItem onClick={logout}>Logout</NavItem> : <NavItem onClick={toggleLogin}>Login</NavItem>}
+          {/* <NavItem>
+            if (loginStatus.user) {
               <NavLink>Logout</NavLink>
             } else {
               <NavLink onClick={toggleLogin}>Login</NavLink>
             }
-            </NavItem>
+            </NavItem> */}
             <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
               <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
             <ModalBody>
