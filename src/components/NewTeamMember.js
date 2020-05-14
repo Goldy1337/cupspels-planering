@@ -16,7 +16,7 @@ import { UserContext } from "../contexts/UserContextProvider";
 import "../scss/_variable-overrides.scss";
 import RegisterAccount from "./RegisterAccount";
 
-const NewTeamMember = (props) => {
+const NewTeamMember = () => {
   const { User } = mongoosy;
   const { Team } = mongoosy;
   const { appendUser, saveUser, fetchUser } = useContext(UserContext);
@@ -26,7 +26,6 @@ const NewTeamMember = (props) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [subRole, setSubRole] = useState("");
   const [password, setPassword] = useState("");
-  const [plainTxtPassword, setPlainTxtPassword] = useState("");
   const [salt, setSalt] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -36,7 +35,7 @@ const NewTeamMember = (props) => {
 
   const toggle = () => setIsOpen(!isOpen);
   const generatePassword = () =>
-    setPlainTxtPassword(Math.random().toString(36).slice(-8));
+    setPassword(Math.random().toString(36).slice(-8));
   const generateSalt = () => setSalt(Math.random().toString(36).slice(-8));
 
   useEffect(() => {
@@ -46,38 +45,9 @@ const NewTeamMember = (props) => {
     generatePassword();
   }, []);
 
-  useEffect(() => {
-    encryptPassword();
-    console.log("now")
-  }, [plainTxtPassword]);
-
   async function getTeamName() {
     let foundTeam = await Team.findOne({ _id: id });
     setTeamName(foundTeam.name);
-  }
-
-  async function encryptPassword() {
-    console.log("unenc ", plainTxtPassword);
-    const credentials = {
-      plainTxtPassword,
-    };
-
-    let response = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
-    });
-
-    try {
-      response = await response.json();
-      console.log(response.hash);
-
-      setPassword(response.hash);
-
-      //  props.history.push("/");
-    } catch {
-      console.log("Bad credentials");
-    }
   }
 
   const addTeamMember = async (e) => {
@@ -96,8 +66,6 @@ const NewTeamMember = (props) => {
 
     appendUser(aMember);
     saveUser(aMember);
-
-    console.log(aMember, " plain text pw ", plainTxtPassword);
 
     getTeamMembers();
     console.log("team members: ", teamMembers);

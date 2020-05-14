@@ -11,28 +11,9 @@ const User = require('./models/User')
 
 app.listen(3001, () => console.log("API server listening on port 3001"));
 
-app.post("/api/register", (req, res, next) =>
-  // res.json({elefant: true})
-
-  bcrypt.hash(req.body.plainTxtPassword, saltRounds, function (err, hash) {
-    console.log("backend", req.body.plainTxtPassword, " ", hash);
-
-    res.json({ hash: hash });
-
-    // Store hash in database
-  })
-);
-
-app.post("/api/login", async (req, res) => {
-  let hash = await User.findOne({ email: req.body.email }, {password: 1, _id:0})
-  console.log("found hash ", hash.password)
-  bcrypt.compare(req.body.password, hash.password, function (err, res) {
-    if (res) {
-      console.log("passwords match");
-      // Passwords match
-    } else {
-      console.log("passwords don't match");
-      // Passwords don't match
-    }
-  });
-});
+// app.get(
+//   "https://api.mapbox.com/geocoding/v5/mapbox.places/paris.json?access_token=pk.eyJ1IjoiZGNiZXJnbWFuIiwiYSI6ImNrYTN5c3V5azAya2wzZWxibXduam51bW4ifQ.4YmXwdarg4cIyPVYT9IiVQ",
+//   async (req, res) => {
+//     res.json(await Cat.find());
+//   }
+// );

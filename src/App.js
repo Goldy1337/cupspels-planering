@@ -6,10 +6,10 @@ import NewReferee from './pages/NewReferee'
 import RefereeList from './components/RefereeList'
 import NewTeam from './components/NewTeam';
 import NewTeamMember from './components/NewTeamMember';
-import Login from './components/Login'
 import UserContextProvider from './contexts/UserContextProvider';
 import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
 import RegisterAccount from './components/RegisterAccount';
+import NewAddress from './components/NewAddress';
 const {
   User,
   Team
@@ -65,8 +65,7 @@ export default function App() {
                 path="/addTeamMember/:id"
                 component={NewTeamMember}
               />
-              <Login />
-              {/* <Route exact path="/auth/register/" component={RegisterAccount} /> */}
+              <NewAddress />
             </main>
           </Router>
         </UserContextProvider>
