@@ -104,10 +104,10 @@ const LoginHeader = (props) => {
   return (
     <div>
       <Navbar className="loginHeader" color="info" dark>
-        <NavbarBrand href="/" className="mr-auto loginHeaderText">Cupplanner</NavbarBrand>
+        <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
           {/* <NavLink onClick={toggleCreateAccount}>Create Account</NavLink> */}
-          {loginStatus.user ? <NavLink>My Account</NavLink> : <NavLink onClick={toggleCreateAccount}>Create Account</NavLink>}
+          {loginStatus.user ? <NavLink className="navLink">My Account</NavLink> : <NavLink className="navLink" onClick={toggleCreateAccount}>Create Account</NavLink>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
@@ -147,7 +147,7 @@ const LoginHeader = (props) => {
               <Button color="secondary" onClick={toggleCreateAccount}>Cancel</Button>
             </ModalFooter>
         </Modal>
-          {loginStatus.user ? <NavItem onClick={logout}>Logout</NavItem> : <NavItem onClick={toggleLogin}>Login</NavItem>}
+          {loginStatus.user ? <NavItem className="navLink" onClick={logout}>Logout</NavItem> : <NavItem className="navLink" onClick={toggleLogin}>Login</NavItem>}
           <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
             <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
           <ModalBody>
