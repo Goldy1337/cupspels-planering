@@ -42,13 +42,14 @@ const LoginHeader = (props) => {
   if (loginStatus.user === null) {
     // we haven't checked if the user is logged in
     // yet so render nothing
-    console.log('Checking login status')
+    console.log('Starting the checkIfLoggedIn function')
     checkIfLoggedIn();
     return null;
   }
 
   async function checkIfLoggedIn() {
     let user = await Login.check();
+    console.log('Checking if youre logged in with the checkIfLoggedInFunction')
     console.log(user)
     updateLoginStatus({ user: user.js.email ? user : false });
   }
@@ -75,7 +76,7 @@ const LoginHeader = (props) => {
     let user = await Login.check()
     console.log(user)
   }
-  //TODO Add checks to prohibit multiple accounts for the same email, etc
+  
   const createMemberAccount = async e => {
     e.preventDefault()
     let newMember = new User({
@@ -86,15 +87,18 @@ const LoginHeader = (props) => {
       password: createMemberAccountCredentials.password,
       salt: createMemberAccountCredentials.salt
     })
-    let user = await User.find({}).sort(createMemberAccountCredentials.email)
+    let users = await User.find().sort('createMemberAccountCredentials.email');
+    // if (users.js.error) {
+    //   users = [{ email: users.error, roles: [], errored: true }]
+    //   console.log('If fired, ' + users)
+    // }
+    // console.log('If dint fire, ' + users)
+    let allUsers = await User.find();
+    console.log('allUsers', allUsers.js);
+    let user = await User.find({}).sort('email')
     console.log(user)
-    if (createMemberAccountCredentials.email =! user) {
-      await newMember.save()
-      toggleCreateAccount()
-    }
-    else {
-      console.log('That email is already taken')
-    }
+    await newMember.save()
+    toggleCreateAccount()
   }
   //TODO Cleanup code
   return (
@@ -102,6 +106,7 @@ const LoginHeader = (props) => {
       <Navbar className="loginHeader" color="info" dark>
         <NavbarBrand href="/" className="mr-auto loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
+          {/* <NavLink onClick={toggleCreateAccount}>Create Account</NavLink> */}
           {loginStatus.user ? <NavLink>My Account</NavLink> : <NavLink onClick={toggleCreateAccount}>Create Account</NavLink>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
