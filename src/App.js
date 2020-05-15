@@ -11,6 +11,7 @@ import TeamContextProvider from './contexts/TeamContextProvider';
 import NewArena from './components/NewArena';
 import CreateBrackets from './components/CreateBrackets'
 import PlayerInfo from './components/PlayerInfo'
+import UserLogin from './components/UserLogin'
 
 
 export default function App() {
@@ -24,10 +25,11 @@ export default function App() {
               <FieldContextProvider>
                 <Router>
                   <main>
+                    <Link to="/userLogin">Login</Link>|
                     <Link to="/addTeam"> Add Team </Link>|
                     <Link to="/newReferee"> Add Referee </Link>|
-                    <Link to="/newArena"> Add Arena </Link>
-                    <Link to="/createBrackets">Create Brackets</Link>
+                    <Link to="/newArena"> Add Arena </Link>|
+                    <Link to="/createBrackets">Create Brackets</Link>|
                     <Link to="/playerInfo">Player Info</Link>
                     <Route exact path="/addTeam" component={NewTeam} />
                     <Route
@@ -38,7 +40,8 @@ export default function App() {
                     <Route exact path="/newReferee" component={NewReferee} />
                     <Route exact path="/newArena" component={NewArena} />
                     <Route exact path="/createBrackets" component={CreateBrackets} />
-                    <Route exact path="/playerInfo" component={PlayerInfo}/>
+                    <Route exact path="/playerInfo" component={PlayerInfo} />
+                    <Route exact path="/userLogin" component={UserLogin} />
                   </main>
                 </Router>
               </FieldContextProvider>

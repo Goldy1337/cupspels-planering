@@ -59,13 +59,13 @@ const NewTeamMember = (props) => {
 
     await aMember.save();
 
-    saveUser(aMember)
+   // saveUser(aMember)
     appendUser(aMember)
     //setMember(aMember)
     console.log(aMember)
 
    // testApi()
-    register()
+   // register()
 
     getTeamMembers();
 
@@ -94,21 +94,21 @@ const NewTeamMember = (props) => {
 
   
 
-     let response = await fetch("/auth/register", {
-       method: "POST",
-       headers: { "Content-Type": "application/json" },
-       body: JSON.stringify(credentials),
-     });
+    //  let response = await fetch("/auth/register", {
+    //    method: "POST",
+    //    headers: { "Content-Type": "application/json" },
+    //    body: JSON.stringify(credentials),
+    //  });
 
-     try {
-       response = await response.json();
-       console.log("registered")
-      //  setUsername(response);
-      //  props.history.push("/");
-     } catch {
-       console.log("Bad credentials");
-     }
-   }
+    //  try {
+    //    response = await response.json();
+    //    console.log("registered")
+    //   //  setUsername(response);
+    //   //  props.history.push("/");
+    //  } catch {
+    //    console.log("Bad credentials");
+    //  }
+   // }
 
   return (
     <div>
