@@ -12,6 +12,7 @@ import NewArena from './components/NewArena';
 import CreateBrackets from './components/CreateBrackets'
 import PlayerInfo from './components/PlayerInfo'
 
+
 export default function App() {
 
   return (

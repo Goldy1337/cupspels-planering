@@ -4,6 +4,7 @@ import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import '../scss/_variable-overrides.scss' 
+import RegisterAccount from './RegisterAccount'
 
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
@@ -28,6 +29,7 @@ const NewTeamMember = (props) => {
    
 
   useEffect(()=> {
+     getTeamName();
     getTeamMembers()
     getTeamName()
     generatePassword()
@@ -57,7 +59,13 @@ const NewTeamMember = (props) => {
 
     await aMember.save();
 
+    saveUser(aMember)
     appendUser(aMember)
+    //setMember(aMember)
+    console.log(aMember)
+
+   // testApi()
+    register()
 
     getTeamMembers();
 
@@ -72,10 +80,35 @@ const NewTeamMember = (props) => {
     let teamUsers = await User.find({teamId: id});
 
     setTeamMembers(teamUsers)
+  }
 
+  //test get api request
+  async function testApi() {
+    let response = await fetch("/api/users", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    response = await response.json;
+    console.log(response);
   }
 
   
+
+     let response = await fetch("/auth/register", {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify(credentials),
+     });
+
+     try {
+       response = await response.json();
+       console.log("registered")
+      //  setUsername(response);
+      //  props.history.push("/");
+     } catch {
+       console.log("Bad credentials");
+     }
+   }
 
   return (
     <div>
