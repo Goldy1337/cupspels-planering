@@ -1,5 +1,4 @@
 import React, { useState, cloneElement, useEffect } from "react";
-import "../scss/Brackets.scss";
 
 const Team = (props) => {
   const [size, setSize] = useState({
@@ -167,7 +166,7 @@ const Team = (props) => {
       </div> */}
       {props.parentX ? (
         <svg
-          style={{ position: "absolute", zIndex: -123 }}
+          style={{ position: "absolute", zIndex: -123, top: 0 }}
           height="5000"
           width="5000"
         >
