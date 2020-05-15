@@ -8,7 +8,7 @@ let schema = new Schema ({
     name: {type: String, required: true},
     role: {type: String, required: true, enum:["SuperAdmin", "Admin", "Referee", "MatchAdmin", "Participant", "Member"]},
     subRole: {type: String},
-    email: {type: String, required: true},
+    email: {type: String, unique: true, required: true},
     phoneNumber: {type: Number, required: true},
     password: {type: String, required: true},
     salt: {type: String, required: true}

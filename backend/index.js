@@ -9,9 +9,9 @@ const { mongoose, express, app, pwencrypt } = require('mongoosy')({
   login: {
     encryptionSalt: 'Det coolaste saltet från den coola gruppen',
   },
-   acl: {
-     query: aclSecurity
-   }
+  // acl: {
+  //   query: aclSecurity
+  // }
 });
  
 app.listen(serverPort, () => console.log('Server listening on port ' + serverPort));
