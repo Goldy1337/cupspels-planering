@@ -6,7 +6,7 @@ const {
   User,
   Match,
   Field
-} = mongoosy;  
+} = mongoosy;
 
 
 export default function PlayerInfo(props) {
