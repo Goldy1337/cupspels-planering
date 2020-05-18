@@ -22,10 +22,12 @@ export default function GroupPlay(props) {
 
   const [matches, setMatches] = useState([])
   const [teamName, setTeamName] = useState('Team')
-  const [numberOfGroups, setNumberOfGroups] = useState(0)
+
+  const [numberOfGroups, setNumberOfGroups] = useState(1)
+  const [teamsInGroup, setTeamsInGroup] = useState(2)
 
   useEffect(() => {
-    //createMatches(6)
+    //createMatches(13)
     getGroupPlaySequence()
     fetchTeams()
   }, [])
@@ -34,7 +36,7 @@ export default function GroupPlay(props) {
   // Fetch all teams with cupID
   const fetchTeams = async () => {
 
-    let cup = await Cup.findOne({ _id: "5ec2c5a35c58b4ee74925caa" }).populate('teams').exec() // TODO: pass in id instead?
+    let cup = await Cup.findOne({ _id: "5ec2f7915c58b4ee74925cd8" }).populate('teams').exec() // TODO: pass in id instead?
     setCup(cup)
     console.log(cup)
     //let teams = await Team.find({ cups: cup._id })
@@ -130,15 +132,119 @@ export default function GroupPlay(props) {
   
   }
 
+
+
+  // TODO: Minst 1 grupp, minst två lag per gupp annars -- return warning!! 
   const createGroups = (numberOfGroups) => {
     console.log("Creating groups: ", numberOfGroups)
+
+    // If less than 2 teams per group
+    if (teams.length / numberOfGroups < 2) {
+      return
+    }
+
+    let groups = [] // multidimensional array
+
+    let remainder = teams.length % numberOfGroups
+    let easilyDivisibleTeams = teams.length - remainder
+
+
+    //let remainder = teamsInGroup % numberOfGroups
+
+    // console.log("Remiaing", remainder)
+
+    if (remainder == 0) {
+      //console.log("Jämnt antal grupper!!")
+    } else {
+      let r = remainder
+      
+      let i;
+      for (i = 0; i < numberOfGroups; i++) {
+        //console.log(teams.length % numberOfGroups)
+        if (remainder == 0) {
+          groups[i] = easilyDivisibleTeams / numberOfGroups
+          //console.log(easilyDivisibleTeams % numberOfGroups)
+          //groups[i] = teams.length % numberOfGroups
+        } else {
+          groups[i] = (easilyDivisibleTeams / numberOfGroups) + 1
+          //groups[i] = teams.length % numberOfGroups + 1
+          remainder--
+        }
+     
+      }
+
+      // let y
+      // for (y = 0; y < remainder; y++) {
+      //   groups[y]++
+      // }
+
+
+      // for (y = remainder; y > 0; y--) {
+      //   groups[y]++
+      //   remainder--
+      // }
+      console.log(groups)
+    }
+
+
+
+
+
+
+
+
+    // let i;
+    // for (i = 0; i < numberOfGroups; i++) {
+
+    //   if (remainder > 0) {
+
+    //   }
+    // }
+
+
+
+
+
+    if (remainder == 0) {
+        let teamPerGroup = teams.length / numberOfGroups
+        //console.log("Team per group: ", teamPerGroup)
+    } else {
+
+      //let remainingTeam = team
+      let i;
+      for (i = 0; i < numberOfGroups; i++) {
+
+        groups[i] = teams.length % numberOfGroups
+        
+      }
+
+
+      //console.log(groups)
+
+      // let i;
+      // for (i = 0; i < numberOfGroups; i++) {
+
+      //   if (remainder == 0) {
+      //     // divide normally
+      //   } else {
+      //     //  
+      //     remainder--
+      //   }
+      // }
+    }
+
+
+
+
+
+
 
     // Check if x (teams) divided with numberOfGroups == 0
     //
     
     // If more groups than teams
     if (teams.length < numberOfGroups) {
-      console.log("To few teams!")
+      //console.log("To few teams!")
       return
     }
 
@@ -150,17 +256,24 @@ export default function GroupPlay(props) {
 
 
     if (teams.length % numberOfGroups == 0) {
-      console.log("It's even groups!")
+      //console.log("It's even groups!")
     } else {
 
-      console.log("Remaining;", teams.length % numberOfGroups) 
+      //console.log("Remaining;", teams.length % numberOfGroups) 
       let remainder = teams.length % numberOfGroups
-
+      let i;
+      for (i = 0; i < remainder; i++) {
+        //groups[i][]
+      }
     }
 
 
   }
 
+
+  const splitGroups = () => {
+
+  }
 
   // const fetchPlayerInfo = async () => {
 
@@ -209,13 +322,23 @@ export default function GroupPlay(props) {
         <Input
           required
           type="number"
-          min="0"
+          min="1"
           max="100"
           id="number-of-groups"
           value={numberOfGroups}
           onChange={e => setNumberOfGroups(e.target.value)} />
-        
         </FormGroup>
+        {/* <FormGroup>
+           <label for="teams-in-group">Number of teams per group</label>
+          <Input
+            required
+            type="number"
+            min="2"
+            max="100"
+            id="teams-in-group"
+            value={teamsInGroup}
+            onChange={e => setTeamsInGroup(e.target.value)} />
+        </FormGroup> */}
         <Button color="info" className="m1-3 form-btn" onClick={createGroups(numberOfGroups)}>Add Referee</Button>
       </Form>
       
