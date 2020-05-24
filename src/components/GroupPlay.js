@@ -8,9 +8,9 @@ const {
   Match,
   Cup
 } = mongoosy;
-// VISSA HUR MÅNGA LAG totalt
+
+
 // TODO: ANGE ANTAL LAG PER GRUPP
-// TODO: ANGE ANTAL GRUPPER
 // Hämta alla lag med specifikt cupID:
 // räkna ut hur många lag...
 // låt användaren ange hur många team i varje grupp. 
@@ -25,6 +25,10 @@ export default function GroupPlay(props) {
 
   const [numberOfGroups, setNumberOfGroups] = useState(1)
   const [teamsInGroup, setTeamsInGroup] = useState(2)
+
+
+  const [groups, setGroups] = useState([])
+
 
   useEffect(() => {
     //createMatches(13)
@@ -41,10 +45,15 @@ export default function GroupPlay(props) {
     console.log(cup)
     //let teams = await Team.find({ cups: cup._id })
     console.log(teams)
+
+    //cup.teams.pop()
+
     setTeams(cup.teams)
-    
+
   }
 
+
+  // Alla möter alla i grupp
   const getGroupPlaySequence = () => {
     let match = {
       team1: "Team1",
@@ -88,7 +97,47 @@ export default function GroupPlay(props) {
   }
 
 
-  const createMatches = async (amountOfTeams) => {
+ 
+
+
+
+  // TODO: Minst 1 grupp, minst två lag per gupp annars -- return warning!! 
+  const createGroups = (numberOfGroups) => {
+
+    // If less than 2 teams per group
+    if (teams.length / numberOfGroups < 2) {
+      console.log("Needs at least two teams per group!")
+      return
+    }
+
+
+    let groups = [] // multidimensional array
+
+    let remainder = teams.length % numberOfGroups
+    let easilyDivisibleTeams = teams.length - remainder
+
+    let i
+    for (i = 0; i < numberOfGroups; i++) {
+      if (remainder == 0) {
+        groups[i] = easilyDivisibleTeams / numberOfGroups
+      } else {
+        groups[i] = (easilyDivisibleTeams / numberOfGroups) + 1
+        remainder--
+      }
+    }
+
+
+
+
+
+    console.log(groups)
+  }
+
+
+
+
+
+ const createMatches = async (amountOfTeams) => {
 
     let date = new Date()
 
@@ -123,153 +172,8 @@ export default function GroupPlay(props) {
     //cup.teams = []
 
     console.log("Cup", cup.js)
-
-
-    
-
-
-
   
   }
-
-
-
-  // TODO: Minst 1 grupp, minst två lag per gupp annars -- return warning!! 
-  const createGroups = (numberOfGroups) => {
-    console.log("Creating groups: ", numberOfGroups)
-
-    // If less than 2 teams per group
-    if (teams.length / numberOfGroups < 2) {
-      return
-    }
-
-    let groups = [] // multidimensional array
-
-    let remainder = teams.length % numberOfGroups
-    let easilyDivisibleTeams = teams.length - remainder
-
-
-    //let remainder = teamsInGroup % numberOfGroups
-
-    // console.log("Remiaing", remainder)
-
-    if (remainder == 0) {
-      //console.log("Jämnt antal grupper!!")
-    } else {
-      let r = remainder
-      
-      let i;
-      for (i = 0; i < numberOfGroups; i++) {
-        //console.log(teams.length % numberOfGroups)
-        if (remainder == 0) {
-          groups[i] = easilyDivisibleTeams / numberOfGroups
-          //console.log(easilyDivisibleTeams % numberOfGroups)
-          //groups[i] = teams.length % numberOfGroups
-        } else {
-          groups[i] = (easilyDivisibleTeams / numberOfGroups) + 1
-          //groups[i] = teams.length % numberOfGroups + 1
-          remainder--
-        }
-     
-      }
-
-      // let y
-      // for (y = 0; y < remainder; y++) {
-      //   groups[y]++
-      // }
-
-
-      // for (y = remainder; y > 0; y--) {
-      //   groups[y]++
-      //   remainder--
-      // }
-      console.log(groups)
-    }
-
-
-
-
-
-
-
-
-    // let i;
-    // for (i = 0; i < numberOfGroups; i++) {
-
-    //   if (remainder > 0) {
-
-    //   }
-    // }
-
-
-
-
-
-    if (remainder == 0) {
-        let teamPerGroup = teams.length / numberOfGroups
-        //console.log("Team per group: ", teamPerGroup)
-    } else {
-
-      //let remainingTeam = team
-      let i;
-      for (i = 0; i < numberOfGroups; i++) {
-
-        groups[i] = teams.length % numberOfGroups
-        
-      }
-
-
-      //console.log(groups)
-
-      // let i;
-      // for (i = 0; i < numberOfGroups; i++) {
-
-      //   if (remainder == 0) {
-      //     // divide normally
-      //   } else {
-      //     //  
-      //     remainder--
-      //   }
-      // }
-    }
-
-
-
-
-
-
-
-    // Check if x (teams) divided with numberOfGroups == 0
-    //
-    
-    // If more groups than teams
-    if (teams.length < numberOfGroups) {
-      //console.log("To few teams!")
-      return
-    }
-
-    // If only one team per group ???
-    // if (teams.length < numberOfGroups * 2) {
-
-    // }
-
-
-
-    if (teams.length % numberOfGroups == 0) {
-      //console.log("It's even groups!")
-    } else {
-
-      //console.log("Remaining;", teams.length % numberOfGroups) 
-      let remainder = teams.length % numberOfGroups
-      let i;
-      for (i = 0; i < remainder; i++) {
-        //groups[i][]
-      }
-    }
-
-
-  }
-
 
   const splitGroups = () => {
 
@@ -313,7 +217,7 @@ export default function GroupPlay(props) {
       {teams.map((team, index) => (
         <h3>{team.name}</h3>
       ))}
-
+      <br/>
       <Form
         //onSubmit={createGroups} return false
         >
