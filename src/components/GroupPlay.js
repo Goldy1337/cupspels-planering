@@ -63,11 +63,10 @@ export default function GroupPlay(props) {
     let numberOfTeams = 3
     let matches = []
 
-    var i
-    var j
+  
 
-    for (i = 0; i < numberOfTeams; i++) {
-      for (j = 0; j < numberOfTeams; j++) {
+    for (let i = 0; i < numberOfTeams; i++) {
+      for (let j = 0; j < numberOfTeams; j++) {
 
         let skipIteration = false
 
@@ -101,23 +100,24 @@ export default function GroupPlay(props) {
 
 
 
-  // TODO: Minst 1 grupp, minst två lag per gupp annars -- return warning!! 
   const createGroups = (numberOfGroups) => {
+    console.log("Creating Groups!")
+
 
     // If less than 2 teams per group
     if (teams.length / numberOfGroups < 2) {
-      console.log("Needs at least two teams per group!")
-      return
+      console.log("Needs at least two teams per group!") 
+      return // TODO: RETURN A WARNING!!
     }
 
 
     let groups = [] // multidimensional array
+    let teamsInGroup = []
 
     let remainder = teams.length % numberOfGroups
     let easilyDivisibleTeams = teams.length - remainder
 
-    let i
-    for (i = 0; i < numberOfGroups; i++) {
+    for (let i = 0; i < numberOfGroups; i++) {
       if (remainder == 0) {
         groups[i] = easilyDivisibleTeams / numberOfGroups
       } else {
@@ -130,7 +130,39 @@ export default function GroupPlay(props) {
 
 
 
-    console.log(groups)
+
+    // Assigna varje team ett gruppspels nummer, samt ett lagnummer?
+
+    // TODO: randomize array
+    // TODO: Split array 
+
+    let myTeams = [] //[[],[]]
+    //Object.assign(myTeams, teams)
+    //myTeams = teams.slice()
+    //myTeams = [...teams]
+    myTeams = Array.from(teams) // Copy teams array
+    console.log("Teams", teams)
+    console.log("My teams", myTeams)
+
+
+    
+      
+
+
+    
+    for (let i = 0; i < groups.length; i++) {
+      console.log("Teams In Group", i + 1)
+      
+      let tempArr = []
+      for (let j = 0; j < groups[i]; j++) {
+
+        tempArr.push(myTeams.pop())
+      }
+      teamsInGroup.push(tempArr)
+    }
+    
+    console.log("Teams in groups: ", teamsInGroup)
+
   }
 
 
@@ -243,7 +275,7 @@ export default function GroupPlay(props) {
             value={teamsInGroup}
             onChange={e => setTeamsInGroup(e.target.value)} />
         </FormGroup> */}
-        <Button color="info" className="m1-3 form-btn" onClick={createGroups(numberOfGroups)}>Add Referee</Button>
+        <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Add Referee</Button>
       </Form>
       
       
