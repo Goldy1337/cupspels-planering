@@ -146,7 +146,7 @@ export default function GroupPlay(props) {
 
 
     
-      
+      // Ide 2: gör groups till flat array. gå igenom både den och teams... sätt property i teams -> groupNumber: , teamNumber
 
 
     
@@ -161,8 +161,11 @@ export default function GroupPlay(props) {
       teamsInGroup.push(tempArr)
     }
     
-    console.log("Teams in groups: ", teamsInGroup)
+    //setGroups(Array.from(teamsInGroup))
+    setGroups(teamsInGroup)
 
+    console.log("Teams in groups: ", teamsInGroup)
+    console.log("groups", groups)
   }
 
 
@@ -278,7 +281,32 @@ export default function GroupPlay(props) {
         <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Add Referee</Button>
       </Form>
       
+      <table>
+        <tbody>
+          {groups.map((group, index) => (
+            <div>
+            <h3>Group {index + 1}</h3>
+            <ul>
+              {group.map((g, index) => (
+                <li>
+                  {g.name}
+                </li>
+              ))}
+            </ul>
+            </div>
+                // <tr>
+                // {group.map((g, index) => (
+                //    <h5>{g.name}</h5> 
+                //  ))}
+                // </tr>
+               
+         
+            ))}
+        </tbody>
+      </table>
       
+          
+     
     </div>
   )
 }
