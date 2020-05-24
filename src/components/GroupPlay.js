@@ -81,7 +81,7 @@ export default function GroupPlay(props) {
           if (!skipIteration) {
             let newMatch = {
               team1: i + 1,
-              team2: j+ 1
+              team2: j + 1
             }
             matches.push(newMatch)
           }
@@ -278,7 +278,7 @@ export default function GroupPlay(props) {
             value={teamsInGroup}
             onChange={e => setTeamsInGroup(e.target.value)} />
         </FormGroup> */}
-        <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Add Referee</Button>
+        <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Create Groups</Button>
       </Form>
       
       <table>
@@ -293,20 +293,10 @@ export default function GroupPlay(props) {
                 </li>
               ))}
             </ul>
-            </div>
-                // <tr>
-                // {group.map((g, index) => (
-                //    <h5>{g.name}</h5> 
-                //  ))}
-                // </tr>
-               
-         
+            </div>    
             ))}
         </tbody>
-      </table>
-      
-          
-     
+      </table> 
     </div>
   )
 }
