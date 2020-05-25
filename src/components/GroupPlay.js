@@ -2,18 +2,16 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Form, FormGroup, Input, Button } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
-import { number } from 'prop-types';
+import { number, func } from 'prop-types';
 const {
   Team,
   Match,
   Cup
 } = mongoosy;
 
+// TODO: pass in date
+// När man angett hur många grupper - gör knapp synlig för att skapa matcher?
 
-// TODO: ANGE ANTAL LAG PER GRUPP
-// Hämta alla lag med specifikt cupID:
-// räkna ut hur många lag...
-// låt användaren ange hur många team i varje grupp. 
 // ev. kunna välja hur många matcher dem ska spela (1 - 2)...
 export default function GroupPlay(props) {
 
@@ -28,6 +26,10 @@ export default function GroupPlay(props) {
 
 
   const [groups, setGroups] = useState([])
+
+  //const [matches, setMatches] = useState([])
+
+  //const [couldFormGroups, setCouldFormGroups] = useState(false)
 
 
   useEffect(() => {
@@ -51,6 +53,116 @@ export default function GroupPlay(props) {
     setTeams(cup.teams)
 
   }
+
+
+  // SKicka alla teams samtidigt??
+  const createGroupPlayMatches = (teams) => {
+
+    console.log("Create Matches for group of ", teams.length)
+
+            // let newMatch = new Match({
+            //   result: "0-0",
+            //   matchType: "Group play",
+            //   date: date,
+            //   startTime: date,
+            //   duration: 90,
+            //   activeTeamSize: 11,
+            //   teams: [teams[i], teams[j]]
+            // })
+    let date = new Date()
+    
+    let match1 = new Match({
+      result: "0-0",
+      matchType: "Group play",
+      date: date,
+      startTime: date,
+      duration: 90,
+      activeTeamSize: 11,
+      //teams: [Object]
+    })
+
+     let iterationMatch = {
+      team1: "",
+      team2: ""
+    }
+
+    // for (let team of teams) {
+    //   console.log(team.name)
+    // }
+    let matches = []
+    let iterationMatches = [] // solution for now
+
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = 0; j < teams.length; j++) {
+
+        let skipIteration = false
+  
+        if (i == j) {
+          continue
+        } else {
+
+          //for (match of matches) {
+          for (iterationMatch of iterationMatches) {
+
+       
+    
+
+
+            if (iterationMatch.team1 == teams[j].name && iterationMatch.team2 == teams[i].name) {
+              skipIteration = true
+            }
+      
+  
+
+         
+            // if (match.teams[0] == teams[j]._id && match.teams[1] == teams[i]._id) {
+            //   console.log("SKIPPING!!!")
+            //   skipIteration = true
+            //}
+          }
+          if (!skipIteration) {
+            
+            match1.teams = [teams[i]._id, teams[j]._id];
+            // let date = new Date()
+            // date.setMonth(8)
+            // let newMatch = new Match({
+            //   result: "0-0",
+            //   matchType: "Group play",
+            //   date: date,
+            //   startTime: date,
+            //   duration: 90,
+            //   activeTeamSize: 11,
+            //   teams: [teams[i], teams[j]]
+            // })
+
+
+
+            let newMatch = {
+              
+              team1: teams[i].name,
+              team2: teams[j].name
+              // team1: i + 1,
+              // team2: j + 1
+            }
+
+            iterationMatches.push(newMatch)
+            
+
+            // TODO: Save matches to database; then fetch all with cupId and "group play"??
+            //matches.push(newMatch)
+            matches.push(match1)
+          }
+        }
+
+
+
+      }
+    }
+
+    console.log(matches)
+  }
+
+
 
 
   // Alla möter alla i grupp
@@ -166,6 +278,11 @@ export default function GroupPlay(props) {
 
     console.log("Teams in groups: ", teamsInGroup)
     console.log("groups", groups)
+
+    // Kalla på match skapandet
+    for (let i = 0; i < numberOfGroups; i++) {
+      createGroupPlayMatches(teamsInGroup[i])
+    }
   }
 
 
