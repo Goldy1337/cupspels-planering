@@ -50,7 +50,7 @@ async function createUsers() {
     email: 'god@gmail.com',
     phoneNumber: 0404040404,
     password: pwencrypt('666'),
-    salt: 'test'
+    colorMode: 'dark'
   });
   await god.save();
   console.log(god);
@@ -63,7 +63,7 @@ async function createUsers() {
     email: 'admin@gmail.com',
     phoneNumber: 0405050505,
     password: pwencrypt('100'),
-    salt: 'testIgen'
+    colorMode: 'light'
   });
   await admin.save();
   console.log(admin);
@@ -76,7 +76,7 @@ async function createUsers() {
     email: 'ref@gmail.com',
     phoneNumber: 0401010101,
     password: pwencrypt('200'),
-    salt: 'behövsDetta?'
+    colorMode: 'light'
   })
   await referee.save();
   console.log(referee)

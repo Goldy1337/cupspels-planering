@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import mongoosy from 'mongoosy/frontend';
 import { Redirect } from 'react-router-dom';
@@ -24,7 +24,7 @@ const LoginHeader = (props) => {
   const [loginCredentials, setLoginCredentials] = useState({ email: '', password: '' })
   const updateLoginCredentials = update => setLoginCredentials({ ...loginCredentials, ...update })
   
-  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', salt: 'notReallyNeeded' })
+  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: 'light' })
   const updateCreateMemberAccountCredentials = update => setCreateMemberAccountCredentials({ ...createMemberAccountCredentials, ...update })
   
   const [loginCheck, setLoginCheck] = useState('');
@@ -36,7 +36,18 @@ const LoginHeader = (props) => {
   const closeBtnLogin = <button className="close" onClick={toggleLogin}>&times;</button>;
 
   const [loginStatus, setloginStatus] = useState({ user: null });
-  const updateLoginStatus = update => setloginStatus({...loginStatus, ...update})
+  const updateLoginStatus = update => setloginStatus({ ...loginStatus, ...update });
+  
+  const [colorTheme, setColorTheme] = useState(getStoredColorTheme);
+
+  useEffect(() => {
+    localStorage.setItem('colorTheme', JSON.stringify(colorTheme))
+  }, [colorTheme])
+
+  function getStoredColorTheme() {
+    const storedColorTheme = JSON.parse(localStorage.getItem('colorTheme'))
+    return storedColorTheme || 'light'
+  }
 
   //The functions used to handle logins
   if (loginStatus.user === null) {
@@ -85,7 +96,7 @@ const LoginHeader = (props) => {
       email: createMemberAccountCredentials.email,
       phoneNumber: createMemberAccountCredentials.phoneNumber,
       password: createMemberAccountCredentials.password,
-      salt: createMemberAccountCredentials.salt
+      colorMode: createMemberAccountCredentials.colorMode
     })
     let users = await User.find().sort('createMemberAccountCredentials.email');
     // if (users.js.error) {
@@ -100,14 +111,46 @@ const LoginHeader = (props) => {
     await newMember.save()
     toggleCreateAccount()
   }
+
+  async function deleteUsers() {
+    let allUsers = await User.find();
+    console.log('allUsers', allUsers.js);
+    await User.deleteMany({})
+    console.log('Users deleted')
+  }
+
+  async function getUserData() {
+    let user = await Login.check()
+    console.log(user)
+  }
+
+  async function setColorMode() {
+    let loggedInUser = await Login.check
+    let user = await User.find({ _id: loggedInUser._id})
+    console.log(user)
+    user.colorMode = 'light'
+    console.log(user)
+    await user.save()
+  }
+
+  function setColorModeVisitor() {
+    console.log('Changing colormode for visitor')
+    if (colorTheme === "light") {
+      setColorTheme("dark")
+    }
+    if (colorTheme === "dark") {
+      setColorTheme("light")
+    }
+  }
+
   //TODO Cleanup code
   return (
     <div>
-      <Navbar className="loginHeader" color="info" dark>
+      <Navbar className="loginHeader" color={loginStatus.user.colorMode === "light" || loginStatus.user === false && colorTheme === "light" ? "info" : "dark"} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
           {/* <NavLink onClick={toggleCreateAccount}>Create Account</NavLink> */}
-          {loginStatus.user ? <NavLink className="navLink">My Account</NavLink> : <NavLink className="navLink" onClick={toggleCreateAccount}>Create Account</NavLink>}
+          {loginStatus.user ? <NavItem className="navLink">My Account</NavItem> : <NavItem className="navLink" onClick={toggleCreateAccount}>Create Account</NavItem>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
@@ -180,6 +223,13 @@ const LoginHeader = (props) => {
             </Modal>
         </Nav>
       </Navbar>
+      <Button onClick={deleteUsers}>Delete Users</Button>
+      <br></br>
+      <Button onClick={getUserData}>User Data</Button>
+      <br></br>
+      <Button onClick={setColorMode}>Change Colormode for user</Button>
+      <br></br>
+      <Button onClick={setColorModeVisitor}>Change Colormode for visitor</Button>
     </div>
   );
 }
