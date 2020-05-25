@@ -60,15 +60,6 @@ export default function GroupPlay(props) {
 
     console.log("Create Matches for group of ", teams.length)
 
-            // let newMatch = new Match({
-            //   result: "0-0",
-            //   matchType: "Group play",
-            //   date: date,
-            //   startTime: date,
-            //   duration: 90,
-            //   activeTeamSize: 11,
-            //   teams: [teams[i], teams[j]]
-            // })
     let date = new Date()
     
     let match1 = new Match({
@@ -78,87 +69,24 @@ export default function GroupPlay(props) {
       startTime: date,
       duration: 90,
       activeTeamSize: 11,
+      teams: []
       //teams: [Object]
     })
 
-     let iterationMatch = {
-      team1: "",
-      team2: ""
-    }
-
-    // for (let team of teams) {
-    //   console.log(team.name)
-    // }
     let matches = []
-    let iterationMatches = [] // solution for now
 
     for (let i = 0; i < teams.length; i++) {
       for (let j = 0; j < teams.length; j++) {
 
-        let skipIteration = false
-  
-        if (i == j) {
+        if (i == j || j < i) 
           continue
-        } else {
-
-          //for (match of matches) {
-          for (iterationMatch of iterationMatches) {
-
-       
-    
-
-
-            if (iterationMatch.team1 == teams[j].name && iterationMatch.team2 == teams[i].name) {
-              skipIteration = true
-            }
-      
-  
-
-         
-            // if (match.teams[0] == teams[j]._id && match.teams[1] == teams[i]._id) {
-            //   console.log("SKIPPING!!!")
-            //   skipIteration = true
-            //}
-          }
-          if (!skipIteration) {
+        
             
-            match1.teams = [teams[i]._id, teams[j]._id];
-            // let date = new Date()
-            // date.setMonth(8)
-            // let newMatch = new Match({
-            //   result: "0-0",
-            //   matchType: "Group play",
-            //   date: date,
-            //   startTime: date,
-            //   duration: 90,
-            //   activeTeamSize: 11,
-            //   teams: [teams[i], teams[j]]
-            // })
-
-
-
-            let newMatch = {
-              
-              team1: teams[i].name,
-              team2: teams[j].name
-              // team1: i + 1,
-              // team2: j + 1
-            }
-
-            iterationMatches.push(newMatch)
-            
-
-            // TODO: Save matches to database; then fetch all with cupId and "group play"??
-            //matches.push(newMatch)
-            matches.push(match1)
-          }
-        }
-
-
-
+        match1.teams = [teams[i]._id, teams[j]._id];
+          
+        matches.push(match1)
       }
     }
-
     console.log(matches)
   }
 
