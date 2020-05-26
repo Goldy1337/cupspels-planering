@@ -11,7 +11,8 @@ let schema = new Schema ({
     startTime: {type: Date, required: true},
     duration: {type: Number, required: true},
     activeTeamSize: {type: Number, required: true},
-    teams: [{type: Types.ObjectId, ref: 'Team'}]
+    teams: [{ type: Types.ObjectId, ref: 'Team' }],
+    cup: {type: Types.ObjectId, ref: 'Cup'}
 });
 
 let model = mongoose.model(modelName, schema);

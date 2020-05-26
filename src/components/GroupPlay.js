@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Table, Form, FormGroup, Input, Button } from 'reactstrap'
-import mongoosy from 'mongoosy/frontend';
-import { number, func } from 'prop-types';
+import { MatchContext } from '../contexts/MatchContextProvider'
+import mongoosy from 'mongoosy/frontend'
 const {
   Team,
   Match,
@@ -12,13 +12,21 @@ const {
 // TODO: pass in date
 // När man angett hur många grupper - gör knapp synlig för att skapa matcher?
 
+// Randomize lag
+// Spara Cup(Id) samt group play + i som matchtype -> sedan hämta alla 
+
 // ev. kunna välja hur många matcher dem ska spela (1 - 2)...
 export default function GroupPlay(props) {
+
+  const { appendMatch } = useContext(MatchContext)
+  const { matches } = useContext(MatchContext)
+  const { fetchMatches } = useContext(MatchContext)
+
 
   const [teams, setTeams] = useState([])
   const [cup, setCup] = useState()
 
-  const [matches, setMatches] = useState([])
+  //const [matches, setMatches] = useState([])
   const [teamName, setTeamName] = useState('Team')
 
   const [numberOfGroups, setNumberOfGroups] = useState(1)
@@ -26,15 +34,15 @@ export default function GroupPlay(props) {
 
 
   const [groups, setGroups] = useState([])
+  const [groupMatches, setGroupMatches] = useState([])
 
   //const [matches, setMatches] = useState([])
 
   //const [couldFormGroups, setCouldFormGroups] = useState(false)
-
+  const [test, setTest] = useState(true)
 
   useEffect(() => {
     //createMatches(13)
-    getGroupPlaySequence()
     fetchTeams()
   }, [])
  
@@ -52,6 +60,13 @@ export default function GroupPlay(props) {
 
     setTeams(cup.teams)
 
+  }
+
+
+
+  const testData = () => {
+    let array = [1, 2, 3, 4, 5]
+    return array
   }
 
 
@@ -73,7 +88,7 @@ export default function GroupPlay(props) {
       //teams: [Object]
     })
 
-    let matches = []
+    let matchesGroup = []
 
     for (let i = 0; i < teams.length; i++) {
       for (let j = 0; j < teams.length; j++) {
@@ -84,56 +99,17 @@ export default function GroupPlay(props) {
             
         match1.teams = [teams[i]._id, teams[j]._id];
           
-        matches.push(match1)
+        appendMatch(match1)
+        matchesGroup.push(match1)
       }
     }
-    console.log(matches)
+    console.log(matchesGroup)
+    //setGroupMatches(matches)
+    //setGroupMatches(...matches, matchesGroup)
   }
 
 
 
-
-  // Alla möter alla i grupp
-  const getGroupPlaySequence = () => {
-    let match = {
-      team1: "Team1",
-      team2: "Team2"
-    }
-
-    let numberOfTeams = 3
-    let matches = []
-
-  
-
-    for (let i = 0; i < numberOfTeams; i++) {
-      for (let j = 0; j < numberOfTeams; j++) {
-
-        let skipIteration = false
-
-        if (i == j) {
-          continue
-        } else {
-          for (match of matches) {
-            if (match.team1 == j + 1 && match.team2 == i + 1) {
-              skipIteration = true
-            }
-          }
-          if (!skipIteration) {
-            let newMatch = {
-              team1: i + 1,
-              team2: j + 1
-            }
-            matches.push(newMatch)
-          }
-
-        }
-      }
-    }
-
-    console.log(matches)
-
-
-  }
 
 
  
@@ -255,6 +231,20 @@ export default function GroupPlay(props) {
   
   }
 
+
+  const saveMatches = () => {
+    console.log("Stored matchs")
+    console.log("leng", groupMatches.length)
+    console.log("Group mat", groupMatches)
+  }
+
+
+  
+  const fetchGroupMatches = async () => {
+    //let groupGames = await Match.findAll()
+    return null
+  }
+
   const splitGroups = () => {
 
   }
@@ -342,6 +332,46 @@ export default function GroupPlay(props) {
             ))}
         </tbody>
       </table> 
+
+
+      // TEST
+      <h1>
+        {testData().map((data, index) => (
+          <h3>{data}</h3>
+        ))}
+      </h1>
+
+
+
+      {
+        groups.length > 0 ?
+          <div>
+            <button onClick={() => saveMatches()}>Add Games</button>
+          </div>
+          :null
+      }
+
+      
+{/*       
+      <table>
+        <tbody>
+          {fetchGroupMatches().map((match, index) => (
+            <div>
+              <h1>{match.teams[0]} vs {match.teams[1]}</h1>
+              <ul>
+                {groupMatch.map((match, index) => (
+                  <li>
+                    {match.teams[0]._id} vs
+                    {match.teams[1]._id}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </tbody>
+      </table> */}
+
+
     </div>
   )
 }

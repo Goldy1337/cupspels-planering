@@ -8,6 +8,7 @@ import UserContextProvider from './contexts/UserContextProvider';
 import ArenaContextProvider from './contexts/ArenaContextProvider';
 import FieldContextProvider from './contexts/FieldContextProvider';
 import TeamContextProvider from './contexts/TeamContextProvider';
+import MatchContextProvider from './contexts/MatchContextProvider'
 import NewArena from './components/NewArena';
 import CreateBrackets from './components/CreateBrackets'
 import PlayerInfo from './components/PlayerInfo'
@@ -22,6 +23,7 @@ export default function App() {
       <TeamContextProvider>
         <UserContextProvider>
           <RefereeContextProvider>
+            <MatchContextProvider>
             <ArenaContextProvider>
               <FieldContextProvider>
                 <Router>
@@ -49,7 +51,8 @@ export default function App() {
                   </main>
                 </Router>
               </FieldContextProvider>
-            </ArenaContextProvider>
+              </ArenaContextProvider>
+              </MatchContextProvider>
           </RefereeContextProvider>
         </UserContextProvider>
       </TeamContextProvider>
