@@ -25,8 +25,10 @@ export default function LoginHeader(props) {
   const [loginCredentials, setLoginCredentials] = useState({ email: '', password: '' })
   const updateLoginCredentials = update => setLoginCredentials({ ...loginCredentials, ...update })
   
-  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: 'light' })
+  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: false })
   const updateCreateMemberAccountCredentials = update => setCreateMemberAccountCredentials({ ...createMemberAccountCredentials, ...update })
+
+  const [errorMessage, setErrorMessage] = useState('');
 
   const toggleCreateAccount = () => setModalCreateAccount(!modalCreateAccount);
   const toggleLogin = () => setModalLogin(!modalLogin);
@@ -34,11 +36,24 @@ export default function LoginHeader(props) {
   const closeBtnCreateAccount = <button className="close" onClick={toggleCreateAccount}>&times;</button>;
   const closeBtnLogin = <button className="close" onClick={toggleLogin}>&times;</button>;
 
+  const closeLoginModal = () => {
+    toggleLogin()
+    updateLoginCredentials({ email: '', password: '' })
+    setErrorMessage('')
+  }
+
+    const closeAccountCreationModal = () => {
+    toggleCreateAccount()
+    updateCreateMemberAccountCredentials({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: false })
+    setErrorMessage('')
+  }
+
   const login = async e => {
     e.preventDefault()
     let user = await Login.login({ email: loginCredentials.email, password: loginCredentials.password });
     if (user.js.error) {
-      console.log('Error')
+      console.log(user.js.error)
+      setErrorMessage(user.js.error)
       updateLoginCredentials({ email: '', password: '' })
     }
     else {
@@ -134,10 +149,11 @@ export default function LoginHeader(props) {
                   </Col>
                 </FormGroup>
               </Form>
+              <p>{errorMessage}</p>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={createMemberAccount}>Create Account</Button>{' '}
-              <Button color="secondary" onClick={toggleCreateAccount}>Cancel</Button>
+              <Button color="secondary" onClick={closeAccountCreationModal}>Cancel</Button>
             </ModalFooter>
           </Modal>
           {loginStatus.user ? <NavItem className="navLink" onClick={logout}>Logout</NavItem> : <NavItem className="navLink" onClick={toggleLogin}>Login</NavItem>}
@@ -161,6 +177,9 @@ export default function LoginHeader(props) {
                 </FormGroup>
               </Form>
               <p>
+                {errorMessage}
+              </p>
+              <p>
                 Superadmin: god@gmail.com, 666
                 Testadmin: admin@gmail.com, 100
                 Testref: ref@gmail.com, 200
@@ -168,7 +187,7 @@ export default function LoginHeader(props) {
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={login}>Login</Button>{' '}
-              <Button color="secondary" onClick={toggleLogin}>Cancel</Button>
+              <Button color="secondary" onClick={closeLoginModal}>Cancel</Button>
             </ModalFooter>
           </Modal>
         </Nav>
