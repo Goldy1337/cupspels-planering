@@ -1,7 +1,8 @@
 import React, { useState, createContext, useContext } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import mongoosy from 'mongoosy/frontend';
-import {ThemeContext} from '../contexts/ThemeContextProvider';
+import { ThemeContext } from '../contexts/ThemeContextProvider';
+import { LoginContext } from '../contexts/LoginContextProvider';
 import { Redirect } from 'react-router-dom';
 const {
   Login,
@@ -14,6 +15,7 @@ export default function LoginHeader(props) {
   } = props;
 
   const [colorTheme, setColorTheme] = useContext(ThemeContext)
+  const [loginStatus, setLoginStatus, updateLoginStatus, loginCheck, setLoginCheck] = useContext(LoginContext)
   
   //The hooks used both for the login header itself and
   //for keeping track of logged in users
@@ -25,34 +27,12 @@ export default function LoginHeader(props) {
   
   const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: 'light' })
   const updateCreateMemberAccountCredentials = update => setCreateMemberAccountCredentials({ ...createMemberAccountCredentials, ...update })
-  
-  const [loginCheck, setLoginCheck] = useState('');
 
   const toggleCreateAccount = () => setModalCreateAccount(!modalCreateAccount);
   const toggleLogin = () => setModalLogin(!modalLogin);
 
   const closeBtnCreateAccount = <button className="close" onClick={toggleCreateAccount}>&times;</button>;
   const closeBtnLogin = <button className="close" onClick={toggleLogin}>&times;</button>;
-
-  const [loginStatus, setloginStatus] = useState({ user: null });
-  const updateLoginStatus = update => setloginStatus({ ...loginStatus, ...update });
-
-  //The functions used to handle logins
-  if (loginStatus.user === null) {
-    // we haven't checked if the user is logged in
-    // yet so render nothing
-    console.log('Starting the checkIfLoggedIn function')
-    checkIfLoggedIn();
-    return null;
-  }
-
-  async function checkIfLoggedIn() {
-    let user = await Login.check();
-    console.log('Checking if youre logged in with the checkIfLoggedInFunction')
-    console.log(user)
-    updateLoginStatus({ user: user.js.email ? user : false });
-    console.log(loginStatus)
-  }
 
   const login = async e => {
     e.preventDefault()
@@ -108,32 +88,15 @@ export default function LoginHeader(props) {
     console.log(user)
   }
 
-  async function setColorMode(userData) {
-    console.log(userData)
-    // let loggedInUser = await Login.check
-    // console.log(loggedInUser)
-    // let user = await User.find({ _id: loggedInUser._id })
-    // console.log(user)
-    // let newColorMode = user.colorMode
-    // console.log(newColorMode)
-    // Object.assign(user, { colorMode: newColorMode })
-    // await user.save
-  }
-
   function setColorModeVisitor() {
     console.log('Changing colormode for visitor')
-    if (colorTheme === "light") {
-      setColorTheme("dark")
-    }
-    if (colorTheme === "dark") {
-      setColorTheme("light")
-    }
+    setColorTheme(!colorTheme)
   }
 
   //TODO Cleanup code
   return (
     <div>
-      <Navbar className="loginHeader" color={loginStatus.user.colorMode === "light" || loginStatus.user === false && colorTheme === "light" ? "info" : "dark"} dark>
+      <Navbar className="loginHeader" color={loginStatus.user.colorMode === false || loginStatus.user === false && colorTheme === false ? "info" : "dark"} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
           {/* <NavLink onClick={toggleCreateAccount}>Create Account</NavLink> */}
@@ -214,9 +177,7 @@ export default function LoginHeader(props) {
       <br></br>
       <Button onClick={getUserData}>User Data</Button>
       <br></br>
-      {loginStatus.user ? <Button onClick={() => setColorMode(loginStatus.user)}>Change Colormode for user</Button> : null}
-      <br></br>
-      <Button onClick={setColorModeVisitor}>Change Colormode for visitor</Button>
+      <Button onClick={setColorModeVisitor}>Change Colormode to</Button>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import {ThemeProvider} from './contexts/ThemeContextProvider'
+import { ThemeProvider } from './contexts/ThemeContextProvider'
+import {LoginProvider} from './contexts/LoginContextProvider'
 import LoginHeader from './components/UserLogin'
 import mongoosy from 'mongoosy/frontend';
 const {
@@ -45,11 +46,13 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <LoginProvider>
       <div>
         <LoginHeader />
         <body>
         </body>
-      </div>
+        </div>
+        </LoginProvider>
       </ThemeProvider>
   );
 }
