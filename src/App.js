@@ -1,4 +1,5 @@
 import React from 'react';
+import {ThemeProvider} from './contexts/ThemeContextProvider'
 import LoginHeader from './components/UserLogin'
 import mongoosy from 'mongoosy/frontend';
 const {
@@ -35,27 +36,20 @@ export default function App() {
     // let foundTeam = await Team.findOne({ _id: aTeam._id });
     // console.log('foundTeam', foundTeam.js);
 
-    let allUsers = await User.find();
-    console.log('allUsers', allUsers.js);
+    // let allUsers = await User.find();
+    // console.log('allUsers', allUsers.js);
     // await User.deleteMany({})
   }
 
   doStuff();
 
   return (
-    <div>
-      <LoginHeader />
-      <body>
-        <li>
-          Superadmin: god@gmail.com, 666
-        </li>
-        <li>
-          Testadmin: admin@gmail.com, 100
-        </li>
-        <li>
-          Testref: ref@gmail.com, 200
-        </li>
-      </body>
-    </div>
+    <ThemeProvider>
+      <div>
+        <LoginHeader />
+        <body>
+        </body>
+      </div>
+      </ThemeProvider>
   );
 }

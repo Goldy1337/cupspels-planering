@@ -1,26 +1,25 @@
-import React, { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label } from 'reactstrap';
 import mongoosy from 'mongoosy/frontend';
+import {ThemeContext} from '../contexts/ThemeContextProvider';
 import { Redirect } from 'react-router-dom';
 const {
   Login,
   User 
 } = mongoosy;
 
-export const LoginContext = createContext();
-
-const LoginHeader = (props) => {
+export default function LoginHeader(props) {
   const {
     className
   } = props;
+
+  const [colorTheme, setColorTheme] = useContext(ThemeContext)
   
-    //The hooks used both for the login header itself and
-    //for keeping track of logged in users
+  //The hooks used both for the login header itself and
+  //for keeping track of logged in users
   const [modalCreateAccount, setModalCreateAccount] = useState(false);
   const [modalLogin, setModalLogin] = useState(false);
 
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
   const [loginCredentials, setLoginCredentials] = useState({ email: '', password: '' })
   const updateLoginCredentials = update => setLoginCredentials({ ...loginCredentials, ...update })
   
@@ -37,17 +36,6 @@ const LoginHeader = (props) => {
 
   const [loginStatus, setloginStatus] = useState({ user: null });
   const updateLoginStatus = update => setloginStatus({ ...loginStatus, ...update });
-  
-  const [colorTheme, setColorTheme] = useState(getStoredColorTheme);
-
-  useEffect(() => {
-    localStorage.setItem('colorTheme', JSON.stringify(colorTheme))
-  }, [colorTheme])
-
-  function getStoredColorTheme() {
-    const storedColorTheme = JSON.parse(localStorage.getItem('colorTheme'))
-    return storedColorTheme || 'light'
-  }
 
   //The functions used to handle logins
   if (loginStatus.user === null) {
@@ -63,6 +51,7 @@ const LoginHeader = (props) => {
     console.log('Checking if youre logged in with the checkIfLoggedInFunction')
     console.log(user)
     updateLoginStatus({ user: user.js.email ? user : false });
+    console.log(loginStatus)
   }
 
   const login = async e => {
@@ -70,13 +59,13 @@ const LoginHeader = (props) => {
     let user = await Login.login({ email: loginCredentials.email, password: loginCredentials.password });
     if (user.js.error) {
       console.log('Error')
-      updateLoginCredentials({email: '', password: ''})
+      updateLoginCredentials({ email: '', password: '' })
     }
     else {
       updateLoginStatus({ user });
       console.log(user)
       toggleLogin()
-      updateLoginCredentials({email: '', password: ''})
+      updateLoginCredentials({ email: '', password: '' })
     }
   }
 
@@ -99,11 +88,6 @@ const LoginHeader = (props) => {
       colorMode: createMemberAccountCredentials.colorMode
     })
     let users = await User.find().sort('createMemberAccountCredentials.email');
-    // if (users.js.error) {
-    //   users = [{ email: users.error, roles: [], errored: true }]
-    //   console.log('If fired, ' + users)
-    // }
-    // console.log('If dint fire, ' + users)
     let allUsers = await User.find();
     console.log('allUsers', allUsers.js);
     let user = await User.find({}).sort('email')
@@ -124,13 +108,16 @@ const LoginHeader = (props) => {
     console.log(user)
   }
 
-  async function setColorMode() {
-    let loggedInUser = await Login.check
-    let user = await User.find({ _id: loggedInUser._id})
-    console.log(user)
-    user.colorMode = 'light'
-    console.log(user)
-    await user.save()
+  async function setColorMode(userData) {
+    console.log(userData)
+    // let loggedInUser = await Login.check
+    // console.log(loggedInUser)
+    // let user = await User.find({ _id: loggedInUser._id })
+    // console.log(user)
+    // let newColorMode = user.colorMode
+    // console.log(newColorMode)
+    // Object.assign(user, { colorMode: newColorMode })
+    // await user.save
   }
 
   function setColorModeVisitor() {
@@ -157,30 +144,30 @@ const LoginHeader = (props) => {
               <Form>
                 <FormGroup row>
                   <Label for="exampleName" sm={2}>Name</Label>
-                    <Col sm={10}>
-                  <Input type="text" name="accountCreationName" id="accountCreationNameId" placeholder="Name Namingson"
-                  value={createMemberAccountCredentials.name} onChange={e => updateCreateMemberAccountCredentials({name: e.target.value})}  required />
-                    </Col>
+                  <Col sm={10}>
+                    <Input type="text" name="accountCreationName" id="accountCreationNameId" placeholder="Name Namingson"
+                      value={createMemberAccountCredentials.name} onChange={e => updateCreateMemberAccountCredentials({ name: e.target.value })} required />
+                  </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="examplePhoneNumber" sm={2}>Phone Number</Label>
-                    <Col sm={10}>
+                  <Col sm={10}>
                     <Input type="numbers" name="accountCreationPhoneNumber" id="accountCreationPhoneNumberId" placeholder="0701010101"
-                    value={createMemberAccountCredentials.phoneNumber} onChange={e => updateCreateMemberAccountCredentials({phoneNumber: e.target.value})} required />
-                    </Col>
+                      value={createMemberAccountCredentials.phoneNumber} onChange={e => updateCreateMemberAccountCredentials({ phoneNumber: e.target.value })} required />
+                  </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="exampleEmail" sm={2}>Email</Label>
-                    <Col sm={10}>
+                  <Col sm={10}>
                     <Input type="email" name="accountCreationEmail" id="accountCreationEmailId" placeholder="Example@Email.com"
-                    value={createMemberAccountCredentials.email} onChange={e => updateCreateMemberAccountCredentials({email: e.target.value})} required/>
+                      value={createMemberAccountCredentials.email} onChange={e => updateCreateMemberAccountCredentials({ email: e.target.value })} required />
                   </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>Password</Label>
                   <Col sm={10}>
                     <Input type="password" name="accountCreationPassword" id="accountCreationPasswordId" placeholder="Ex@mpl3~Pa$sw&rd"
-                    value={createMemberAccountCredentials.password} onChange={e => updateCreateMemberAccountCredentials({password: e.target.value})} required/>
+                      value={createMemberAccountCredentials.password} onChange={e => updateCreateMemberAccountCredentials({ password: e.target.value })} required />
                   </Col>
                 </FormGroup>
               </Form>
@@ -189,49 +176,47 @@ const LoginHeader = (props) => {
               <Button color="primary" onClick={createMemberAccount}>Create Account</Button>{' '}
               <Button color="secondary" onClick={toggleCreateAccount}>Cancel</Button>
             </ModalFooter>
-        </Modal>
+          </Modal>
           {loginStatus.user ? <NavItem className="navLink" onClick={logout}>Logout</NavItem> : <NavItem className="navLink" onClick={toggleLogin}>Login</NavItem>}
           <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
             <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
-          <ModalBody>
-            <Form>
-              <FormGroup row>
-                <Label for="exampleEmail" sm={2}>Email</Label>
-                <Col sm={10}>
-                  <Input type="email" name="loginEmail" id="loginEmailId" placeholder="Example@Email.com"
-                  value={loginCredentials.email} onChange={e => updateLoginCredentials({ email: e.target.value})}  required />
+            <ModalBody>
+              <Form>
+                <FormGroup row>
+                  <Label for="exampleEmail" sm={2}>Email</Label>
+                  <Col sm={10}>
+                    <Input type="email" name="loginEmail" id="loginEmailId" placeholder="Example@Email.com"
+                      value={loginCredentials.email} onChange={e => updateLoginCredentials({ email: e.target.value })} required />
                   </Col>
-              </FormGroup>
-              <FormGroup row>
-                <Label for="examplePassword" sm={2}>Password</Label>
-                <Col sm={10}>
-                  <Input type="password" name="loginPassword" id="loginPasswordId" placeholder="Ex@mpl3~Pa$sw&rd"
-                    value={loginCredentials.password} onChange={e => updateLoginCredentials({ password: e.target.value})} required />
-                </Col>
-              </FormGroup>
-            </Form>
-            <p>
-              Superadmin: god@gmail.com, 666
-              Testadmin: admin@gmail.com, 100
-              Testref: ref@gmail.com, 200
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="examplePassword" sm={2}>Password</Label>
+                  <Col sm={10}>
+                    <Input type="password" name="loginPassword" id="loginPasswordId" placeholder="Ex@mpl3~Pa$sw&rd"
+                      value={loginCredentials.password} onChange={e => updateLoginCredentials({ password: e.target.value })} required />
+                  </Col>
+                </FormGroup>
+              </Form>
+              <p>
+                Superadmin: god@gmail.com, 666
+                Testadmin: admin@gmail.com, 100
+                Testref: ref@gmail.com, 200
             </p>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={login}>Login</Button>{' '}
               <Button color="secondary" onClick={toggleLogin}>Cancel</Button>
             </ModalFooter>
-            </Modal>
+          </Modal>
         </Nav>
       </Navbar>
       <Button onClick={deleteUsers}>Delete Users</Button>
       <br></br>
       <Button onClick={getUserData}>User Data</Button>
       <br></br>
-      <Button onClick={setColorMode}>Change Colormode for user</Button>
+      {loginStatus.user ? <Button onClick={() => setColorMode(loginStatus.user)}>Change Colormode for user</Button> : null}
       <br></br>
       <Button onClick={setColorModeVisitor}>Change Colormode for visitor</Button>
     </div>
   );
-}
-
-export default LoginHeader;
+};
