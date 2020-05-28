@@ -119,41 +119,37 @@ export default function LoginHeader(props) {
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
-              <Form>
+              <Form onSubmit={createMemberAccount}>
                 <FormGroup row>
                   <Label for="exampleName" sm={2}>Name</Label>
                   <Col sm={10}>
                     <Input type="text" name="accountCreationName" id="accountCreationNameId" placeholder="Name Namingson"
                       value={createMemberAccountCredentials.name} onChange={e => updateCreateMemberAccountCredentials({ name: e.target.value })} required />
                   </Col>
-                </FormGroup>
-                <FormGroup row>
                   <Label for="examplePhoneNumber" sm={2}>Phone Number</Label>
                   <Col sm={10}>
                     <Input type="numbers" name="accountCreationPhoneNumber" id="accountCreationPhoneNumberId" placeholder="0701010101"
                       value={createMemberAccountCredentials.phoneNumber} onChange={e => updateCreateMemberAccountCredentials({ phoneNumber: e.target.value })} required />
                   </Col>
-                </FormGroup>
-                <FormGroup row>
                   <Label for="exampleEmail" sm={2}>Email</Label>
                   <Col sm={10}>
                     <Input type="email" name="accountCreationEmail" id="accountCreationEmailId" placeholder="Example@Email.com"
                       value={createMemberAccountCredentials.email} onChange={e => updateCreateMemberAccountCredentials({ email: e.target.value })} required />
                   </Col>
-                </FormGroup>
-                <FormGroup row>
                   <Label for="examplePassword" sm={2}>Password</Label>
                   <Col sm={10}>
                     <Input type="password" name="accountCreationPassword" id="accountCreationPasswordId" placeholder="Ex@mpl3~Pa$sw&rd"
                       value={createMemberAccountCredentials.password} onChange={e => updateCreateMemberAccountCredentials({ password: e.target.value })} required />
+                  <p>{errorMessage}</p>
+                  </Col>
+                  <Col sm={10}>
+                    <Button color="primary">Create Account</Button>{' '}
+                    <Button color="secondary" onClick={closeAccountCreationModal}>Cancel</Button>
                   </Col>
                 </FormGroup>
               </Form>
-              <p>{errorMessage}</p>
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={createMemberAccount}>Create Account</Button>{' '}
-              <Button color="secondary" onClick={closeAccountCreationModal}>Cancel</Button>
             </ModalFooter>
           </Modal>
           {loginStatus.user ? <NavItem className="navLink" onClick={logout}>Logout</NavItem> : <NavItem className="navLink" onClick={toggleLogin}>Login</NavItem>}
