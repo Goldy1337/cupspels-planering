@@ -22,15 +22,20 @@ export default function MatchContextProvider(props) {
   //   });
   // };
 
-  const fetchMatches = async (cup, type) => {
-    let initReferees = await Match.find({cup: cup._id, matchType: type})
-    setMatches(initReferees);
-  };
+  // const fetchMatches = async (cup, type) => {
+  //   let initMatches = await Match.find({cup: cup._id, matchType: type})
+  //   setMatches(initMatches);
+  // };
+
+  const fetchMatches = async () => {
+    let initMatches = await Match.find().populate('teams').exec()
+    setMatches(initMatches)
+  }
 
 
 
   useEffect(() => {
-    //fetchMatches();
+    fetchMatches();
   }, []);
 
     const values = {
