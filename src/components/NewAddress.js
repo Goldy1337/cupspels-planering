@@ -1,75 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import mongoosy from "mongoosy/frontend";
 import { Form, FormGroup, Input, Col, Button } from "reactstrap";
-import MapBox from "./MapBox";
+import LeafletMap from "./LeafletMap";
+import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
+import L from "leaflet";
+import * as ELG from "esri-leaflet-geocoder";
 
 const NewAddress = () => {
   const { Address } = mongoosy;
-  const [address, setAddress] = useState("");
+  const [search, setSearch] = useState("");
   const [postCode, setPostCode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [coordinates, setCoordinates] = useState([""]);
+  const [showMap, setShowMap] = useState(false);
+  const [foundAddresses, setFoundAddresses] = useState([]);
+  const prov = OpenStreetMapProvider();
+
+
+  const clearResult = () => {
+
+  
+     
+  }
+
+  useEffect(() => {
+    const form = document.getElementById("form");
+    const input = form.querySelector('input[type="text"]');
+
+    input.addEventListener("keyup", async (event) => {
+      event.preventDefault();
+      //  setFoundAddresses((foundAddresses) => [foundAddresses, []]);
+     
+       for(let i= 0; i<foundAddresses.length; i++){
+         foundAddresses[i] = []
+       }
+      
+      console.log("foundAd bf: ", foundAddresses);
+
+      const results = await prov.search({ query: input.value });
+      console.log("results ", results); // » [{}, {}, {}, ...]
+      //setFoundAddresses(results)
+
+      results.forEach(r => {
+        foundAddresses.push(r.label)
+      });
+      console.log("found addresses ", foundAddresses);
+    });
+  }, []);
 
   async function addAddress() {
-    let anAddress = new Address({
-      address,
+    const anAddress = {
+      // address,
       postCode,
       city,
       country,
       coordinates,
-    });
+    };
 
-    await anAddress.save();
-
-    let allAddresses = await Address.find();
-    console.log("allAddresses", allAddresses.js);
+    setShowMap(true);
   }
 
   return (
     <div>
-      <Form autoComplete="off">
+      <Form id="form" autoComplete="off">
         <FormGroup className="col-sm-10 col-md-6 col-lg-4">
           <Col>
             <Input
-              placeholder="Street name and number"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              type="text"
+              placeholder="Please enter address"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
+            {foundAddresses[1] ? (
+              <Input
+                type="select"
+                name="selectMulti"
+                id="exampleSelectMulti"
+                multiple
+              >
+                {foundAddresses
+                  .filter((a) => a.includes(search))
+                  .map(
+                    (filteredAddress) => (
+                      (<option>{filteredAddress}</option>),
+                      console.log("f ", filteredAddress)
+                    )
+                  )}
+              </Input>
+            ) : (
+              ""
+            )}
           </Col>
         </FormGroup>
-        <FormGroup className="col-sm-10 col-md-6 col-lg-4">
-          <Col>
-            <Input
-              placeholder="Post code"
-              value={postCode}
-              onChange={(e) => setPostCode(e.target.value)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup className="col-sm-10 col-md-6 col-lg-4">
-          <Col>
-            <Input
-              placeholder="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup className="col-sm-10 col-md-6 col-lg-4">
-          <Col>
-            <Input
-              placeholder="Country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
-          </Col>
-        </FormGroup>
+
         <FormGroup>
-          <Button onClick={addAddress}>Done</Button>
+          <Button>Done</Button>
         </FormGroup>
       </Form>
-      <MapBox />
+      {/* { showMap ?   */}
+      <LeafletMap city={city} country={country}></LeafletMap>
+      {/* // :''} */}
     </div>
   );
 };

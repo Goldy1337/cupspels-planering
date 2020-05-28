@@ -8,11 +8,12 @@ table{
   border-spacing: 0 !important;
 }   
 
-.mapStyle{
-  display: flex;
-  margin-left: 10vw;
+.leaflet-container{
+  width: 100%;
+  height: 100vh;
 }
 
-div.overlays{
-  margin-left: 10vw;
+input.glass{
+  width: 200px;
+  height: 30px;
 }

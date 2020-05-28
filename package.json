@@ -7,6 +7,8 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "bcrypt": "^4.0.1",
+    "esri-leaflet-geocoder": "^2.3.2",
+    "leaflet": "^1.6.0",
     "mongoosy": "^1.0.4",
     "node-pre-gyp": "^0.14.0",
     "node-sass": "^4.13.1",
@@ -14,10 +16,12 @@
     "react-amazing-proxy": "^1.0.63",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-map-gl": "^5.2.5",
+    "react-leaflet": "^2.7.0",
+    "react-leaflet-geosearch": "^0.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "reactstrap": "^8.4.1"
+    "reactstrap": "^8.4.1",
+    "styled-components": "^5.1.0"
   },
   "scripts": {
     "start": "node node_modules/react-amazing-proxy/start",
