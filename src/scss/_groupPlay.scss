@@ -1,9 +1,10 @@
 .team-group-list {
   width: 65vw;
-  display: inline-flex;
-  flex-direction: row;
+  display: flex;
+  justify-content: start;//space-evenly;
+  //flex-direction: column;
   flex-wrap: wrap;
-  background: red;
+  //background-color: aqua;
   //align-content: center;
 }
 
