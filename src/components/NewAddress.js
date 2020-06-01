@@ -2,105 +2,101 @@ import React, { useState, useEffect } from "react";
 import mongoosy from "mongoosy/frontend";
 import { Form, FormGroup, Input, Col, Button } from "reactstrap";
 import LeafletMap from "./LeafletMap";
-import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
-import L from "leaflet";
-import * as ELG from "esri-leaflet-geocoder";
+import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 
 const NewAddress = () => {
   const { Address } = mongoosy;
-  const [search, setSearch] = useState("");
-  const [postCode, setPostCode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [coordinates, setCoordinates] = useState([""]);
   const [showMap, setShowMap] = useState(false);
   const [foundAddresses, setFoundAddresses] = useState([]);
+  const [mapAddress, setMapAddress] = useState("");
   const prov = OpenStreetMapProvider();
 
+  let throttleSearch;
+  // useEffect(() => {
+  //   setShowMap(true);
+  // }, [setMapAddress]);
+  const saveAddress = async (address) => {
+    console.log(address)
+    setMapAddress(address)
+    setShowMap(true)
 
-  const clearResult = () => {
-
-  
-     
   }
 
-  useEffect(() => {
-    const form = document.getElementById("form");
-    const input = form.querySelector('input[type="text"]');
+  const doSearch = async (input) => {
+    //  useEffect( async () => {
+    //const form = document.getElementById("form");
+    // const input = form.querySelector('input[type="text"]');
 
-    input.addEventListener("keyup", async (event) => {
-      event.preventDefault();
-      //  setFoundAddresses((foundAddresses) => [foundAddresses, []]);
-     
-       for(let i= 0; i<foundAddresses.length; i++){
-         foundAddresses[i] = []
-       }
-      
-      console.log("foundAd bf: ", foundAddresses);
+    //input.addEventListener("keyup", async (event) => {
+    // event.preventDefault();
+    setFoundAddresses([]);
 
-      const results = await prov.search({ query: input.value });
-      console.log("results ", results); // » [{}, {}, {}, ...]
-      //setFoundAddresses(results)
+    const results = await prov.search({ query: input });
 
-      results.forEach(r => {
-        foundAddresses.push(r.label)
-      });
+    console.log("results ", results); // » [{}, {}, {}, ...]
+
+    setFoundAddresses(results);
+
+    //  }, [search]);
+  };
+    useEffect(() => {
       console.log("found addresses ", foundAddresses);
-    });
-  }, []);
+    }, [foundAddresses]);
+  // const openMap = (f) => {
+  //   setMapAddress(f);
+  //   setShowMap(true);
+  // };
 
-  async function addAddress() {
-    const anAddress = {
-      // address,
-      postCode,
-      city,
-      country,
-      coordinates,
-    };
+  const setSearchValue = async (searchVal) => {
+    clearTimeout(throttleSearch);
+    throttleSearch = setTimeout(() => {
+      doSearch(searchVal);
+    }, 1000);
+  };
 
-    setShowMap(true);
-  }
+  //addAddress
 
   return (
     <div>
-      <Form id="form" autoComplete="off">
-        <FormGroup className="col-sm-10 col-md-6 col-lg-4">
-          <Col>
-            <Input
-              type="text"
-              placeholder="Please enter address"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            {foundAddresses[1] ? (
+      {showMap ? (
+        <LeafletMap mapAddress={mapAddress} />
+      ) : (
+        <Form id="form" autoComplete="off">
+          <FormGroup className="col-sm-10 col-md-6 col-lg-4">
+            <Col>
               <Input
-                type="select"
-                name="selectMulti"
-                id="exampleSelectMulti"
-                multiple
-              >
-                {foundAddresses
-                  .filter((a) => a.includes(search))
-                  .map(
-                    (filteredAddress) => (
-                      (<option>{filteredAddress}</option>),
-                      console.log("f ", filteredAddress)
-                    )
-                  )}
-              </Input>
-            ) : (
-              ""
-            )}
-          </Col>
-        </FormGroup>
-
-        <FormGroup>
-          <Button>Done</Button>
-        </FormGroup>
-      </Form>
-      {/* { showMap ?   */}
-      <LeafletMap city={city} country={country}></LeafletMap>
-      {/* // :''} */}
+                type="text"
+                placeholder="Please enter address"
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+              {foundAddresses ? (
+                <Input
+                  type="select"
+                  name="selectMulti"
+                  id="exampleSelectMulti"
+                  multiple
+                >
+                  {foundAddresses.map((f) => (
+                    <option
+                      key={f.raw.place_id}
+                      value={mapAddress}
+                      onClick={() => saveAddress(f)}
+                    >
+                      {f.label}
+                    </option>
+                    // console.log("f ", f)
+                  ))}
+                </Input>
+              ) : (
+                ""
+              )}
+            </Col>
+          </FormGroup>
+          <FormGroup>
+            <Button>Done</Button>
+          </FormGroup>
+        </Form>
+      )}
     </div>
   );
 };

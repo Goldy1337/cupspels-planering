@@ -2,7 +2,7 @@ import React, { Component, createRef, useEffect, useState } from "react";
 import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
 import L from "leaflet";
 import * as ELG from "esri-leaflet-geocoder";
-import { Map, TileLayer, withLeaflet } from "react-leaflet";
+import { Map, TileLayer, withLeaflet, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { render } from "react-dom";
 import "../scss/style.scss";
@@ -19,55 +19,39 @@ L.Icon.Default.mergeOptions({
 
 const LeafletMap = (props) => {
   const [center, setCenter] = useState([37.7833, -122.4167]);
-  const [coordinates, setCoordinates] = useState([]);
+  const [streetName, setStreetName] = useState("");
   const [foundAddresses, setFoundAddresses] = useState([]);
   const [foundAddress, setFoundAddress] = useState("");
 
   const prov = OpenStreetMapProvider();
   const GeoSearchControlElement = withLeaflet(SearchControl);
 
-
-  // useEffect(() => {
-  //   getResult()
-  // },[])
-
-
+  useEffect(() => {
+    setCenter([props.mapAddress.y, props.mapAddress.x])
+  },[])
 
   // async function getResult() {
-  //   const result = await prov.search({query: props.address && props.city && props.country})
-  //   console.log(result)
-  //   //setCoordinates([result[0].x, result[0].y])
-  //   coordinates.push([result[4].y, result[4].x])
-  //   setCenter(coordinates[0])
-  //   for(let i=0; i<result.length; i++){
-  //      foundAddresses.push(result[i]);
-  //   }
-  //   console.log(foundAddresses)
-  //   console.log(coordinates)
+
+  // console.log(coordinates)
   // }
 
   return (
     <>
-      {/* <div> 
-       {foundAddresses ? <Input type="select" name="select" id="exampleSelect">
-          {foundAddresses.map((r, key) =>
-          <option key={r.coordinates}>{r.address}</option>
-          )}
-        </Input>
-      :''}
-       </div> */}
+       <div> 
+         <div>{props.mapAddress.label}</div>
       <Map
-        style={{ height: "800px", width: "100%" }}
+        style={{ height: "400px", width: "60%" }}
         center={center}
-        zoom="10"
+        zoom="18"
         ref={React.createRef}
       >
         <TileLayer
           attribution="&amp;copy Google"
           url={"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
         />
-        <div className="pointer"></div>
-        <GeoSearchControlElement
+        <Marker key={props.mapAddress.raw.place_id} position={center}></Marker>
+        {/* <div className="pointer"></div> */}
+        {/* <GeoSearchControlElement
           provider={prov}
           showMarker={true}
           showPopup={false}
@@ -78,8 +62,9 @@ const LeafletMap = (props) => {
           autoClose={true}
           searchLabel={"Enter address, please"}
           keepResult={true}
-        />
+        /> */}
       </Map>
+      </div>
     </>
   );
 };
