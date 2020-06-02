@@ -24,7 +24,6 @@ export default function PlayerInfo(props) {
  
   const fetchPlayerInfo = async () => {
 
-    console.log("Fetching Player!")
     let playerFound = await User.findOne({ name: "Lasse Åhberg"}) // TODO: FIX WITH id instead
     //let playerFound = await User.findOne({ _id: "5eb168864f8d2442a9e39563" })
     setName(playerFound.name)
@@ -86,8 +85,8 @@ export default function PlayerInfo(props) {
               <td>{match.startTime.substr(11, 5)}</td>
                 <td>{match.date.substr(0, 10)}</td>
                 <td>{match.fieldId.name != null ? match.fieldId.name : "Unkown"}</td>
-              <td>{match.result}</td>
-              <td>{match.matchType}</td>
+                <td>{match.result}</td>
+                <td>{match.matchType}</td>
                 <td>{match.teams[0].name}</td>
                 <td>{match.teams[1].name}</td>
             </tr>
