@@ -9,10 +9,7 @@ const {
   Cup
 } = mongoosy;
 
-// TODO: pass in date
- // Spara Cup(Id) samt group play + i som matchtype -> sedan hämta alla 
-// Imrpove group tilldelningen? flatarray?
-// skapa objekt som innehåller massa team klasser??
+
 
 export default function GroupPlay(props) {
 
@@ -24,14 +21,9 @@ export default function GroupPlay(props) {
   const [warningMessage, setWarningMessage] = useState(false)
   const [groups, setGroups] = useState([])
 
-  const [groupMatches, setGroupMatches] = useState([[Team]])
-  //const [groupMatches, setGroupMatches] = useState([])
-  //const [matches, setMatches] = useState([])
+  
 
-
-  // On loading of page
   useEffect(() => {
-    //Match.removeAll({ cup: "5ec2f7915c58b4ee74925cd8" })
     //deleteGroupData()
     fetchTeams("5ec2f7915c58b4ee74925cd8")
   }, [])
@@ -57,9 +49,6 @@ export default function GroupPlay(props) {
     setCup(cup)
     setTeamsInCup(cup.teams)
   }
-
-
-
 
 
 
@@ -108,7 +97,6 @@ export default function GroupPlay(props) {
       }
       groupedTeams.push(tempArr)
     }
-
     setGroups(groupedTeams)
   }
 
@@ -120,18 +108,6 @@ export default function GroupPlay(props) {
 
     let date = new Date()
     
-    // let match1 = new Match({
-    //   result: "0-0",
-    //   matchType: "Group play",
-    //   date: date,
-    //   startTime: date,
-    //   duration: 90,
-    //   activeTeamSize: 11,
-    //   teams: [],
-    //   cup: cup._id
-    //   //teams: [Object]
-    // })
-
     let matchesGroup = []
 
     for (let i = 0; i < teams.length; i++) {
@@ -142,7 +118,7 @@ export default function GroupPlay(props) {
         
         let match1 = new Match({
           result: "0-0",
-          matchType: "Group play", // TODO: FIXA??
+          matchType: `Group play`,//${i + 1}`, // TODO: FIXA??
           date: date,
           startTime: date,
           duration: 90,
@@ -151,48 +127,17 @@ export default function GroupPlay(props) {
           cup: cup._id
 
         })
-        //match1.teams = [teams[i]._id, teams[j]._id];
           
         await match1.save()
-        //console.log("match type", typeof match1)
         appendMatch(match1)
 
         matchesGroup.push(match1)
       }
     }
 
-
-    // matchesGroup.map((match) => (
-    //   //console.log("match in array:", match),
-    //   appendMatch(match)
-    // ))
-    
-    // matches.map((match) => (
-    //   //console.log("Saved", match)
-    // ))
-    //console.log("Contextength", matches.length)
-    //setGroupMatches(matches)
-    //setGroupMatches(...matches, matchesGroup)
-    fetchMatches()
-    console.log("STORED MATCHES", matches)
   }
 
 
-
-
-
-
-
-
-  
-  // const fetchGroupMatches = async () => {
-  //   fetchMatches(cup, "Group play")
-  //   console.log("Fetched matches", matches)
-  //   return matches
-  // }
-
-  
- 
 
 
 
@@ -202,9 +147,6 @@ export default function GroupPlay(props) {
     <div className="player-info">
       <h1>Create Group Play</h1>
       <h4>{teamsInCup.length} Teams in Cup</h4>
-      {/* {teamsInCup.map((team, index) => (
-        <h3>{team.name}</h3>
-      ))} */}
       <br/>
       <Form>
         <FormGroup>
@@ -220,9 +162,8 @@ export default function GroupPlay(props) {
         </FormGroup>
         <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Divide Teams Into Groups</Button>
       </Form>
-    
-  
-      {warningMessage ?
+      {
+        warningMessage ?
           <h3>Needs at least two teams per group!</h3>
           :
           <div className="team-group-list">
@@ -248,8 +189,6 @@ export default function GroupPlay(props) {
           </div>
         : null
       }
-
-      
       <h1>
         {matches
           .filter(function (match) { 
@@ -260,12 +199,9 @@ export default function GroupPlay(props) {
             <div>
               <h3>{match}</h3>
               <h3>{match.teams[0].name} vs {match.teams[1].name}</h3>
-            </div>
+            </div>         
         ))}
       </h1>
-
-    
-
     </div>
   )
 }
