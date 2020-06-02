@@ -8,9 +8,6 @@ export default function TeamContextProvider(props) {
    const { Team } = mongoosy;
 
   const appendTeam = (team) => {
-    // three dots (...) is called a
-    // spread syntax, and this will
-    // copy the content of the array
     setTeams([...teams, team]);
   };
 

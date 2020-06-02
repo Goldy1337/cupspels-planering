@@ -8,7 +8,7 @@ let schema = new Schema ({
     name: {type: String, required: true},
     size: {type: String, required: true},
     surface: {type: String},
-    outdoors: {type: Boolean, required: true}
+    outdoors: {type: String, required: true}
 });
 
 let model = mongoose.model(modelName, schema);

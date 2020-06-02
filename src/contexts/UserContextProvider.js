@@ -19,8 +19,6 @@ export default function UserContextProvider(props) {
   };
 
   const removeUser = (id) => {
-    // updates the array with a filtered array
-    // where we filter out our recipe
     setUsers(users.filter((u) => u.id !== id));
 
     fetch("/api/users/" + id, {
@@ -33,6 +31,7 @@ export default function UserContextProvider(props) {
     // let res = await fetch("/api/users");
     // res = await res.json();
     setUsers(allUsers);
+     setUsers(allUsers);
   };
 
   const saveUser = async (user) => {
