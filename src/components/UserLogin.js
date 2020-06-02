@@ -1,5 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label, Table } from 'reactstrap';
 import mongoosy from 'mongoosy/frontend';
 import { ThemeContext } from '../contexts/ThemeContextProvider';
 import { LoginContext } from '../contexts/LoginContextProvider';
@@ -102,14 +102,20 @@ export default function LoginHeader(props) {
     console.log(user)
   }
 
-  function toggleColorMode() {
-    if (colorTheme === 'info') {
-      setColorTheme('dark');
-    }
-    if (colorTheme === 'dark') {
-      setColorTheme('info')
-    }
-  }
+ function toggleColorMode() {
+
+   document.querySelector('body').classList.toggle('darkMode', true) 
+   
+ }
+
+  // function toggleColorMode() {
+  //   if (colorTheme === 'info') {
+  //     setColorTheme('dark');
+  //   }
+  //   if (colorTheme === 'dark') {
+  //     setColorTheme('info')
+  //   }
+  // }
 
   return (
     <div>
