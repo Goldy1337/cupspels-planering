@@ -6,15 +6,10 @@ export default function TeamContextProvider(props) {
   const [teams, setTeams] = useState([]);
 
   const appendTeam = (team) => {
-    // three dots (...) is called a
-    // spread syntax, and this will
-    // copy the content of the array
     setTeams([...teams, team]);
   };
 
   const removeTeam = (id) => {
-    // updates the array with a filtered array
-    // where we filter out our recipe
     setTeams(teams.filter((t) => t.id !== id));
 
     fetch("/api/teams/" + id, {

@@ -7,7 +7,16 @@
 // My own partials
 @import 'body-related';
 
-// For userForm
-@import 'userForm-related'; // REMOVE LATER
-
+// For newReferee component
 @import 'newReferee';
+
+// For refereeList
+@import 'refereeList';
+
+// For playerInfo
+@import 'playerInfo';
+@import 'newReferee';
+
+@import 'loginHeader-related';
+
+@import 'groupPlay'

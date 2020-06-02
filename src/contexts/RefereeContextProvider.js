@@ -12,12 +12,12 @@ export default function RefereeContextProvider(props) {
   
 
   async function fetchReferees() {
-    let initReferees = await User.find()
+    let initReferees = await User.find({role: "Referee"})
     setReferees(initReferees)
   }
   
   const appendReferee = (referee) => {
-      setReferees([...referees, referee]) // three dots (...) is called spread syntax, and this will copy the content of the array
+      setReferees([...referees, referee]) 
   }
 
  
