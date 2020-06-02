@@ -12,7 +12,7 @@ export const ThemeProvider = (props) => {
 
   function getStoredColorTheme() {
     const storedColorTheme = JSON.parse(localStorage.getItem('colorTheme'))
-    return storedColorTheme || false
+    return storedColorTheme || 'info'
   }
 
   return (

@@ -10,8 +10,7 @@ let schema = new Schema ({
     subRole: {type: String},
     email: {type: String, unique: true, required: true},
     phoneNumber: {type: Number, required: true},
-    password: {type: String, required: true},
-    colorMode: {type: Boolean, required: true}
+    password: {type: String, required: true}
 });
 
 let model = mongoose.model(modelName, schema);

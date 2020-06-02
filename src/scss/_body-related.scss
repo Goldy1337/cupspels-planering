@@ -1,12 +1,9 @@
  body{
-   background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapertag.com%2Fwallpaper%2Ffull%2Fc%2F7%2F9%2F551980-most-popular-football-stadium-wallpaper-1920x1200-mobile.jpg&f=1&nofb=1);
- }
+  background-image: url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapertag.com%2Fwallpaper%2Ffull%2Fc%2F7%2F9%2F551980-most-popular-football-stadium-wallpaper-1920x1200-mobile.jpg&f=1&nofb=1);
+}
 
 .loginHeader{
  opacity: 0.3;
-  font-family: Sansation;
-  font-weight: bold;
-  font-size: 21px;
 }
 .loginHeader:hover{
   opacity: 0.8;
@@ -17,6 +14,13 @@
 }
 
 .loginHeaderText{
+  font-family: Sansation;
+  font-weight: bold;
   font-size: 30px;
-  text-align: justify;
+}
+
+.loginHeaderButton{
+  font-family: Sansation;
+  font-weight: bold;
+  font-size: 21px;
 }

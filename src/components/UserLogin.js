@@ -3,7 +3,6 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader,
 import mongoosy from 'mongoosy/frontend';
 import { ThemeContext } from '../contexts/ThemeContextProvider';
 import { LoginContext } from '../contexts/LoginContextProvider';
-import { Redirect } from 'react-router-dom';
 const {
   Login,
   User 
@@ -17,15 +16,13 @@ export default function LoginHeader(props) {
   const [colorTheme, setColorTheme] = useContext(ThemeContext)
   const [loginStatus, setLoginStatus, updateLoginStatus, loginCheck, setLoginCheck] = useContext(LoginContext)
   
-  //The hooks used both for the login header itself and
-  //for keeping track of logged in users
   const [modalCreateAccount, setModalCreateAccount] = useState(false);
   const [modalLogin, setModalLogin] = useState(false);
 
   const [loginCredentials, setLoginCredentials] = useState({ email: '', password: '' })
   const updateLoginCredentials = update => setLoginCredentials({ ...loginCredentials, ...update })
   
-  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: false })
+  const [createMemberAccountCredentials, setCreateMemberAccountCredentials] = useState({ name: '', role: 'Member', email: '', phoneNumber: '', password: '' })
   const updateCreateMemberAccountCredentials = update => setCreateMemberAccountCredentials({ ...createMemberAccountCredentials, ...update })
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -58,9 +55,7 @@ export default function LoginHeader(props) {
     }
     else {
       updateLoginStatus({ user });
-      console.log(user)
-      toggleLogin()
-      updateLoginCredentials({ email: '', password: '' })
+      closeLoginModal()
     }
   }
 
@@ -79,16 +74,20 @@ export default function LoginHeader(props) {
       role: createMemberAccountCredentials.role,
       email: createMemberAccountCredentials.email,
       phoneNumber: createMemberAccountCredentials.phoneNumber,
-      password: createMemberAccountCredentials.password,
-      colorMode: createMemberAccountCredentials.colorMode
+      password: createMemberAccountCredentials.password
     })
-    let users = await User.find().sort('createMemberAccountCredentials.email');
-    let allUsers = await User.find();
-    console.log('allUsers', allUsers.js);
-    let user = await User.find({}).sort('email')
-    console.log(user)
     await newMember.save()
-    toggleCreateAccount()
+    if (newMember.js.error) {
+      if (newMember.js.error.code === 11000) {
+        setErrorMessage('This email is alredy registered.')
+      }
+      else {
+        setErrorMessage('An error occured.')
+      }
+    }
+    else {
+      closeAccountCreationModal()
+    }
   }
 
   async function deleteUsers() {
@@ -103,20 +102,22 @@ export default function LoginHeader(props) {
     console.log(user)
   }
 
-  function setColorModeVisitor() {
-    console.log('Changing colormode for visitor')
-    setColorTheme(!colorTheme)
+  function toggleColorMode() {
+    if (colorTheme === 'info') {
+      setColorTheme('dark');
+    }
+    if (colorTheme === 'dark') {
+      setColorTheme('info')
+    }
   }
 
-  //TODO Cleanup code
   return (
     <div>
-      <Navbar className="loginHeader" color={loginStatus.user.colorMode === false || loginStatus.user === false && colorTheme === false ? "info" : "dark"} dark>
+      <Navbar className="loginHeader" color={colorTheme} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
-          {/* <NavLink onClick={toggleCreateAccount}>Create Account</NavLink> */}
-          {loginStatus.user ? <NavItem className="navLink">My Account</NavItem> : <NavItem className="navLink" onClick={toggleCreateAccount}>Create Account</NavItem>}
-          <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className}>
+          {loginStatus.user ? <Button className="loginHeaderButton" color={colorTheme}>My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
+          <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className} color={colorTheme}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
               <Form onSubmit={createMemberAccount}>
@@ -152,7 +153,7 @@ export default function LoginHeader(props) {
             <ModalFooter>
             </ModalFooter>
           </Modal>
-          {loginStatus.user ? <NavItem className="navLink" onClick={logout}>Logout</NavItem> : <NavItem className="navLink" onClick={toggleLogin}>Login</NavItem>}
+          {loginStatus.user ? <Button className="loginHeaderButton" onClick={logout} color={colorTheme}>Logout</Button> : <Button className="loginHeaderButton" onClick={toggleLogin} color={colorTheme}>Login</Button>}
           <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
             <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
             <ModalBody>
@@ -188,11 +189,11 @@ export default function LoginHeader(props) {
           </Modal>
         </Nav>
       </Navbar>
-      <Button onClick={deleteUsers}>Delete Users</Button>
+      <Button onClick={deleteUsers} color={colorTheme}>Delete Users</Button>
       <br></br>
-      <Button onClick={getUserData}>User Data</Button>
+      <Button onClick={getUserData} color={colorTheme}>User Data</Button>
       <br></br>
-      <Button onClick={setColorModeVisitor}>Change Colormode to</Button>
+      <Button onClick={toggleColorMode} color={colorTheme}>Change Colormode</Button>
     </div>
   );
 };

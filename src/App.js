@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { ThemeProvider } from './contexts/ThemeContextProvider'
-import {LoginProvider} from './contexts/LoginContextProvider'
+import { ThemeContext } from './contexts/ThemeContextProvider'
+import { LoginProvider } from './contexts/LoginContextProvider'
 import LoginHeader from './components/UserLogin'
 import mongoosy from 'mongoosy/frontend';
 const {
@@ -11,6 +12,7 @@ const {
 
 export default function App() {
 
+  
   async function doStuff() {
 
    // await Team.deleteMany({})
@@ -48,8 +50,8 @@ export default function App() {
     <ThemeProvider>
       <LoginProvider>
       <div>
-        <LoginHeader />
         <body>
+        <LoginHeader />
         </body>
         </div>
         </LoginProvider>
