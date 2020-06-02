@@ -9,7 +9,7 @@ import NewTeamMember from './components/NewTeamMember';
 import UserContextProvider from './contexts/UserContextProvider';
 import TeamContextProvider, { TeamContext } from './contexts/TeamContextProvider';
 import RegisterAccount from './components/RegisterAccount';
-import NewAddress from './components/NewAddress';
+import SearchAddress from './components/SearchAddress';
 const {
   User,
   Team
@@ -65,7 +65,7 @@ export default function App() {
                 path="/addTeamMember/:id"
                 component={NewTeamMember}
               />
-              <NewAddress />
+              <SearchAddress />
             </main>
           </Router>
         </UserContextProvider>

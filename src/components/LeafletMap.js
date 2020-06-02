@@ -30,6 +30,8 @@ const LeafletMap = (props) => {
     setCenter([props.mapAddress.y, props.mapAddress.x])
   },[])
 
+  
+
   // async function getResult() {
 
   // console.log(coordinates)
@@ -38,7 +40,6 @@ const LeafletMap = (props) => {
   return (
     <>
        <div> 
-         <div>{props.mapAddress.label}</div>
       <Map
         style={{ height: "400px", width: "60%" }}
         center={center}
