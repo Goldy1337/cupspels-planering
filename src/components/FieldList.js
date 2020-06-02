@@ -6,7 +6,7 @@ export default function FieldList() {
   const { fields } = useContext(FieldContext)
 
   return (
-    <Table dark>  
+    <Table info>  
     <thead>
       <tr>
         <th>#</th>
