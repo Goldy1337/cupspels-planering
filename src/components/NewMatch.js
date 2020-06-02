@@ -5,8 +5,10 @@ import { teamContext, TeamContext } from '../contexts/TeamContextProvider'
 //import RefereeList from './RefereeList'
 import mongoosy from 'mongoosy/frontend';
 const {
-  User,
-  Cup
+  Cup,
+  Match,
+  Arena,
+  Field
 } = mongoosy;
 
 
@@ -69,6 +71,7 @@ const [currentTime] = useState("2020-01-01T00:00")
     setCup(cup)
     setTeamsInCup(cup.teams)
     console.log(cup.teams)
+    checkFieldAvailability()
   }
 
 
@@ -78,10 +81,64 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
-  const checkFieldAvailability = () => {
+  const checkFieldAvailability = async () => {
     // TODO: jämför match med dem i databasen... kolla om:
     // matchens start tid plus duration (plus lite extra tid) är mindre än starttiden för andra matcheran 
     // OCH om matchens starttid plus duration är större än dem andra matchernas starttider (plus duration)
+
+
+
+
+
+    let field = new Field ({
+    name: "The Big Blue",
+    size: "200x150",
+    surface: "Grass",
+    outdoors: true
+    });
+
+
+    let date = new Date()
+
+    console.log("Data of this match: " + date)
+    
+    let m = new Match({
+      fieldId: field._id,
+       result: "0-0",
+       matchType: "Test",
+       date: date,
+       startTime: date,
+       duration: 90,
+       activeTeamSize: 11,
+    })
+
+
+    // TODO: fetcha innan?
+    // fetcha med cupid elelr 
+    let matches = await Match.find({ fieldId: m.fieldId})
+
+
+
+    let startTime = m.startTime
+    console.log("Start time", startTime)
+
+    let endtime = m.startTime
+    endtime.setMinutes(endtime.getMinutes() + m.duration)
+    console.log("start time 2", endtime)
+
+    // KOlla om fieldId är samma, samt om sluttiden är större än den andras starttid och startid är mindra än den andra
+    for (let i = 0; i < teamsInCup.length; i++) {
+     // console.log("Team:" + )
+      /*
+      .filter(function (match) {
+            let endTime = new Date(match.startTime)
+            endTime.setMinutes(endTime.getMinutes() + match.duration)
+            return endTime.toISOString() > new Date().toISOString() })
+            */
+      
+      //if (startTime < team)
+    }
+
   }
 
 
