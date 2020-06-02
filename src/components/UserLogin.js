@@ -41,7 +41,7 @@ export default function LoginHeader(props) {
 
     const closeAccountCreationModal = () => {
     toggleCreateAccount()
-    updateCreateMemberAccountCredentials({ name: '', role: 'Member', email: '', phoneNumber: '', password: '', colorMode: false })
+    updateCreateMemberAccountCredentials({ name: '', role: 'Member', email: '', phoneNumber: '', password: '' })
     setErrorMessage('')
   }
 
@@ -101,7 +101,7 @@ export default function LoginHeader(props) {
       <Navbar className="loginHeader" color="info" dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
-          {loginStatus.user ? <Button className="loginHeaderButton" color="info">My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
+          {loginStatus.user ? <Button className="loginHeaderButton" color="info">My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color="info">Create Account</Button>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
