@@ -14,7 +14,7 @@ import CreateBrackets from './components/CreateBrackets'
 import PlayerInfo from './components/PlayerInfo'
 import UserLogin from './components/UserLogin'
 import GroupPlay from './components/GroupPlay'
-import NewMatch from './components/NewMatch'
+// import NewMatch from './components/NewMatch'
 
 
 export default function App() {
@@ -36,7 +36,7 @@ export default function App() {
                     <Link to="/createBrackets">Create Brackets</Link>|
                     <Link to="/playerInfo">Player Info</Link>|
                     <Link to="/groupPlay">Group Play</Link>|
-                    <Link to="/newMatch">New NewMatch</Link>
+                    {/* <Link to="/newMatch">New NewMatch</Link> */}
                     <Route exact path="/addTeam" component={NewTeam} />
                     <Route
                       exact
@@ -49,7 +49,7 @@ export default function App() {
                     <Route exact path="/playerInfo" component={PlayerInfo} />
                     <Route exact path="/userLogin" component={UserLogin} />
                     <Route exact path="/groupPlay" component={GroupPlay}/>
-                    <Route exact path="/newMatch" component={NewMatch} />
+                    {/* <Route exact path="/newMatch" component={NewMatch} /> */}
                   </main>
                 </Router>
               </FieldContextProvider>
