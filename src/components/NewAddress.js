@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import "../scss/style.scss"
 import mongoosy from "mongoosy/frontend";
 import LeafletMap from "./LeafletMap";
 
@@ -64,7 +65,7 @@ export default function NewAddress(props) {
   };
 
   return (
-    <div>
+    <div className="address-info">
       <div>{savedAddress.streetName}</div>
       <div>{savedAddress.postCode}</div>
       <div>{savedAddress.city}</div>

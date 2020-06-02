@@ -69,7 +69,7 @@ const SearchAddress = () => {
                 placeholder="Please enter address"
                 onChange={(e) => setSearchValue(e.target.value)}
               />
-              {foundAddresses ? (
+              {foundAddresses[0] ? (
                 <Input
                   type="select"
                   name="selectMulti"
