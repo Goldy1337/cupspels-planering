@@ -50,6 +50,16 @@ export default function App() {
 
   doStuff();
 
+  // return (
+  //   <ThemeProvider>
+  //     <LoginProvider>
+  //     <div>
+  //       <body>
+  //       <LoginHeader />
+  //       </body>
+  //     </div>
+  //     </LoginProvider>
+  //   </ThemeProvider>
   return (
     <div className="App">
       <ThemeProvider>
@@ -67,7 +77,7 @@ export default function App() {
                     <FieldContextProvider>
                       <Router>
                         <main>
-                          <Link to="/userLogin">Login</Link>|
+                          {/* <Link to="/userLogin">Login</Link>| */}
                           <Link to="/addTeam"> Add Team </Link>|
                           <Link to="/newReferee"> Add Referee </Link>|
                           <Link to="/newArena"> Add Arena </Link>|

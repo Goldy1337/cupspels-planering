@@ -127,13 +127,14 @@ export default function GroupPlay(props) {
           cup: cup._id
 
         })
-          
+        
         await match1.save()
         appendMatch(match1)
 
         matchesGroup.push(match1)
       }
     }
+    console.log("Matches in group: ", matchesGroup)
 
   }
 

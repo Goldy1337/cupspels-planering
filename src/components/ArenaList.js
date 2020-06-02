@@ -6,7 +6,7 @@ export default function ArenaList() {
   const { arenas } = useContext(ArenaContext)
 
   return (
-    <Table info>  
+    <Table dark>  
     <thead>
       <tr>
         <th>#</th>
