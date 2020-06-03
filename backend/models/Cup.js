@@ -10,7 +10,7 @@ let schema = new Schema ({
     organizer: {type: String, required: true},
     startDate: {type: Date, required: true},
     endDate: {type: Date, required: true},
-    teams: [{type: Types.ObjectId, ref: 'Team'}]
+    
 });
 
 let model = mongoose.model(modelName, schema);

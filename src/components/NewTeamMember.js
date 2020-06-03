@@ -9,7 +9,7 @@ import RegisterAccount from './RegisterAccount'
 const NewTeamMember = (props) => {
  const {User} = mongoosy;
  const {Team} = mongoosy;  
- const {appendUser} = useContext(UserContext)
+ const {appendUser, saveUser, fetchUser} = useContext(UserContext)
 
   const [name, setPlayerName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +19,7 @@ const NewTeamMember = (props) => {
   const [salt, setSalt] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [teamName, setTeamName] = useState('');
+  const [newMember, setMember] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
 
   let {id} = useParams()
@@ -31,9 +32,8 @@ const NewTeamMember = (props) => {
   useEffect(()=> {
      getTeamName();
     getTeamMembers()
-    getTeamName()
-    generatePassword()
-    generateSalt();
+     generatePassword();
+      generateSalt();
   }, [])
 
   async function getTeamName(){
@@ -57,15 +57,17 @@ const NewTeamMember = (props) => {
       salt: salt,
     });
 
-    await aMember.save();
+    // await aMember.save();
+    // console.log("aMember", aMember.js);
+    // setMember(aMember)
 
-   // saveUser(aMember)
+    saveUser(aMember)
     appendUser(aMember)
     //setMember(aMember)
     console.log(aMember)
 
    // testApi()
-   // register()
+    register()
 
     getTeamMembers();
 
@@ -78,6 +80,7 @@ const NewTeamMember = (props) => {
   const getTeamMembers = async () =>{
     
     let teamUsers = await User.find({teamId: id});
+    console.log("team ", teamUsers)
 
     setTeamMembers(teamUsers)
   }
@@ -92,23 +95,30 @@ const NewTeamMember = (props) => {
     console.log(response);
   }
 
-  
+  //post api request för registrering
+   async function register() {
+     
+     const credentials = {
+       password, 
+       email,
+       salt
+     };
 
-    //  let response = await fetch("/auth/register", {
-    //    method: "POST",
-    //    headers: { "Content-Type": "application/json" },
-    //    body: JSON.stringify(credentials),
-    //  });
+     let response = await fetch("/auth/register", {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify(credentials),
+     });
 
-    //  try {
-    //    response = await response.json();
-    //    console.log("registered")
-    //   //  setUsername(response);
-    //   //  props.history.push("/");
-    //  } catch {
-    //    console.log("Bad credentials");
-    //  }
-   // }
+     try {
+       response = await response.json();
+       console.log("registered")
+      //  setUsername(response);
+      //  props.history.push("/");
+     } catch {
+       console.log("Bad credentials");
+     }
+   }
 
   return (
     <div>

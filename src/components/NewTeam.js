@@ -9,6 +9,7 @@ import {
   Container,
 } from "reactstrap";
 import mongoosy from "mongoosy/frontend";
+import { TeamContext } from "../contexts/TeamContextProvider";
 
 export default function NewTeam(props) {
   const [clubName, setClubName] = useState('');
@@ -17,6 +18,7 @@ export default function NewTeam(props) {
   const [ageGroup, setAgeGroup] = useState('');
   const { Team } = mongoosy;
 
+  // Create a new admin and save to db
   async function addTeam() {
     let aTeam = new Team({
       club: clubName,
