@@ -102,20 +102,28 @@ export default function LoginHeader(props) {
     console.log(user)
   }
 
- function toggleColorMode() {
+//  function toggleColorMode() {
 
-   document.querySelector('body').classList.toggle('darkMode', true) 
+//    document.querySelector('body').classList.toggle('darkMode', true); 
    
- }
+//   }
+  
+//   function toggleColorMode2() {
 
-  // function toggleColorMode() {
-  //   if (colorTheme === 'info') {
-  //     setColorTheme('dark');
-  //   }
-  //   if (colorTheme === 'dark') {
-  //     setColorTheme('info')
-  //   }
-  // }
+//    document.querySelector('body').classList.toggle('darkMode', false); 
+   
+//  }
+
+  function toggleColorMode() {
+    if (colorTheme === 'info') {
+      setColorTheme('dark');
+      document.querySelector('body').classList.toggle('darkMode', true);
+    }
+    if (colorTheme === 'dark') {
+      setColorTheme('info');
+      document.querySelector('body').classList.toggle('darkMode', false); 
+    }
+  }
 
   return (
     <div>
@@ -123,7 +131,7 @@ export default function LoginHeader(props) {
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
           {loginStatus.user ? <Button className="loginHeaderButton" color={colorTheme}>My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
-          <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount} className={className} color={colorTheme}>
+          <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
               <Form onSubmit={createMemberAccount}>
@@ -160,7 +168,7 @@ export default function LoginHeader(props) {
             </ModalFooter>
           </Modal>
           {loginStatus.user ? <Button className="loginHeaderButton" onClick={logout} color={colorTheme}>Logout</Button> : <Button className="loginHeaderButton" onClick={toggleLogin} color={colorTheme}>Login</Button>}
-          <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
+          <Modal isOpen={modalLogin} toggle={modalLogin}>
             <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
             <ModalBody>
               <Form>
