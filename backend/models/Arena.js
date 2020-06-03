@@ -8,7 +8,8 @@ let schema = new Schema ({
     name: {type: String, required: true},
     capacity: {type: Number, required: true},
     homeTeam: { type: String },
-    cup: [{type: Types.ObjectId, ref: 'Cup'}]
+    cups: [{ type: Types.ObjectId, ref: 'Cup' }],
+    fields: [{type: Types.ObjectId, ref: 'Field'}]
 });
 
 let model = mongoose.model(modelName, schema);

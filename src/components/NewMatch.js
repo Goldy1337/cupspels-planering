@@ -18,12 +18,12 @@ const {
 function NewReferee() {
 
   const { appendMatch } = useContext(MatchContext)
-  const [newMatch, setNewMatch] = useState({ matchType: '', duration: 0, teams: [] })
+  const [newMatch, setNewMatch] = useState({ matchType: '', duration: 0, teams: [], field: ''})
   const { teams } = useContext(TeamContext)
   const [cup, setCup] = useState()
   const [teamsInCup, setTeamsInCup] = useState([]) 
   const [fieldsInCup, setFieldsInCup] = useState([])
-
+  const [availableFields, setAvailableFields] = useState([])
 
 const [currentTime] = useState("2020-01-01T00:00")
 
@@ -35,10 +35,12 @@ const [currentTime] = useState("2020-01-01T00:00")
   // const [password, setPassword] = useState('')
   // const [phoneNumber, setPhoneNumber] = useState('')
 
-    useEffect(() => {
+  useEffect(() => {
+    uploadData()
     //Match.removeAll({ cup: "5ec2f7915c58b4ee74925cd8" })
     //deleteGroupData()
-    fetchTeams("5ec2f7915c58b4ee74925cd8")
+    //fetchTeams("5ec2f7915c58b4ee74925cd8")
+    fetchTeams("5ec2c4c65c58b4ee74925c4e")
   }, [])
 
   const addMatch = (e) => {
@@ -66,12 +68,80 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
+  const uploadData = async () => {
+
+    let newArena = new Arena({
+      name: "Large arena",
+      organizer: "ICA",
+      capacity: 2000,
+      homeTeam: "Maxi",
+      // cups: [{ type: Types.ObjectId, ref: 'Cup' }],
+      // fields: [{type: Types.ObjectId, ref: 'Field'}]
+    }) 
+
+    let startDate = new Date()
+    let endDate = new Date()
+    endDate.setMonth(4)
+
+    let newCup = new Cup({
+      name: "New Cup Basic",
+      organizer: "ICA",
+      startDate: startDate,
+      endDate: endDate,
+      //teams: [ ],
+      arenas: [newArena._id]
+    })
+
+    let newField1 = new Field({
+      arenaId: newArena._id,
+      name: "Field 1",
+      size: "2000x1000",
+      surface: "Grass",
+      outdoors: "Outdoors"
+    })
+
+    let newField2 = new Field({
+      arenaId: newArena._id,
+      name: "Field 2",
+      size: "200x100",
+      surface: "Grass",
+      outdoors: "Outdoors"
+    })
+
+      let newField3 = new Field({
+      arenaId: newArena._id,
+      name: "Field 3",
+      size: "600x300",
+      surface: "Grass",
+      outdoors: "Outdoors"
+    })
+
+    newArena.cups = [newCup._id]
+    newArena.fields = [newField1._id, newField2._id, newField3._id]
+    //newCup.arenas = [newArena._id]
+
+    console.log("ID: ",newCup._id)
+
+    await newArena.save()
+    await newCup.save()
+    await newField1.save()
+    await newField2.save()
+    await newField3.save()
+
+    console.log("Cup: ", cup)
+  }
+
 
   const fetchTeams = async (cupId) => {
     let cup = await Cup.findOne({ _id: cupId}).populate('teams').populate('arenas').populate('fields').exec() // TODO: pass in id instead?
     setCup(cup)
     setTeamsInCup(cup.teams)
-    setFieldsInCup(cup.arena)
+    console.log("CUP ARENAS", cup)
+    //setFieldsInCup(cup.arenas[0].fields)
+
+
+    let cups = await Cup.find()
+    console.log("CUPS", cups)
 
     //checkFieldAvailability()
   }
@@ -280,7 +350,7 @@ const [currentTime] = useState("2020-01-01T00:00")
                 <Input
                   type="select"
                   className="teamFormInput"
-                  id="teamGender"
+                  id="team1"
                   value={"Team 1"} // TODO: FIX!!
                   onChange={(e) => updateMatch({ teams: e.target.value })}>
 
@@ -290,13 +360,13 @@ const [currentTime] = useState("2020-01-01T00:00")
                 </Input>
               </Col>
           </FormGroup>
-                    <FormGroup>
+            <FormGroup>
             <label>Pick Away Team</label>
              <Col>
                 <Input
                   type="select"
                   className="teamFormInput"
-                  id="teamGender"
+                  id="team2"
                   value={"Team 3"} // TODO: FIX!!
                   onChange={(e) => updateMatch({ teams: e.target.value })}>
 
@@ -305,6 +375,21 @@ const [currentTime] = useState("2020-01-01T00:00")
                 ))}
                 </Input>
               </Col>
+          </FormGroup>
+          <FormGroup>
+            <label>Chose Field</label>
+            <Col>
+              <Input
+                type="select"
+                className="fieldFormInput"
+                id="selected-field"
+                value={"field2"}
+                onChange={e => updateMatch({ field: e.target.value })}>
+                {availableFields.map((field, i) => (
+                  <option>{field.name}</option>
+                ))}
+              </Input>
+            </Col>
           </FormGroup>
         </div>
         <div class="button-container">
