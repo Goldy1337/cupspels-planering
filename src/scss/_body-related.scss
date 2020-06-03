@@ -4,19 +4,19 @@
 
 body.darkMode {
 
-  // table {
-  //   color: #fff;
-  //   background-color: #212529; }
-  //   .table-dark th,
-  //   .table-dark td,
-  //   .table-dark thead th {
-  //     border-color: #32383e; }
-  //   .table-dark.table-bordered {
-  //     border: 0; }
-  //   .table-dark.table-striped tbody tr:nth-of-type(odd) {
-  //     background-color: rgba(255, 255, 255, 0.05); }
-  //   .table-dark.table-hover tbody tr:hover {
-  //     background-color: rgba(255, 255, 255, 0.075); }
+  table {
+    color: #fff;
+    background-color: #212529; }
+    .table-dark th,
+    .table-dark td,
+    .table-dark thead th {
+      border-color: #32383e; }
+    .table-dark.table-bordered {
+      border: 0; }
+    .table-dark.table-striped tbody tr:nth-of-type(odd) {
+      background-color: rgba(255, 255, 255, 0.05); }
+    .table-dark.table-hover tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.075); }
 
   // .btn{
   //   color: #fff !important;

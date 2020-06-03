@@ -6,7 +6,7 @@ export default function FieldList() {
   const { fields } = useContext(FieldContext)
 
   return (
-    <Table info>  
+    <Table hover striped className="table-info">  
     <thead>
       <tr>
         <th>#</th>

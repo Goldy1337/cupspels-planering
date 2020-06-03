@@ -127,7 +127,7 @@ export default function LoginHeader(props) {
 
   return (
     <div>
-      <Navbar className="loginHeader" color="info" dark>
+      <Navbar className="loginHeader" color={colorTheme} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
           {loginStatus.user ? <Button className="loginHeaderButton" color={colorTheme}>My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
@@ -204,7 +204,7 @@ export default function LoginHeader(props) {
         </Nav>
       </Navbar>
       <br></br>
-      <Button onClick={toggleColorMode} color="info">Change Colormode</Button>
+      <Button onClick={toggleColorMode} color={colorTheme}>Change Colormode</Button>
     </div>
   );
 };

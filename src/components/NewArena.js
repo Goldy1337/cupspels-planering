@@ -3,7 +3,8 @@ import { Button, Form, FormGroup, Input } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import ArenaList from './ArenaList'
 import NewField from './NewField'
-import {ArenaContext} from '../contexts/ArenaContextProvider'
+import { ArenaContext } from '../contexts/ArenaContextProvider'
+import { ThemeContext } from '../contexts/ThemeContextProvider';
 import SearchAddress from './SearchAddress';
 const {
   Arena
@@ -14,6 +15,7 @@ export default function NewArena() {
   const { appendArena } = useContext(ArenaContext)
   const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
   const updateArena = update => setArena({ ...arena, ...update })
+  const [colorTheme] = useContext(ThemeContext)
     
   const addArena = (e) => {
     e.preventDefault();
@@ -64,7 +66,7 @@ export default function NewArena() {
             onChange={(e) => updateArena({ homeTeam: e.target.value })}
           ></Input>
           <SearchAddress />
-          <Button>Add Arena</Button>
+          <Button color={colorTheme}>Add Arena</Button>
         </FormGroup>
       </Form>
       <ArenaList />
