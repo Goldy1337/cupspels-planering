@@ -54,11 +54,6 @@ export default function App() {
     <div className="App">
       <ThemeProvider>
         <LoginProvider>
-          <div>
-            <body>
-              <LoginHeader />
-            </body>
-          </div>
           <MatchContextProvider>
             <TeamContextProvider>
               <UserContextProvider>
@@ -116,7 +111,7 @@ export default function App() {
                 </RefereeContextProvider>
               </UserContextProvider>
             </TeamContextProvider>
-          </MatchContextProvider>
+            </MatchContextProvider>
         </LoginProvider>
       </ThemeProvider>
     </div>

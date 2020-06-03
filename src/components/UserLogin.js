@@ -174,6 +174,8 @@ export default function LoginHeader(props) {
           </Modal>
         </Nav>
       </Navbar>
+      <br></br>
+      <Button onClick={toggleColorMode} color="info">Change Colormode</Button>
     </div>
   );
 };
