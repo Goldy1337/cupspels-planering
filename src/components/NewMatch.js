@@ -13,6 +13,7 @@ const {
 
 
 // Sortera matcher; samma ålder, cupId, kön...
+// TODO: get fields 
 
 function NewReferee() {
 
@@ -21,7 +22,7 @@ function NewReferee() {
   const { teams } = useContext(TeamContext)
   const [cup, setCup] = useState()
   const [teamsInCup, setTeamsInCup] = useState([]) 
-
+  const [fieldsInCup, setFieldsInCup] = useState([])
 
 
 const [currentTime] = useState("2020-01-01T00:00")
@@ -67,11 +68,12 @@ const [currentTime] = useState("2020-01-01T00:00")
 
 
   const fetchTeams = async (cupId) => {
-    let cup = await Cup.findOne({ _id: cupId}).populate('teams').exec() // TODO: pass in id instead?
+    let cup = await Cup.findOne({ _id: cupId}).populate('teams').populate('arenas').populate('fields').exec() // TODO: pass in id instead?
     setCup(cup)
     setTeamsInCup(cup.teams)
-    console.log(cup.teams)
-    checkFieldAvailability()
+    setFieldsInCup(cup.arena)
+
+    //checkFieldAvailability()
   }
 
 
@@ -81,12 +83,22 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
+  const matchTimeIsOverlapping = (a, b) => {
+   
+    if (a.endTime >= b.startTime && a.startTime <= b.endTime ||
+      a.startTime <= b.endTime && a.endTime >= b.startTime) { return true }
+
+    // if (a.startTime <= b.startTime && b.startTime <= a.endTime) { return true }
+    // if (a.startTime <= b.endTime && b.endTime <= a.endTime) { return true }
+    // if (b.startTime < a.startTime && a.endTime < b.endTime) { return true }
+    return false
+  }
+
+
   const checkFieldAvailability = async () => {
     // TODO: jämför match med dem i databasen... kolla om:
     // matchens start tid plus duration (plus lite extra tid) är mindre än starttiden för andra matcheran 
     // OCH om matchens starttid plus duration är större än dem andra matchernas starttider (plus duration)
-
-
 
 
 
@@ -102,7 +114,7 @@ const [currentTime] = useState("2020-01-01T00:00")
 
     console.log("Data of this match: " + date)
     
-    let m = new Match({
+    let newMatch = new Match({
       fieldId: field._id,
        result: "0-0",
        matchType: "Test",
@@ -115,19 +127,74 @@ const [currentTime] = useState("2020-01-01T00:00")
 
     // TODO: fetcha innan?
     // fetcha med cupid elelr 
-    let matches = await Match.find({ fieldId: m.fieldId})
+    let matches = await Match.find({ fieldId: newMatch.fieldId})
 
 
 
-    let startTime = m.startTime
-    console.log("Start time", startTime)
+    let startTime = newMatch.startTime
 
-    let endtime = m.startTime
-    endtime.setMinutes(endtime.getMinutes() + m.duration)
-    console.log("start time 2", endtime)
+    let endTime = newMatch.startTime
+    endTime.setMinutes(endTime.getMinutes() + newMatch.duration)
 
+    let time1 = {
+      startTime: 100,//startTime.getTime(),
+      endTime: 140 //endTime.getTime()
+    }
+    console.log("Time1: ",time1)
+
+
+
+    let startTime2 = new Date()
+    startTime2.setMinutes(30)
+    let endTime2 = startTime2
+    endTime2.setMinutes(endTime2.getMinutes() + newMatch.duration)
+
+    let time2 = {
+      startTime:  140,// startTime2.getTime(),
+      endTime: 180 // endTime2.getTime()
+    }
+
+
+
+    // let startTime3 = startTime
+    // startTime3.setHours(3)
+    // let endTime3 = startTime3.setMinutes()
+    // endTime3.setMinutes(endTime3.getMinutes() + newMatch.duration)
+
+    // console.log("start time 3: ", startTime3)
+    // console.log("end time 3: ", endTime3)
+
+    // let time3 = {
+    //   startTime: startTime3,
+    //   endTime: endTime3
+    // }
+
+    // console.log(time1)
+    // console.log(time2)
+    // console.log(time3)
+    // console.log(time2.startTime.getTime())
+        console.log(time1, time2)
+
+    console.log("Overlapping?: ", matchTimeIsOverlapping(time1, time2))
+    console.log(teamsInCup.length)
     // KOlla om fieldId är samma, samt om sluttiden är större än den andras starttid och startid är mindra än den andra
+
+    // TODO: Check matches in cup instead
     for (let i = 0; i < teamsInCup.length; i++) {
+      console.log("hey")
+      if (newMatch.fieldId = teamsInCup[i].fieldId) {
+
+        // FUNCTION PINTER ANVÄND HÄR!!
+        if (matchTimeIsOverlapping(time1, time2)) {
+            // Om inte append
+          console.log("is overlaping")
+        } else {
+          console.log("is not overlaoing")
+          teamsInCup.push(newMatch)
+        }
+
+      }
+
      // console.log("Team:" + )
       /*
       .filter(function (match) {
@@ -167,7 +234,7 @@ const [currentTime] = useState("2020-01-01T00:00")
   */
 
   return (
-    <div class="">
+    <div className="" style={{backgroundColor: 'white'}}>
 
       <h2 class="">New Match</h2>
       <Form

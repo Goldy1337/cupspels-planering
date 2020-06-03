@@ -17,6 +17,7 @@ import MatchContextProvider from "./contexts/MatchContextProvider";
 import NewArena from "./components/NewArena";
 import CreateBrackets from "./components/CreateBrackets";
 import PlayerInfo from "./components/PlayerInfo";
+import NewMatch from "./components/NewMatch"
 import UserLogin from "./components/UserLogin";
 import GroupPlay from "./components/GroupPlay";
 const { Login, User } = mongoosy;
@@ -72,13 +73,14 @@ export default function App() {
                     <FieldContextProvider>
                       <Router>
                         <main>
-                          {/* <Link to="/userLogin">Login</Link>| */}
+                          <Link to="/userLogin">Login</Link>|
                           <Link to="/addTeam"> Add Team </Link>|
                           <Link to="/newReferee"> Add Referee </Link>|
                           <Link to="/newArena"> Add Arena </Link>|
                           <Link to="/createBrackets">Create Brackets</Link>|
                           <Link to="/playerInfo">Player Info</Link>|
                           <Link to="/groupPlay">Group Play</Link>|
+                          <Link to="/new-match">New Match</Link>
                           {/* <Link to="/newMatch">New NewMatch</Link> */}
                           <Route exact path="/addTeam" component={NewTeam} />
                           <Route
@@ -112,6 +114,7 @@ export default function App() {
                             path="/groupPlay"
                             component={GroupPlay}
                           />
+                          <Route exact path="/new-match" component={NewMatch} />
                           {/* <Route exact path="/newMatch" component={NewMatch} /> */}
                         </main>
                       </Router>
