@@ -6,4 +6,21 @@
 table{
   border-collapse: collapse !important;
   border-spacing: 0 !important;
+}   
+
+.leaflet-container{
+  width: 100%;
+  height: 100vh;
+}
+
+input.glass{
+  width: 200px;
+  height: 30px;
+}
+
+option{
+  cursor: pointer
+}
+.address-info{
+  color: white; 
 }
