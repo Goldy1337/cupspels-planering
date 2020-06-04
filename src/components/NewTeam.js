@@ -9,6 +9,7 @@ import {
   Col,
   Jumbotron,
   Container,
+  Row
 } from "reactstrap";
 import mongoosy from "mongoosy/frontend";
 
@@ -17,7 +18,7 @@ export default function NewTeam(props) {
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('N/A');
   const [ageGroup, setAgeGroup] = useState('');
-  const {clearTeams} = useContext(TeamContext);
+  const {clearTeams} = useContext(TeamContext); //TODO remove
   const { Team } = mongoosy;
   const [colorTheme] = useContext(ThemeContext)
 
@@ -46,100 +47,102 @@ export default function NewTeam(props) {
 
   return (
     <div>
-      <Jumbotron fluid>
-        <Container fluid>
-          <Form>
-            <FormGroup className="col-sm-6 col-md-6 offset-3">
-              <Col>
-                <Input
-                  type="name"
-                  className="teamFormInput mb-3"
-                  placeholder="Club name"
-                  autoComplete="off"
-                  value={clubName}
-                  onChange={(e) => setClubName(e.target.value)}
-                />
-                <Input
-                  type="name"
-                  id="teamName"
-                  className="teamFormInput mb-3"
-                  placeholder="Team name"
-                  autoComplete="off"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                />
-                <Input
-                  type="select"
-                  className="teamFormInput mb-3"
-                  id="teamGender"
-                  value={teamGender}
-                  onChange={(e) => setTeamGender(e.target.value)}
-                >
-                  <option>N/A</option>
-                  <option>Mixed</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                </Input>
-                <Input
-                  type="age"
-                  id="ageGroup"
-                  className="teamFormInput mb-3"
-                  autoComplete="off"
-                  placeholder="Age group"
-                  value={ageGroup}
-                  onChange={(e) => setAgeGroup(e.target.value)}
-                />
-              </Col>
-            </FormGroup>
-            {/* <FormGroup className="col-sm-12 col-md-6 offset-md-3">
-              <Col>
-                <Input
-                  type="name"
-                  id="teamName"
-                  className="teamFormInput"
-                  placeholder="Team name"
-                  autoComplete="off"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                />
-              </Col>
-            </FormGroup>
-            <FormGroup className="col-sm-12 col-md-6 offset-md-3">
-              <Col>
-                <Input
-                  type="select"
-                  className="teamFormInput"
-                  id="teamGender"
-                  value={teamGender}
-                  onChange={(e) => setTeamGender(e.target.value)}
-                >
-                  <option>N/A</option>
-                  <option>Mixed</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                </Input>
-              </Col>
-            </FormGroup>
-            <FormGroup className="col-sm-12 col-md-6 offset-md-3">
-              <Col>
-                <Input
-                  type="age"
-                  id="ageGroup"
-                  className="teamFormInput"
-                  autoComplete="off"
-                  placeholder="Age group"
-                  value={ageGroup}
-                  onChange={(e) => setAgeGroup(e.target.value)}
-                />
-              </Col>
-            </FormGroup> */}
-            <FormGroup className="col-sm-6 col-md-6 offset-5">
-              <Button onClick={addTeam} color={colorTheme} size="lg">Confirm</Button>
-              {/* <Button onClick={clearTeams} color={colorTheme}>Clear</Button> */}
-            </FormGroup>
-          </Form>
-        </Container>
-      </Jumbotron>
+        <Jumbotron fluid>
+          <Container fluid>
+            <Form>
+              <FormGroup>
+              <Row>
+                <Col sm="12" md={{ size: 6, offset: 3 }}>
+                  <Input
+                    type="name"
+                    className="teamFormInput mb-3"
+                    placeholder="Club name"
+                    autoComplete="off"
+                    value={clubName}
+                    onChange={(e) => setClubName(e.target.value)} align="center"
+                  />
+                  <Input
+                    type="name"
+                    id="teamName"
+                    className="teamFormInput mb-3"
+                    placeholder="Team name"
+                    autoComplete="off"
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)} align="center"
+                  />
+                  <Input
+                    type="select"
+                    className="teamFormInput mb-3"
+                    id="teamGender"
+                    value={teamGender}
+                    onChange={(e) => setTeamGender(e.target.value)} align="center"
+                  >
+                    <option>N/A</option>
+                    <option>Mixed</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </Input>
+                  <Input
+                    type="age"
+                    id="ageGroup"
+                    className="teamFormInput mb-3"
+                    autoComplete="off"
+                    placeholder="Age group"
+                    value={ageGroup}
+                    onChange={(e) => setAgeGroup(e.target.value)} align="center"
+                  />
+                  </Col>
+                </Row>
+              </FormGroup>
+              {/* <FormGroup className="col-sm-12 col-md-6 offset-md-3">
+                <Col>
+                  <Input
+                    type="name"
+                    id="teamName"
+                    className="teamFormInput"
+                    placeholder="Team name"
+                    autoComplete="off"
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup className="col-sm-12 col-md-6 offset-md-3">
+                <Col>
+                  <Input
+                    type="select"
+                    className="teamFormInput"
+                    id="teamGender"
+                    value={teamGender}
+                    onChange={(e) => setTeamGender(e.target.value)}
+                  >
+                    <option>N/A</option>
+                    <option>Mixed</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup className="col-sm-12 col-md-6 offset-md-3">
+                <Col>
+                  <Input
+                    type="age"
+                    id="ageGroup"
+                    className="teamFormInput"
+                    autoComplete="off"
+                    placeholder="Age group"
+                    value={ageGroup}
+                    onChange={(e) => setAgeGroup(e.target.value)}
+                  />
+                </Col>
+              </FormGroup> */}
+              <FormGroup align="center">
+                <Button onClick={addTeam} color={colorTheme} size="lg">Confirm</Button>
+                {/* <Button onClick={clearTeams} color={colorTheme}>Clear</Button> */}
+              </FormGroup>
+            </Form>
+          </Container>
+          </Jumbotron>
     </div>
   );
 }
