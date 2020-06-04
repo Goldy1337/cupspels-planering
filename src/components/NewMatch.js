@@ -2,22 +2,24 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Button, Form, FormGroup, Input, Col } from 'reactstrap'
 import { MatchContext } from '../contexts/MatchContextProvider'
 import { teamContext, TeamContext } from '../contexts/TeamContextProvider'
-//import RefereeList from './RefereeList'
+
 import mongoosy from 'mongoosy/frontend';
+//import Team from './Brackets';
 const {
   Cup,
   Match,
   Arena,
-  Field
+  Field,
+  Team
 } = mongoosy;
 
 
 // Sortera matcher; samma ålder, cupId, kön...
-// TODO: get fields 
+// TODO: inte möta egna laget; team1 vs team1 
 
-function NewReferee() {
+function NewMatch() {
 
-  const { appendMatch } = useContext(MatchContext)
+  const { appendMatch, createMatch } = useContext(MatchContext)
   const [newMatch, setNewMatch] = useState({ matchType: '', duration: 0, teams: [], field: ''})
   const { teams } = useContext(TeamContext)
   const [cup, setCup] = useState()
@@ -25,7 +27,7 @@ function NewReferee() {
   const [fieldsInCup, setFieldsInCup] = useState([])
   const [availableFields, setAvailableFields] = useState([])
 
-const [currentTime] = useState("2020-01-01T00:00")
+  const [currentTime] = useState("2020-01-01T00:00")
 
   const updateMatch = update => setNewMatch({ ...newMatch, ...update })
 
@@ -36,12 +38,79 @@ const [currentTime] = useState("2020-01-01T00:00")
   // const [phoneNumber, setPhoneNumber] = useState('')
 
   useEffect(() => {
-    uploadData()
+    //uploadData()
     //Match.removeAll({ cup: "5ec2f7915c58b4ee74925cd8" })
     //deleteGroupData()
     //fetchTeams("5ec2f7915c58b4ee74925cd8")
-    fetchTeams("5ec2c4c65c58b4ee74925c4e")
+    Test()
+    //fetchTeams("5ec2c4c65c58b4ee74925c4e")
   }, [])
+
+  const Test = async () => {
+
+    let field1 = await Field.findOne({ _id: "5eaab104fc3b6a091bfe0c08" })
+    let field2 = await Field.finOne({ _id: "5eb96271c5ec404db8be6c5f" })
+    let field3 = await Field.finOne({ _id: "5ebaac43c5ec404db8be6c7d" })
+  
+    let date = new Date()
+    date.setHours(3)
+
+    let match = new Match({
+      fieldId: field1._id,
+      result: "0-0",
+      matchType: "Quarter final",
+      date: date,
+      startTime: date,
+      duration: 90,
+      activeTeamSize: 11,      
+    })
+
+    //await match.save()
+
+    let date2 = new Date()
+    date.setHours(2)
+
+    let match2 = new Match({
+      fieldId: field1._id,
+      result: "0-0",
+      matchType: "Semi Final",
+      date: date,
+      startTime: date,
+      duration: 90,
+      activeTeamSize: 11,
+    })
+    
+    //await match2.save()
+
+
+
+    let fields = [field1] //, field2, field3]
+
+    let team1 = new Team({
+      club: "Lakers",
+      name: "Lakers Junior Team",
+      gender: "Mixed",
+      age: 11,
+    })
+
+    let team2 = new Team({
+      club: "Oceans",
+      name: "Oceans Junior Team",
+      gender: "Mixed",
+      age: 11,
+    })
+
+    let team3 = new Team({
+      club: "Rivers",
+      name: "Rivers Junior Team",
+      gender: "Mixed",
+      age: 11,
+    })
+
+    let teams = [team1, team2, team3]
+
+    createMatch(teams, fields)
+  }
 
   const addMatch = (e) => {
     e.preventDefault();
@@ -70,6 +139,7 @@ const [currentTime] = useState("2020-01-01T00:00")
 
   const uploadData = async () => {
 
+
     let newArena = new Arena({
       name: "Large arena",
       organizer: "ICA",
@@ -89,7 +159,7 @@ const [currentTime] = useState("2020-01-01T00:00")
       startDate: startDate,
       endDate: endDate,
       //teams: [ ],
-      arenas: [newArena._id]
+      //arenas: [newArena._id]
     })
 
     let newField1 = new Field({
@@ -118,7 +188,7 @@ const [currentTime] = useState("2020-01-01T00:00")
 
     newArena.cups = [newCup._id]
     newArena.fields = [newField1._id, newField2._id, newField3._id]
-    //newCup.arenas = [newArena._id]
+    newCup.arenas = [newArena._id]
 
     console.log("ID: ",newCup._id)
 
@@ -132,7 +202,19 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
+  
+  
   const fetchTeams = async (cupId) => {
+
+
+    // class CreateMatch { }
+    // let matchCreator = new CreateMatch("sej", "sad")
+    // matchCreator.createMatch("Hey", "Swyg")
+    //CreateMatch.createMatch("Hey", "swejs")
+
+
+
+
     let cup = await Cup.findOne({ _id: cupId}).populate('teams').populate('arenas').populate('fields').exec() // TODO: pass in id instead?
     setCup(cup)
     setTeamsInCup(cup.teams)
@@ -153,6 +235,11 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
+  // const createMatch = () => {
+
+  // }
+
+
   const matchTimeIsOverlapping = (a, b) => {
    
     if (a.endTime >= b.startTime && a.startTime <= b.endTime ||
@@ -165,6 +252,7 @@ const [currentTime] = useState("2020-01-01T00:00")
   }
 
 
+  // Skapa matcher i koden
   const checkFieldAvailability = async () => {
     // TODO: jämför match med dem i databasen... kolla om:
     // matchens start tid plus duration (plus lite extra tid) är mindre än starttiden för andra matcheran 
@@ -305,7 +393,6 @@ const [currentTime] = useState("2020-01-01T00:00")
 
   return (
     <div className="" style={{backgroundColor: 'white'}}>
-
       <h2 class="">New Match</h2>
       <Form
         onSubmit={addMatch}
@@ -401,4 +488,4 @@ const [currentTime] = useState("2020-01-01T00:00")
   )
 }
 
-export default NewReferee
+export default NewMatch
