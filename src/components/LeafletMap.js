@@ -19,9 +19,9 @@ L.Icon.Default.mergeOptions({
 
 const LeafletMap = (props) => {
   const [center, setCenter] = useState([37.7833, -122.4167]);
-  const [streetName, setStreetName] = useState("");
-  const [foundAddresses, setFoundAddresses] = useState([]);
-  const [foundAddress, setFoundAddress] = useState("");
+  // const [streetName, setStreetName] = useState("");
+  // const [foundAddresses, setFoundAddresses] = useState([]);
+  // const [foundAddress, setFoundAddress] = useState("");
 
   const prov = OpenStreetMapProvider();
   const GeoSearchControlElement = withLeaflet(SearchControl);

@@ -6,7 +6,7 @@ export default function FieldList() {
   const { fields } = useContext(FieldContext)
 
   return (
-    <Table info>  
+    <Table dark>  
     <thead>
       <tr>
         <th>#</th>
@@ -18,7 +18,7 @@ export default function FieldList() {
     </thead>
       {fields.map((field, i) => {
         return (
-          <tbody key={field._id}>
+          <tbody key={i}>
             <tr>
               <td>{i + 1}</td>
               <td>{field.name}</td>

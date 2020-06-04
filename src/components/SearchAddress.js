@@ -92,9 +92,6 @@ const SearchAddress = () => {
               )}
             </Col>
           </FormGroup>
-          <FormGroup>
-            <Button>Done</Button>
-          </FormGroup>
         </Form>
       )}
     </div>

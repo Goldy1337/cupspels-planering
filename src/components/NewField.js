@@ -7,7 +7,7 @@ const {
   Field
 } = mongoosy;
 
-export default function NewField() {
+export default function NewField(props) {
   
   const { appendField } = useContext(FieldContext)
   const [field, setField] = useState({ name: '', size: '', surface: '', outdoors: 'Outdoors' })
@@ -20,11 +20,13 @@ export default function NewField() {
   async function addField(e) {
     e.preventDefault()
     const fieldAdded = {
+      arenaId: props.arena_id,
       name: field.name,
       size: field.size,
       surface: field.surface,
       outdoors: field.outdoors
     }
+    console.log("arena id: ", props.arena_id)
     appendField(fieldAdded)
     sendToDatabase(fieldAdded)
     updateField({ name: '', size: '', surface: '' })
@@ -34,6 +36,7 @@ export default function NewField() {
   async function sendToDatabase(fieldAdded) {
 
     let NewField = new Field({
+      arenaId: props.arena_id,
       name: fieldAdded.name,
       size: fieldAdded.size,
       surface: fieldAdded.surface,

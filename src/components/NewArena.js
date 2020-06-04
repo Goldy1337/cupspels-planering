@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Input } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import ArenaList from './ArenaList'
-import NewField from './NewField'
 import {ArenaContext} from '../contexts/ArenaContextProvider'
 import SearchAddress from './SearchAddress';
 const {
@@ -68,7 +67,7 @@ export default function NewArena() {
         </FormGroup>
       </Form>
       <ArenaList />
-      <NewField />
+      {/* <NewField /> */}
     </div>
   );
 }

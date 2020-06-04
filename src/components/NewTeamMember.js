@@ -81,6 +81,9 @@ const NewTeamMember = () => {
     let teamUsers = await User.find({ teamId: id });
     setTeamMembers(teamUsers);
   };
+  useEffect(() =>{
+    console.log("members added")
+  }, [teamMembers])
 
   return (
     <div>
