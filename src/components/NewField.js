@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import FieldList from './FieldList'
-import {FieldContext} from '../contexts/FieldContextProvider'
+import { FieldContext } from '../contexts/FieldContextProvider'
+import { ThemeContext } from '../contexts/ThemeContextProvider';
 const {
   Field
 } = mongoosy;
@@ -16,6 +17,7 @@ export default function NewField() {
   // const [size, setSize] = useState('')
   // const [surface, setSurface] = useState('')
   // const [outdoors, setOutdoors] = useState('Outdoors')
+  const [colorTheme] = useContext(ThemeContext)
 
   async function addField(e) {
     e.preventDefault()
@@ -58,11 +60,11 @@ export default function NewField() {
           value={field.surface} onChange={e => updateField({surface: e.target.value})}>
           </Input>
           <ButtonGroup>
-            <Button color="primary" onClick={() => updateField({outdoors: 'Outdoors'})} active={field.outdoors === 'Outdoors'}>Outdoors</Button>
-            <Button color="primary" onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
+            <Button color={colorTheme} onClick={() => updateField({outdoors: 'Outdoors'})} active={field.outdoors === 'Outdoors'}>Outdoors</Button>
+            <Button color={colorTheme} onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
           </ButtonGroup>
           <br></br>
-          <Button>Add Field</Button>
+          <Button color={colorTheme}>Add Field</Button>
         </FormGroup>
       </Form>
       <FieldList />
