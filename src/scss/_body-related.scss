@@ -3,10 +3,14 @@
 }
 
 .jumbotron{
-  background-color: #17a2b8;
+  background-color: #bee5eb;
 }
 
 body.darkMode {
+
+  .jumbotron{
+    background-color: #212529;
+  }
 
   table {
     color: #fff;
