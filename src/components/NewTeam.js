@@ -59,7 +59,7 @@ export default function NewTeam(props) {
                     placeholder="Club name"
                     autoComplete="off"
                     value={clubName}
-                    onChange={(e) => setClubName(e.target.value)} align="center"
+                    onChange={(e) => setClubName(e.target.value)}
                   />
                   <Input
                     type="name"
@@ -68,14 +68,14 @@ export default function NewTeam(props) {
                     placeholder="Team name"
                     autoComplete="off"
                     value={teamName}
-                    onChange={(e) => setTeamName(e.target.value)} align="center"
+                    onChange={(e) => setTeamName(e.target.value)}
                   />
                   <Input
                     type="select"
                     className="teamFormInput mb-3"
                     id="teamGender"
                     value={teamGender}
-                    onChange={(e) => setTeamGender(e.target.value)} align="center"
+                    onChange={(e) => setTeamGender(e.target.value)}
                   >
                     <option>N/A</option>
                     <option>Mixed</option>
@@ -89,7 +89,7 @@ export default function NewTeam(props) {
                     autoComplete="off"
                     placeholder="Age group"
                     value={ageGroup}
-                    onChange={(e) => setAgeGroup(e.target.value)} align="center"
+                    onChange={(e) => setAgeGroup(e.target.value)}
                   />
                   </Col>
                 </Row>

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
-import FieldList from './FieldList'
 import { FieldContext } from '../contexts/FieldContextProvider'
 import { ThemeContext } from '../contexts/ThemeContextProvider';
 const {
@@ -67,7 +66,6 @@ export default function NewField() {
           <Button color={colorTheme}>Add Field</Button>
         </FormGroup>
       </Form>
-      <FieldList />
     </div>
   )
 }
