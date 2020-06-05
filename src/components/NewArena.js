@@ -74,7 +74,9 @@ export default function NewArena() {
                     onChange={(e) => updateArena({ homeTeam: e.target.value })}
                   ></Input>
                   <SearchAddress />
-                  <Button color={colorTheme} size="lg">Add Arena</Button>
+                  <FormGroup align="center">
+                    <Button color={colorTheme} size="lg">Add Arena</Button>
+                  </FormGroup>
                   </Col>
                 </Row>
               </FormGroup>
