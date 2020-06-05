@@ -44,7 +44,7 @@ export default function NewArena() {
   //The form for adding the arena
   return (
     <div>
-      <Jumbotron fluid>
+      {/* <Jumbotron fluid>
         <Container fluid>
           <Form onSubmit={addArena}>
             <FormGroup>
@@ -97,7 +97,65 @@ export default function NewArena() {
             </Form>
           </Container>
       </Jumbotron>
-      <FieldList />
+      <FieldList /> */}
+      <Row>
+        <Jumbotron fluid>
+          <Container fluid>
+            <Form onSubmit={addArena}>
+              <FormGroup>
+                <Row>
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <Input
+                      type="text"
+                      placeholder="Add arena name"
+                      className="mb-3"
+                      value={arena.name}
+                      onChange={(e) => updateArena({ name: e.target.value })}
+                      required
+                    ></Input>
+                    <Input
+                      type="number"
+                      placeholder="Add arena capacity"
+                      className="mb-3"
+                      value={arena.capacity}
+                      onChange={(e) => updateArena({ capacity: e.target.value })}
+                      required
+                    ></Input>
+                    <Input
+                      type="text"
+                      placeholder="Add arena home team"
+                      className="mb-3"
+                      value={arena.homeTeam}
+                      onChange={(e) => updateArena({ homeTeam: e.target.value })}
+                    ></Input>
+                    <SearchAddress />
+                    <FormGroup align="center">
+                      <Button color={colorTheme} size="lg">Add Arena</Button>
+                    </FormGroup>
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Form>
+          </Container>
+        </Jumbotron>
+      </Row>
+      {/* <ArenaList /> */}
+      <Row>
+        <Jumbotron fluid>
+          <Container fluid>
+            <Form onSubmit={addArena}>
+              <FormGroup>
+                <Row>
+                  <Col sm="12" md={{ size: 6, offset: 3 }}>
+                    <NewField />
+                  </Col>
+                </Row>
+              </FormGroup>
+            </Form>
+          </Container>
+        </Jumbotron>
+      </Row>
+      {/* <FieldList /> */}
     </div>
   );
 }
