@@ -73,39 +73,48 @@ function NewReferee() {
                   <Input
                     required
                     type="text"
+                    placeholder="First Name"
                     id="referee-firstName"
+                    className="mb-3"
                     class="referee-firstName"
                     value={firstName}
                     onChange={e => setFirstName(e.target.value)} />
-                    <label for="referee-firstName">First name</label>
+                    {/* <label for="referee-firstName">First name</label> */}
                   <Input
                     required
                     type="text"
+                    placeholder="Last Name"
                     id="referee-lastName"
+                    className="mb-3"
                     class="referee-lastName"
                     value={lastName}
                     onChange={e => setLastName(e.target.value)} />
-                    <label for="referee-lastName">Last name</label>
-                  <h5 className="contact-title">Contact Details:</h5>
-                  <label for="referee-firstName">Email</label>
+                    {/* <label for="referee-lastName">Last name</label> */}
+                  {/* <h5 className="contact-title">Contact Details:</h5>
+                  <label for="referee-firstName">Email</label> */}
                   <Input
                     required
                     type="email"
+                    placeholder="Email"
                     id="referee-email"
+                    className="mb-3"
                     placeholder="Example@gmail.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}/>
-                  <label for="referee-password">Password</label>
+                  {/* <label for="referee-password">Password</label> */}
                   <Input
                     required
                     type="password"
+                    placeholder="Password"
                     id="referee-password"
+                    className="mb-3"
                     value={password}
                     onChange={e => setPassword(e.target.value)}/>
-                  <label for="referee-firstName">Phone number</label>
+                  {/* <label for="referee-firstName">Phone number</label> */}
                   <Input
                     required
                     type="text"
+                    placeholder="Phone Number"
                     id="referee-phoneNumber"
                     className="mb-3"
                     value={phoneNumber}
