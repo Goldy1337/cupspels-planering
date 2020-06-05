@@ -117,11 +117,11 @@ export default function LoginHeader(props) {
   function toggleColorMode() {
     if (colorTheme === 'info') {
       setColorTheme('dark');
-      document.querySelector('body').classList.toggle('darkMode', true);
+      // document.querySelector('body').classList.toggle('darkMode', true);
     }
     if (colorTheme === 'dark') {
       setColorTheme('info');
-      document.querySelector('body').classList.toggle('darkMode', false); 
+      // document.querySelector('body').classList.toggle('darkMode', false); 
     }
   }
 
