@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import mongoosy from 'mongoosy/frontend';
+import { stat } from 'fs';
 const {
     Match
 } = mongoosy;
@@ -14,8 +15,23 @@ export default function MatchContextProvider(props) {
     setMatches([...matches, match]);
   };
 
+
+
+
+
+
+
+  // Fetch all games being played on the specified field
+  const fetchAllMatchesOnField = async (id) => {
+    
+    let matches = await Match.find({ fieldId: id }) 
+    return matches
+  }
+
+
   // FÖRSÖK SKAPA första matchen när cupen startar på alla fälten, sedan starttid plus duration + 10-15min
   // matches.then()
+  // TODO: pass in matchInfo
   const createMatch = (teams, avaliableFields) => {
     console.log("MATCH CONTEXT:")
     console.log(teams)
@@ -24,7 +40,7 @@ export default function MatchContextProvider(props) {
     // SKAPA EN MATCH som kollas
     let date = new Date()
 
-    let match = new Match({
+    let newMatch = new Match({
       //fieldId: field._id,
        result: "0-0",
        matchType: "Test",
@@ -34,7 +50,7 @@ export default function MatchContextProvider(props) {
        activeTeamSize: 11,
     })
 
-    checkIfMatchCanBeCreated(avaliableFields)
+    checkIfMatchCanBeCreated(avaliableFields, newMatch)
     // for (let field of avaliableFields) {
     //   console.log(field.name)
     //   let matches = fetchAllMatchesOnField(field._id)
@@ -49,13 +65,13 @@ export default function MatchContextProvider(props) {
   }
 
 
-  const checkIfMatchCanBeCreated = async (fields) => {
+  const checkIfMatchCanBeCreated = async (fields, newMatch) => {
     for (let field of fields) {
 
-
+      newMatch.field = field._id
       let matches = await fetchAllMatchesOnField(field._id)
 
-      checkMatchesTime(matches)
+      checkMatchesTime(newMatch, matches)
       //matches.then(checkMatchesTime(matches))
       //matches.then(matches.forEach( e => console.log(e)))
 
@@ -65,29 +81,51 @@ export default function MatchContextProvider(props) {
     }
   }
 
-  const checkMatchesTime = (matches) => {
+  const checkMatchesTime = async (newMatch, matches) => {
     console.log(matches)
     for (let match of matches) {
-      console.log(match)
+      console.log("Match to send", match)
+      
+      //newMatch.startTime = newMatch.startTime.getTime()
+      //match.startTime = match.startTime.getTime()
+      //console.log("MATCH TO ADD", newMatch.startTime)
+      let available = isTimePeriodAvailable(newMatch, match)
+      console.log("TIME IS AVAILABLE? ", available)
     }
   }
  
-  // Fetch all games being played on the specified field
-  const fetchAllMatchesOnField = async (id) => {
-    
-    let matches = await Match.find({ fieldId: id }) 
-    return matches
-  }
-
 
   // Check if another game is being played at the given time
   const isTimePeriodAvailable = (newMatch, matchOnField) => {
-    if (newMatch.endTime >= matchOnField.startTime && newMatch.startTime <= matchOnField.endTime ||
-      newMatch.startTime <= matchOnField.endTime && newMatch.endTime >= matchOnField.startTime) { return true }
 
-    return false 
+    let a = convertTimeToObject(newMatch.startTime.getTime(), newMatch.duration)
+    let b = convertTimeToObject(new Date(matchOnField.startTime).getTime(), matchOnField.duration)
+
+    
+    // if (a.endTime >= b.startTime && a.startTime <= b.endTime ||
+    //   a.startTime <= b.endTime && a.endTime >= b.startTime) { return true } else {
+    //   return false
+    //   }
+
+    console.log("Comparing1", a.startTime, a.endTime)
+    console.log("Comparing2", b.startTime, b.endTime)
+    console.log(a.startTime, " >= ", b.startTime, " && ", a.startTime, " <= ", b.startTime)
+    console.log(a.endTime >= b.startTime && a.startTime <= b.endTime)
+    console.log(a.startTime <= b.endTime && a.endTime >= b.startTime)
+    return (a.endTime >= b.startTime && a.startTime <= b.endTime ||
+      a.startTime <= b.endTime && a.endTime >= b.startTime) 
   }
 
+  
+  const convertTimeToObject = (startTime, duration) => {
+
+    let time = {
+      startTime: startTime,
+      endTime: startTime + (duration * 60000) 
+    }
+
+    return time
+  }
 
 
 
