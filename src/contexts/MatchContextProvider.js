@@ -66,6 +66,10 @@ export default function MatchContextProvider(props) {
 
 
   const checkIfMatchCanBeCreated = async (fields, newMatch) => {
+
+    // Skapa match cup.startTime till 20.00
+
+
     for (let field of fields) {
 
       newMatch.field = field._id
@@ -101,18 +105,7 @@ export default function MatchContextProvider(props) {
     let a = convertTimeToObject(newMatch.startTime.getTime(), newMatch.duration)
     let b = convertTimeToObject(new Date(matchOnField.startTime).getTime(), matchOnField.duration)
 
-    
-    // if (a.endTime >= b.startTime && a.startTime <= b.endTime ||
-    //   a.startTime <= b.endTime && a.endTime >= b.startTime) { return true } else {
-    //   return false
-    //   }
-
-    console.log("Comparing1", a.startTime, a.endTime)
-    console.log("Comparing2", b.startTime, b.endTime)
-    console.log(a.startTime, " >= ", b.startTime, " && ", a.startTime, " <= ", b.startTime)
-    console.log(a.endTime >= b.startTime && a.startTime <= b.endTime)
-    console.log(a.startTime <= b.endTime && a.endTime >= b.startTime)
-    return (a.endTime >= b.startTime && a.startTime <= b.endTime ||
+    return !(a.endTime >= b.startTime && a.startTime <= b.endTime ||
       a.startTime <= b.endTime && a.endTime >= b.startTime) 
   }
 
