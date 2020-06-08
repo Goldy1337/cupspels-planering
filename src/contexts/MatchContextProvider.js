@@ -28,29 +28,59 @@ export default function MatchContextProvider(props) {
     return matches
   }
 
+  const fetchAvailableFields = async (id) => {
+
+  }
+
+
+  // 1. Försök skapa en match på cup.startTime på field1, sen field2, sen field3... 
+  // 2. Om det inte går lägg till match duration plus 10-15 min och försök igen... 
+
+  
+  
+    // Skapa match cup.startTime till 20.00
 
   // FÖRSÖK SKAPA första matchen när cupen startar på alla fälten, sedan starttid plus duration + 10-15min
   // matches.then()
   // TODO: pass in matchInfo
-  const createMatch = (teams, avaliableFields) => {
-    console.log("MATCH CONTEXT:")
+  const createMatch = (cup, currentArena, teams, avaliableFields) => {
+
+    console.log("CUp is starting:", cup.startDate)
     console.log(teams)
     console.log(avaliableFields)
 
     // SKAPA EN MATCH som kollas
-    let date = new Date()
+    let matchStart = new Date(cup.startDate)
 
     let newMatch = new Match({
       //fieldId: field._id,
        result: "0-0",
        matchType: "Test",
-       date: date,
-       startTime: date,
+       date: matchStart,
+       startTime: matchStart,
        duration: 90,
        activeTeamSize: 11,
     })
 
-    checkIfMatchCanBeCreated(avaliableFields, newMatch)
+    let matchTimeIsFree = false
+    do {
+      let res = checkIfMatchCanBeCreated(avaliableFields, newMatch)
+      if (res) {
+        matchTimeIsFree = true
+      } else {
+        matchTimeIsFree = false
+        let newStartTime = new Date(matchStart.getTime() + (duration + 10) * 60000) // Adds 10 min after each match before next
+        newMatch.startTime = newStartTime
+      }
+    } while(!matchTimeIsFree)
+
+    // if (checkIfMatchCanBeCreated(avaliableFields, newMatch)) {
+
+    // } else {
+    //   let newStartTime = new Date(matchStart.getTime() + (duration + 10) * 60000) // Adds 10 min after each match before next
+    //   newMatch.startTime = newStartTime
+    //   checkIfMatchCanBeCreated(avaliableFields, newMatch)
+    // }
     // for (let field of avaliableFields) {
     //   console.log(field.name)
     //   let matches = fetchAllMatchesOnField(field._id)
@@ -67,15 +97,18 @@ export default function MatchContextProvider(props) {
 
   const checkIfMatchCanBeCreated = async (fields, newMatch) => {
 
-    // Skapa match cup.startTime till 20.00
-
+    
 
     for (let field of fields) {
+
 
       newMatch.field = field._id
       let matches = await fetchAllMatchesOnField(field._id)
 
-      checkMatchesTime(newMatch, matches)
+      let isAvailable = await checkMatchesTime(newMatch, matches)
+      console.log("HOWDY")
+      console.log("AVAILABLE", isAvailable)
+
       //matches.then(checkMatchesTime(matches))
       //matches.then(matches.forEach( e => console.log(e)))
 
@@ -95,6 +128,7 @@ export default function MatchContextProvider(props) {
       //console.log("MATCH TO ADD", newMatch.startTime)
       let available = isTimePeriodAvailable(newMatch, match)
       console.log("TIME IS AVAILABLE? ", available)
+      return available
     }
   }
  

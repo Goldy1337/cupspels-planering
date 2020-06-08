@@ -49,8 +49,8 @@ function NewMatch() {
   const Test = async () => {
 
     let field1 = await Field.findOne({ _id: "5eaab104fc3b6a091bfe0c08" })
-    let field2 = await Field.finOne({ _id: "5eb96271c5ec404db8be6c5f" })
-    let field3 = await Field.finOne({ _id: "5ebaac43c5ec404db8be6c7d" })
+    let field2 = await Field.findOne({ _id: "5eb96271c5ec404db8be6c5f" })
+    let field3 = await Field.findOne({ _id: "5ebaac43c5ec404db8be6c7d" })
   
     let date = new Date()
     date.setHours(3)
@@ -83,9 +83,8 @@ function NewMatch() {
     //await match2.save()
 
 
-
-    let fields = [field1] //, field2, field3]
-
+    let fields = [field1, field2, field3] //, field2, field3]
+    console.log("FIELDS", fields)
     let team1 = new Team({
       club: "Lakers",
       name: "Lakers Junior Team",
@@ -109,7 +108,28 @@ function NewMatch() {
 
     let teams = [team1, team2, team3]
 
-    createMatch(teams, fields)
+
+
+    let cupStartTime = new Date('October 5, 2020 08:00:00')
+    let cupEndTime = new Date('October 9, 2020 20:00:00')
+    
+    let cup1 = new Cup({
+      name: "AutoCreated Cup",
+      organizer: "Myself",
+      startDate: cupStartTime,
+      endDate: cupEndTime,
+    })
+    console.log("FIELDS!OKSDALDKA", fields)
+
+    let arena1 = new Arena({
+      name: "Main Arena",
+      capacity: 5000,
+      homeTeam: "Los Vegetarians",
+      // cups: [cup1],
+      //fields: [{type: Types.ObjectId, ref: 'Field'}]
+    })
+
+    createMatch(cup1, arena1,  teams, fields)
   }
 
   const addMatch = (e) => {
