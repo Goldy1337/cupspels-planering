@@ -35,7 +35,7 @@ export default function CupCreator() {
   };
 
   const createCup = () => {
-    
+
   }
 
   return (
@@ -60,6 +60,7 @@ export default function CupCreator() {
                 <Col>
                   <Label style={{marginBottom: '0px'}}>Start date:</Label>
                   <Input
+                    // style={{width: '20vw'}}
                     type="datetime-local"
                     value={"2020-01-01T00:00"}
                   />                  
