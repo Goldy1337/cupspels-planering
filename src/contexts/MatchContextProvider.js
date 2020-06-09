@@ -35,13 +35,10 @@ export default function MatchContextProvider(props) {
 
   // 1. Försök skapa en match på cup.startTime på field1, sen field2, sen field3... 
   // 2. Om det inte går lägg till match duration plus 10-15 min och försök igen... 
-
+  // 3. Kolla om klockan är över 20.00 eller något
   
-  
-    // Skapa match cup.startTime till 20.00
 
   // FÖRSÖK SKAPA första matchen när cupen startar på alla fälten, sedan starttid plus duration + 10-15min
-  // matches.then()
   // TODO: pass in matchInfo
   const createMatch = (cup, currentArena, teams, avaliableFields) => {
 
@@ -63,13 +60,15 @@ export default function MatchContextProvider(props) {
     })
 
     let matchTimeIsFree = false
+    
     do {
       let res = checkIfMatchCanBeCreated(avaliableFields, newMatch)
       if (res) {
         matchTimeIsFree = true
+        // TODO: SAVE MATCH!?
       } else {
         matchTimeIsFree = false
-        let newStartTime = new Date(matchStart.getTime() + (duration + 10) * 60000) // Adds 10 min after each match before next
+        let newStartTime = new Date(matchStart.getTime() + (newMatch.duration + 10) * 60000) // Adds 10 min after each match before next
         newMatch.startTime = newStartTime
       }
     } while(!matchTimeIsFree)
