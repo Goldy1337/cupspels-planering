@@ -2,14 +2,14 @@ import React, { useState, useContext } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import FieldList from './FieldList'
-import {FieldContext} from '../contexts/FieldContextProvider'
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 const {
   Field
 } = mongoosy;
 
 export default function NewField() {
   
-  const { appendField } = useContext(FieldContext)
+  const { appendField } = useContext(GlobalContext)
   const [field, setField] = useState({ name: '', size: '', surface: '', outdoors: 'Outdoors' })
   const updateField = update => setField({ ...field, ...update })
   // const [name, setName] = useState('')

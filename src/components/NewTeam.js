@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { TeamContext } from "../contexts/TeamContextProvider"
 import {
   Button,
   Form,
@@ -10,13 +9,14 @@ import {
   Container,
 } from "reactstrap";
 import mongoosy from "mongoosy/frontend";
+import { GlobalContext } from "../contexts/GlobalContextProvider";
 
 export default function NewTeam(props) {
   const [clubName, setClubName] = useState('');
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('N/A');
   const [ageGroup, setAgeGroup] = useState('');
-  const {clearTeams} = useContext(TeamContext);
+  const {clearTeams} = useContext(GlobalContext);
   const { Team } = mongoosy;
 
   async function addTeam() {

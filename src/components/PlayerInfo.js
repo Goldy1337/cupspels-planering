@@ -5,7 +5,6 @@ const {
   Team,
   User,
   Match,
-  Field
 } = mongoosy;
 
 

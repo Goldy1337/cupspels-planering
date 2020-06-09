@@ -3,10 +3,10 @@ import { Card,
   Container, 
   Row, 
   Col } from 'reactstrap';
-  import { RefereeContext } from '../contexts/RefereeContextProvider'
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 export default function RefereeList() {
-  const { referees } = useContext(RefereeContext)
+  const { referees } = useContext(GlobalContext)
 
 
   const list = () => {

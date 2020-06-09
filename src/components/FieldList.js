@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { Table } from 'reactstrap';
-import { FieldContext } from '../contexts/FieldContextProvider'
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 export default function FieldList() {
-  const { fields } = useContext(FieldContext)
+  const { fields } = useContext(GlobalContext)
 
   return (
     <Table info>  
