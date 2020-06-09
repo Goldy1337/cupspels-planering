@@ -6,7 +6,7 @@ export default function ArenaList() {
   const { arenas } = useContext(ArenaContext)
 
   return (
-    <Table dark>  
+    <Table hover striped className="table-info">  
     <thead>
       <tr>
         <th>#</th>

@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
-import FieldList from './FieldList'
-import {FieldContext} from '../contexts/FieldContextProvider'
+import { FieldContext } from '../contexts/FieldContextProvider'
+import { ThemeContext } from '../contexts/ThemeContextProvider';
 const {
   Field
 } = mongoosy;
@@ -16,6 +16,7 @@ export default function NewField() {
   // const [size, setSize] = useState('')
   // const [surface, setSurface] = useState('')
   // const [outdoors, setOutdoors] = useState('Outdoors')
+  const [colorTheme] = useContext(ThemeContext)
 
   async function addField(e) {
     e.preventDefault()
@@ -48,24 +49,26 @@ export default function NewField() {
         <FormGroup>
           <Input type="text" placeholder="Add field name" 
           value={field.name} onChange={e => updateField({name: e.target.value})} 
-          required>
+          className="mb-3" required>
           </Input>
           <Input type="number" placeholder="Add field size" 
           value={field.size} onChange={e => updateField({size: e.target.value})} 
-          required>
+          className="mb-3" required>
           </Input>
           <Input type="text" placeholder="Add field surface" 
-          value={field.surface} onChange={e => updateField({surface: e.target.value})}>
+          value={field.surface} onChange={e => updateField({ surface: e.target.value })}
+          className="mb-3">
           </Input>
           <ButtonGroup>
-            <Button color="primary" onClick={() => updateField({outdoors: 'Outdoors'})} active={field.outdoors === 'Outdoors'}>Outdoors</Button>
-            <Button color="primary" onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
+            <Button color={colorTheme} onClick={() => updateField({outdoors: 'Outdoors'})} active={field.outdoors === 'Outdoors'}>Outdoors</Button>
+            <Button color={colorTheme} onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
           </ButtonGroup>
           <br></br>
-          <Button>Add Field</Button>
+          <FormGroup align="center">
+            <Button color={colorTheme} size="lg">Add Field</Button>
+          </FormGroup>
         </FormGroup>
       </Form>
-      <FieldList />
     </div>
   )
 }

@@ -90,18 +90,47 @@ export default function LoginHeader(props) {
     }
   }
 
- function toggleColorMode() {
+  async function deleteUsers() {
+    let allUsers = await User.find();
+    console.log('allUsers', allUsers.js);
+    await User.deleteMany({})
+    console.log('Users deleted')
+  }
 
-   document.querySelector('body').classList.toggle('darkMode', true) 
+  async function getUserData() {
+    let user = await Login.check()
+    console.log(user)
+  }
+
+//  function toggleColorMode() {
+
+//    document.querySelector('body').classList.toggle('darkMode', true); 
    
- }
+//   }
+  
+//   function toggleColorMode2() {
+
+//    document.querySelector('body').classList.toggle('darkMode', false); 
+   
+//  }
+
+  function toggleColorMode() {
+    if (colorTheme === 'info') {
+      setColorTheme('dark');
+      document.querySelector('body').classList.toggle('darkMode', true);
+    }
+    if (colorTheme === 'dark') {
+      setColorTheme('info');
+      document.querySelector('body').classList.toggle('darkMode', false); 
+    }
+  }
 
   return (
     <div>
-      <Navbar className="loginHeader" color="info" dark>
+      <Navbar className="loginHeader" color={colorTheme} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
         <Nav navbar>
-          {loginStatus.user ? <Button className="loginHeaderButton" color="info">My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color="info">Create Account</Button>}
+          {loginStatus.user ? <Button className="loginHeaderButton" color={colorTheme}>My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount}>
             <ModalHeader toggleCreateAccount={toggleCreateAccount} close={closeBtnCreateAccount}>Create Account</ModalHeader>
             <ModalBody>
@@ -138,8 +167,8 @@ export default function LoginHeader(props) {
             <ModalFooter>
             </ModalFooter>
           </Modal>
-          {loginStatus.user ? <Button className="loginHeaderButton" onClick={logout} color="info">Logout</Button> : <Button className="loginHeaderButton" onClick={toggleLogin} color="info">Login</Button>}
-          <Modal isOpen={modalLogin} toggle={modalLogin} className={className}>
+          {loginStatus.user ? <Button className="loginHeaderButton" onClick={logout} color={colorTheme}>Logout</Button> : <Button className="loginHeaderButton" onClick={toggleLogin} color={colorTheme}>Login</Button>}
+          <Modal isOpen={modalLogin} toggle={modalLogin}>
             <ModalHeader toggleLogin={toggleLogin} close={closeBtnLogin}>Login</ModalHeader>
             <ModalBody>
               <Form>
@@ -175,7 +204,7 @@ export default function LoginHeader(props) {
         </Nav>
       </Navbar>
       <br></br>
-      <Button onClick={toggleColorMode} color="info">Change Colormode</Button>
+      <Button onClick={toggleColorMode} color={colorTheme}>Change Colormode</Button>
     </div>
   );
 };
