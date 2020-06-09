@@ -11,14 +11,23 @@ import {
 } from "reactstrap";
 import TeamsModule from "../NewTeam";
 import ArenaModule from "../NewArena";
+import mongoosy from 'mongoosy/frontend';
+const {
+  Cup
+} = mongoosy;
 
 export default function CupCreator() {
   const [cupInfo, setCupInfo] = useState({
     name: "",
-    organizer: [],
+    organizer: "",
+    organizers: [],
     startDate: "",
     endDate: "",
   });
+
+  const updateCupInfo = (update) => {
+    setCupInfo({...cupInfo, ...update})
+  }
 
   const [states, setStates] = useState({
     arenaMenu: false,
@@ -34,8 +43,28 @@ export default function CupCreator() {
     updateStates({ [state]: !states[state] });
   };
 
-  const createCup = () => {
 
+  const createCup = async (e) => {
+    e.preventDefault()
+    cupInfo.organizers = cupInfo.organizer.replace(" ", "").split(",")
+    console.log(cupInfo)
+
+    let newCup = new Cup({
+      name: cupInfo.name,
+      organizer: cupInfo.organizer,
+      startDate: cupInfo.startDate,
+      endDate: cupInfo.endDate,
+    })
+
+    await newCup.save()
+    
+    //let cups = await Cup.find()
+    //console.log(cups)
+  }
+
+  const getOrganizers = (text) => {
+    let array = text.split(",")
+    cupInfo.organizers = array
   }
 
   return (
@@ -44,15 +73,28 @@ export default function CupCreator() {
       <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
         <h4 style={{textAlign: 'center', marginBottom: '30px'}}>Enter cup details</h4>
         <Container style={{display: 'flex', justifyContent: 'center'}} fluid>
-          <Form>
+          <Form onSubmit={e => createCup(e)}>
             <FormGroup className="col-sm-10 col-md-6 col-lg-4">
               <Col>
-                <Input style={{width: '40vw'}} placeholder="Cup name..."/>
+                <Input
+                  style={{ width: '40vw' }}
+                  required
+                  placeholder="Cup name..."
+                  value={cupInfo.name}
+                  onChange={(e) => updateCupInfo({name: e.target.value})}
+                />
+                
               </Col>
             </FormGroup>
             <FormGroup className="col-sm-10 col-md-6 col-lg-4">
               <Col>
-                <Input style={{width: '40vw'}} placeholder="Name of cup organizers..."/>
+                <Input
+                  style={{ width: '40vw' }}
+                  required
+                  placeholder="Name of cup organizers..."
+                  value={cupInfo.organizer}
+                  onChange={(e) => updateCupInfo({organizer: e.target.value})}
+                />
               </Col>
             </FormGroup>
             <div style={{display: 'flex'}}>
@@ -62,7 +104,9 @@ export default function CupCreator() {
                   <Input
                     // style={{width: '20vw'}}
                     type="datetime-local"
-                    value={"2020-01-01T00:00"}
+                    required
+                    value={cupInfo.startDate}
+                    onChange={ e => updateCupInfo({startDate: e.target.value})}
                   />                  
                 </Col>
               </FormGroup>
@@ -71,15 +115,17 @@ export default function CupCreator() {
                   <Label for="end-date" style={{marginBottom: '0px'}}>End date:</Label>
                   <Input
                     id="end-date"
+                    required
                     type="datetime-local"
-                    value={"2020-01-01T00:00"}
+                    value={cupInfo.endDate}
+                    onChange={ e => updateCupInfo({endDate: e.target.value})}
                   />
                 </Col>
               </FormGroup>
             </div>
        
             <FormGroup style={{display: 'flex', justifyContent: 'center', paddingTop: '30px', marginBottom: '0px'}} >
-              <Button style={{width: '10vw'}} className="ml-4">Confirm</Button>
+              <Button style={{ width: '10vw' }} className="ml-4">Confirm</Button>
             </FormGroup>
           </Form>
         </Container>
