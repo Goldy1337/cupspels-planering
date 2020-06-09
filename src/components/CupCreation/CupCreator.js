@@ -34,9 +34,13 @@ export default function CupCreator() {
     updateStates({ [state]: !states[state] });
   };
 
+  const createCup = () => {
+    
+  }
+
   return (
     <div>
-      <h2 style={{ textAlign: 'center', color: 'white', padding: '20px' }}>Set up Cup</h2>
+      <h2 style={{ textAlign: 'center', color: 'white', padding: '20px', textDecoration: 'underline' }}>Set up Cup</h2>
       <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
         <h4 style={{textAlign: 'center', marginBottom: '30px'}}>Enter cup details</h4>
         <Container style={{display: 'flex', justifyContent: 'center'}} fluid>
@@ -48,7 +52,7 @@ export default function CupCreator() {
             </FormGroup>
             <FormGroup className="col-sm-10 col-md-6 col-lg-4">
               <Col>
-                <Input style={{width: '40vw'}} placeholder="Name of cup organizer..."/>
+                <Input style={{width: '40vw'}} placeholder="Name of cup organizers..."/>
               </Col>
             </FormGroup>
             <div style={{display: 'flex'}}>
