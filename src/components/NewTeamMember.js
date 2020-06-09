@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useDebugValue } from "react";
 import {
   Collapse,
   Card,
@@ -14,7 +14,7 @@ import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import "../scss/_variable-overrides.scss";
-import RegisterAccount from "./RegisterAccount";
+import UserLogin from "./UserLogin";
 
 const NewTeamMember = () => {
   const { User } = mongoosy;
@@ -28,8 +28,10 @@ const NewTeamMember = () => {
   const [password, setPassword] = useState("");
   const [salt, setSalt] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false);
   const [teamName, setTeamName] = useState("");
   const [teamMembers, setTeamMembers] = useState([]);
+  const [teamMember, setTeamMember] = useState([]);
 
   let { id } = useParams();
 
@@ -60,15 +62,14 @@ const NewTeamMember = () => {
       subRole: subRole,
       email: email,
       phoneNumber: phoneNumber,
-      password: password,
-      salt: salt,
+      password: password
     });
 
-    appendUser(aMember);
-    saveUser(aMember);
-
-    getTeamMembers();
-    console.log("team members: ", teamMembers);
+    // appendUser(aMember);
+    // saveUser(aMember);
+   
+    setCreateAccount(true)
+     await setTeamMember(aMember);
 
     setPlayerName("");
     setEmail("");
@@ -82,8 +83,12 @@ const NewTeamMember = () => {
     setTeamMembers(teamUsers);
   };
 
+  useEffect(() => {
+    console.log(teamMember.password, " ", createAccount)
+  },[teamMember])
   return (
     <div>
+      {createAccount ? (<UserLogin teamMember={teamMember} isTeamMember={createAccount} />):("")}
       <h1>{teamName}</h1>
       {teamMembers[0] ? (
         <Table dark>

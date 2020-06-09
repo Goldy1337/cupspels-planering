@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button, Modal, ModalHeader, ModalBody, ModalFooter, Col, Form, FormGroup, Input, Label, Table } from 'reactstrap';
 import mongoosy from 'mongoosy/frontend';
 import { ThemeContext } from '../contexts/ThemeContextProvider';
@@ -32,6 +32,13 @@ export default function LoginHeader(props) {
 
   const closeBtnCreateAccount = <button className="close" onClick={toggleCreateAccount}>&times;</button>;
   const closeBtnLogin = <button className="close" onClick={toggleLogin}>&times;</button>;
+
+  useEffect(() => {
+    if(props.isTeamMember){
+
+      createMemberAccount()
+    }
+  }, [])
 
   const closeLoginModal = () => {
     toggleLogin()
@@ -67,15 +74,30 @@ export default function LoginHeader(props) {
     console.log(user)
   }
   
-  const createMemberAccount = async e => {
-    e.preventDefault()
-    let newMember = new User({
+  const createMemberAccount = async (e) => {
+    //  e.preventDefault()
+
+    let newMember; 
+
+    if(props.isTeamMember){
+      let u = props.teamMember;
+      newMember = new User({
+      name: u.name,
+      role: u.role,
+      email: u.email,
+      phoneNumber: u.phoneNumber,
+      password: u.password
+      })
+
+    }else{
+      newMember = new User({
       name: createMemberAccountCredentials.name,
       role: createMemberAccountCredentials.role,
       email: createMemberAccountCredentials.email,
       phoneNumber: createMemberAccountCredentials.phoneNumber,
       password: createMemberAccountCredentials.password
     })
+  }
     await newMember.save()
     if (newMember.js.error) {
       if (newMember.js.error.code === 11000) {
@@ -86,6 +108,7 @@ export default function LoginHeader(props) {
       }
     }
     else {
+      if(!props.isTeamMember)
       closeAccountCreationModal()
     }
   }

@@ -33,8 +33,8 @@ export default function App() {
     // // after saving the admin it has an id
     // console.log('anAdmin', anAdmin.js);
     // Read all admins from the db
-    // let allAdmins = await Admin.find();
-    // console.log('allAdmins', allAdmins.js);
+    let allUsers = await User.find();
+    console.log('allUsers', allUsers.js);
     // Create a new team and save to db
     // let aTeam = new Team({ name: 'IFK', gender: 'Female', age: 9 });
     // await aTeam.save();
