@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Button, Form, FormGroup, Input } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import ArenaList from './ArenaList'
@@ -8,11 +8,16 @@ const {
   Arena
 } = mongoosy;
 
-export default function NewArena() {
+export default function NewArena(props) {
 
   const { appendArena } = useContext(ArenaContext)
+
+  // const [cup, setCup] = useState({name: '', id: 0})
+  // const updateCup = update => setCup({ ...cup, ...update })
+  
   const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
   const updateArena = update => setArena({ ...arena, ...update })
+
     
   const addArena = (e) => {
     e.preventDefault();
@@ -25,6 +30,23 @@ export default function NewArena() {
     sendToDatabase(arenaAdded)
     updateArena({ name: '', capacity: '', homeTeam: '' })
   }
+
+  useEffect(() => {
+    printSome()
+  }, [])
+
+  const printSome = () => {
+    
+    console.log("Passed", props.cupInfo)
+    console.log("Name", props.cupInfo.name)
+    console.log("ID", props.cupInfo.id)
+    //console.log("ID", props.cupInfo._id)
+    //updateCup({name: props.cupInfo.name, id: props.cupInfo._id})
+    //console.log("CUP", cup)
+
+  }
+
+
 
   //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arenaAdded) {

@@ -12,6 +12,7 @@ import {
 import TeamsModule from "../NewTeam";
 import ArenaModule from "../NewArena";
 import mongoosy from 'mongoosy/frontend';
+import { stat } from "fs";
 const {
   Cup
 } = mongoosy;
@@ -23,6 +24,7 @@ export default function CupCreator() {
     organizers: [],
     startDate: "",
     endDate: "",
+    id: 0
   });
 
   const updateCupInfo = (update) => {
@@ -34,6 +36,7 @@ export default function CupCreator() {
     arenaMenu: false,
     teamsMenu: false,
     generateMatchMenu: false,
+    invalidDate: false
   });
 
   const updateStates = (updates) => {
@@ -44,11 +47,24 @@ export default function CupCreator() {
     updateStates({ [state]: !states[state] });
   };
 
+  const [showError, setShowError] = useState(false)
+
+  const updateShowError = (update) => {
+    setShowError({...showError, ...update})
+  }
+
 
   const createCup = async (e) => {
     e.preventDefault()
+
+    if (cupInfo.startDate >= cupInfo.endDate) {
+      updateShowError(true)
+      return
+    }
+    updateShowError(false)
+
+    // TODO: If startdate > enddate return
     cupInfo.organizers = cupInfo.organizer.replace(" ", "").split(",")
-    console.log(cupInfo)
 
     let newCup = new Cup({
       name: cupInfo.name,
@@ -57,16 +73,14 @@ export default function CupCreator() {
       endDate: cupInfo.endDate,
     })
 
+
     await newCup.save()
-    
-    //let cups = await Cup.find()
-    //console.log(cups)
+    cupInfo.id = newCup._id
+    console.log("CUP CREATED")
+
   }
 
-  const getOrganizers = (text) => {
-    let array = text.split(",")
-    cupInfo.organizers = array
-  }
+ 
 
   return (
     <div>
@@ -124,7 +138,12 @@ export default function CupCreator() {
                     onChange={ e => updateCupInfo({endDate: e.target.value})}
                   />
                 </Col>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {showError ? <Label style={{color: 'red', textAlign: 'center', paddingTop: '5px'}}>Invalid dates</Label> : <> </>}
+                </div>
+
               </FormGroup>
+
             </div>
        
             <FormGroup style={{display: 'flex', justifyContent: 'center', paddingTop: '30px', marginBottom: '0px'}} >
@@ -141,7 +160,7 @@ export default function CupCreator() {
           Generate Matches
         </button>
         <div style={{}}>{states.teamsMenu ? <TeamsModule /> : <></>}</div>
-        <div style={{}}>{states.arenaMenu ? <ArenaModule /> : <></>}</div>
+        <div style={{}}>{states.arenaMenu ? <ArenaModule cupInfo={cupInfo}/> : <></>}</div>
       </div>
    
     </div>
