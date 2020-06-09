@@ -12,6 +12,17 @@ body.darkMode {
     background-color: #212529;
   }
 
+  .player-info {
+ width: 70vw;
+ padding: 10px 15px;
+ margin: auto;
+ display: flex-block;
+ border: 1px solid #32383e;
+ background-color: #212529;
+ color: white;
+ text-align: center;
+}
+
   table {
     color: #fff;
     background-color: #212529; }
