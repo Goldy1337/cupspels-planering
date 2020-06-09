@@ -23,10 +23,10 @@ const { Login, User } = mongoosy;
 export default function LoginHeader(props) {
   const { className } = props;
 
-  const [
+  const {
     loginStatus,
     updateLoginStatus,
-  ] = useContext(GlobalContext);
+  } = useContext(GlobalContext);
 
   const [modalCreateAccount, setModalCreateAccount] = useState(false);
   const [modalLogin, setModalLogin] = useState(false);
