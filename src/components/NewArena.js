@@ -4,6 +4,7 @@ import mongoosy from 'mongoosy/frontend';
 import ArenaList from './ArenaList'
 import NewField from './NewField'
 import {ArenaContext} from '../contexts/ArenaContextProvider'
+import SearchAddress from './SearchAddress';
 const {
   Arena
 } = mongoosy;
@@ -64,22 +65,32 @@ export default function NewArena(props) {
     <div>
       <Form onSubmit={addArena}>
         <FormGroup>
-          <Input type="text" placeholder="Add arena name" 
-          value={arena.name} onChange={e => updateArena({name: e.target.value})} 
-          required>
-          </Input>
-          <Input type="number" placeholder="Add arena capacity" 
-          value={arena.capacity} onChange={e => updateArena({capacity: e.target.value})} 
-          required>
-          </Input>
-          <Input type="text" placeholder="Add arena home team" 
-          value={arena.homeTeam} onChange={e => updateArena({homeTeam: e.target.value})}>
-          </Input>
+          <Input
+            type="text"
+            placeholder="Add arena name"
+            value={arena.name}
+            onChange={(e) => updateArena({ name: e.target.value })}
+            required
+          ></Input>
+          <Input
+            type="number"
+            placeholder="Add arena capacity"
+            value={arena.capacity}
+            onChange={(e) => updateArena({ capacity: e.target.value })}
+            required
+          ></Input>
+          <Input
+            type="text"
+            placeholder="Add arena home team"
+            value={arena.homeTeam}
+            onChange={(e) => updateArena({ homeTeam: e.target.value })}
+          ></Input>
+          <SearchAddress />
           <Button>Add Arena</Button>
         </FormGroup>
       </Form>
       <ArenaList />
       <NewField />
     </div>
-  )
+  );
 }

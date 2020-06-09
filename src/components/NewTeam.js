@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { TeamContext } from "../contexts/TeamContextProvider"
 import {
   Button,
   Form,
@@ -15,6 +16,7 @@ export default function NewTeam(props) {
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('N/A');
   const [ageGroup, setAgeGroup] = useState('');
+  const {clearTeams} = useContext(TeamContext);
   const { Team } = mongoosy;
 
   async function addTeam() {
@@ -33,12 +35,12 @@ export default function NewTeam(props) {
     props.history.push("/addTeamMember/" + aTeam._id);
   }
 
-  async function clearTeams(){
-     let allTeams = await Team.find();
+  // async function clearTeams(){
+  //    let allTeams = await Team.find();
 
-    await Team.deleteMany({});
-    console.log("clear", allTeams.js);
-  }
+  //   await Team.deleteMany({});
+  //   console.log("clear", allTeams.js);
+  // }
 
   return (
     <div>

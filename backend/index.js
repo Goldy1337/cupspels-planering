@@ -49,8 +49,7 @@ async function createUsers() {
     role: 'SuperAdmin',
     email: 'god@gmail.com',
     phoneNumber: 0404040404,
-    password: pwencrypt('666'),
-    salt: 'test'
+    password: pwencrypt('666')
   });
   await god.save();
   console.log(god);
@@ -62,8 +61,7 @@ async function createUsers() {
     role: 'Admin',
     email: 'admin@gmail.com',
     phoneNumber: 0405050505,
-    password: pwencrypt('100'),
-    salt: 'testIgen'
+    password: pwencrypt('100')
   });
   await admin.save();
   console.log(admin);
@@ -75,8 +73,7 @@ async function createUsers() {
     role: 'Referee',
     email: 'ref@gmail.com',
     phoneNumber: 0401010101,
-    password: pwencrypt('200'),
-    salt: 'behövsDetta?'
+    password: pwencrypt('200')
   })
   await referee.save();
   console.log(referee)
