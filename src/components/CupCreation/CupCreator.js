@@ -4,7 +4,7 @@ import ArenaModule from "../NewArena";
 
 export default function CupCreator() {
   const [cupInfo, setCupInfo] = useState({
-    gname: "",
+    name: "",
     organizer: [],
     startDate: "",
     endDate: "",
