@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Table, Label, Form, FormGroup, Input, Button } from 'reactstrap'
 import { MatchContext } from '../contexts/MatchContextProvider'
+import { ThemeContext } from '../contexts/ThemeContextProvider';
 import mongoosy from 'mongoosy/frontend'
 
 const {
@@ -20,6 +21,7 @@ export default function GroupPlay(props) {
   const [numberOfGroups, setNumberOfGroups] = useState(1)
   const [warningMessage, setWarningMessage] = useState(false)
   const [groups, setGroups] = useState([])
+  const [colorTheme] = useContext(ThemeContext)
 
   
 
@@ -161,7 +163,7 @@ export default function GroupPlay(props) {
           value={numberOfGroups}
           onChange={e => setNumberOfGroups(e.target.value)} />
         </FormGroup>
-        <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Divide Teams Into Groups</Button>
+        <Button color={colorTheme} className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Divide Teams Into Groups</Button>
       </Form>
       {
         warningMessage ?
@@ -184,7 +186,7 @@ export default function GroupPlay(props) {
       }
       {groups.length > 0 ?
           <div>
-            <Button color="info" onClick={() => groups.map((t) => (
+            <Button color={colorTheme} onClick={() => groups.map((t) => (
               createGroupMatches(t)
             ))}>Create Matches</Button>
           </div>
