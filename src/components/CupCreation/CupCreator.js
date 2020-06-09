@@ -30,6 +30,7 @@ export default function CupCreator() {
   }
 
   const [states, setStates] = useState({
+    cupMenu: true,
     arenaMenu: false,
     teamsMenu: false,
     generateMatchMenu: false,
@@ -69,13 +70,14 @@ export default function CupCreator() {
 
   return (
     <div>
-      <h2 style={{ textAlign: 'center', color: 'white', padding: '20px', textDecoration: 'underline' }}>Set up Cup</h2>
+      <h2 style={{textAlign: 'center', color: 'white', padding: '20px', textDecoration: 'underline'}}>Set up Cup</h2>
       <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
-        <h4 style={{textAlign: 'center', marginBottom: '30px'}}>Enter cup details</h4>
+        <h4 style={{textAlign: 'center', marginBottom: '30px', opacity: '0.7'}}>Cup Details</h4>
         <Container style={{display: 'flex', justifyContent: 'center'}} fluid>
           <Form onSubmit={e => createCup(e)}>
             <FormGroup className="col-sm-10 col-md-6 col-lg-4">
               <Col>
+                <Label style={{margin: '0px'}}>Name of cup</Label>
                 <Input
                   style={{ width: '40vw' }}
                   required
@@ -88,6 +90,7 @@ export default function CupCreator() {
             </FormGroup>
             <FormGroup className="col-sm-10 col-md-6 col-lg-4">
               <Col>
+                <Label style={{margin: '0px'}}>Name of organizers</Label>
                 <Input
                   style={{ width: '40vw' }}
                   required
@@ -130,6 +133,7 @@ export default function CupCreator() {
           </Form>
         </Container>
       </Jumbotron>
+
       <div style={{ textAlign: "center" }}>
         <button onClick={() => toggleMenu("arenaMenu")}>Add Arenas</button>
         <button onClick={() => toggleMenu("teamsMenu")}>Add Teams</button>
