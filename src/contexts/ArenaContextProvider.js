@@ -9,10 +9,15 @@ export const ArenaContext = createContext();
 export default function ArenaContextProvider(props) {
 
   const [arenas, setArenas] = useState([])
-  
+  const [arena, setArena] = useState([])
+
   async function fetchArenas() {
-    let initArenas = await Arena.find()
+    let  initArenas = await Arena.find();
     setArenas(initArenas)
+  }
+  async function fetchArena(id) {
+    let initArena = await Arena.findOne({ _id: id });
+    setArena(initArena)
   }
   
   const appendArena = (arena) => {
@@ -25,8 +30,10 @@ export default function ArenaContextProvider(props) {
   
   const values = {
     arenas,
+    arena,
     appendArena,
-    fetchArenas
+    fetchArenas,
+    fetchArena
   }
 
   return (

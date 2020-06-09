@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
 import mongoosy from "mongoosy/frontend";
-import { Form, FormGroup, Input, Col, Button } from "reactstrap";
-import LeafletMap from "./LeafletMap";
+import { Form, FormGroup, Input, Col } from "reactstrap";
 import NewAddress from "./NewAddress";
+import {AddressContext} from "../contexts/AddressContextProvider"
 import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 
-const SearchAddress = () => {
-  const { Address } = mongoosy;
-  const [showMap, setShowMap] = useState(false);
+const SearchAddress = (props) => {
+  const [addAddress, setAddAddress] = useState(false);
   const [foundAddresses, setFoundAddresses] = useState([]);
-  const [mapAddress, setMapAddress] = useState("");
+  const { fetchAddress, address, appendAddress } = useContext(AddressContext);
   const prov = OpenStreetMapProvider();
 
   let throttleSearch;
   // useEffect(() => {
   //   setShowMap(true);
   // }, [setMapAddress]);
-  const saveAddress = async (address) => {
-    console.log(address)
-    setMapAddress(address)
+  const saveAddress = async (mapAddress) => {
+    console.log(mapAddress)
+    // setMapAddress(mapAddress)
+    appendAddress(mapAddress)
+     fetchAddress(mapAddress)
     //show map = true, <NewAddress address={mapAddress}
     //dela upp address i delar, return <LeafletMap> & address info
-        setShowMap(true)
-
+        setAddAddress(true)
   }
+  useEffect(() => {
+     console.log(address);
+
+  },[address])
 
   const doSearch = async (input) => {
     //  useEffect( async () => {
@@ -53,12 +57,10 @@ const SearchAddress = () => {
     }, 1000);
   };
 
-  //addAddress
-
   return (
     <div>
-      {showMap ? (
-        <NewAddress mapAddress={mapAddress}></NewAddress>
+      {addAddress  ? (
+        <NewAddress address={address} newAddress={addAddress}></NewAddress>
         // <LeafletMap mapAddress={mapAddress} />
       ) : (
         <Form id="form" autoComplete="off">
@@ -79,7 +81,6 @@ const SearchAddress = () => {
                   {foundAddresses.map((f) => (
                     <option
                       key={f.raw.place_id}
-                      value={mapAddress}
                       onClick={() => saveAddress(f)}
                     >
                       {f.label}

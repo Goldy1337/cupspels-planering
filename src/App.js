@@ -14,12 +14,14 @@ import ArenaContextProvider from "./contexts/ArenaContextProvider";
 import FieldContextProvider from "./contexts/FieldContextProvider";
 import TeamContextProvider from "./contexts/TeamContextProvider";
 import MatchContextProvider from "./contexts/MatchContextProvider";
+import AddressContextProvider from "./contexts/AddressContextProvider";
 import NewArena from "./components/NewArena";
 import CreateBrackets from "./components/CreateBrackets";
 import PlayerInfo from "./components/PlayerInfo";
 import UserLogin from "./components/UserLogin";
 import GroupPlay from "./components/GroupPlay";
-const { Login, User } = mongoosy;
+
+const { Login, User, Address, Arena } = mongoosy;
 // import NewMatch from './components/NewMatch'
 
 export default function App() {
@@ -30,11 +32,13 @@ export default function App() {
     // Create a new admin and save to db
     // let anAdmin = new Admin({ name: 'Olle' });
     // await anAdmin.save();
+    let allArenas = await Arena.find();
+    console.log(allArenas)
     // // after saving the admin it has an id
     // console.log('anAdmin', anAdmin.js);
     // Read all admins from the db
-    // let allAdmins = await Admin.find();
-    // console.log('allAdmins', allAdmins.js);
+    let allAddresses= await Address.find();
+    console.log('allAddresses', allAddresses.js);
     // Create a new team and save to db
     // let aTeam = new Team({ name: 'IFK', gender: 'Female', age: 9 });
     // await aTeam.save();
@@ -55,62 +59,68 @@ export default function App() {
       <ThemeProvider>
         <LoginProvider>
           <div>
-            <body>
+            {/* <body> */}
               <LoginHeader />
-            </body>
+            {/* </body> */}
           </div>
           <MatchContextProvider>
             <TeamContextProvider>
               <UserContextProvider>
                 <RefereeContextProvider>
                   <ArenaContextProvider>
-                    <FieldContextProvider>
-                      <Router>
-                        <main>
-                          <Link to="/userLogin">Login</Link>|
-                          <Link to="/addTeam"> Add Team </Link>|
-                          <Link to="/newReferee"> Add Referee </Link>|
-                          <Link to="/newArena"> Add Arena </Link>|
-                          <Link to="/createBrackets">Create Brackets</Link>|
-                          <Link to="/playerInfo">Player Info</Link>|
-                          <Link to="/groupPlay">Group Play</Link>|
-                          {/* <Link to="/newMatch">New NewMatch</Link> */}
-                          <Route exact path="/addTeam" component={NewTeam} />
-                          <Route
-                            exact
-                            path="/addTeamMember/:id"
-                            component={NewTeamMember}
-                          />
-                          <Route
-                            exact
-                            path="/newReferee"
-                            component={NewReferee}
-                          />
-                          <Route exact path="/newArena" component={NewArena} />
-                          <Route
-                            exact
-                            path="/createBrackets"
-                            component={CreateBrackets}
-                          />
-                          <Route
-                            exact
-                            path="/playerInfo"
-                            component={PlayerInfo}
-                          />
-                          <Route
-                            exact
-                            path="/userLogin"
-                            component={UserLogin}
-                          />
-                          <Route
-                            exact
-                            path="/groupPlay"
-                            component={GroupPlay}
-                          />
-                          {/* <Route exact path="/newMatch" component={NewMatch} /> */}
-                        </main>
-                      </Router>
-                    </FieldContextProvider>
+                    <AddressContextProvider>
+                      <FieldContextProvider>
+                        <Router>
+                          <main>
+                            <Link to="/userLogin">Login</Link>|
+                            <Link to="/addTeam"> Add Team </Link>|
+                            <Link to="/newReferee"> Add Referee </Link>|
+                            <Link to="/newArena"> Add Arena </Link>|
+                            <Link to="/createBrackets">Create Brackets</Link>|
+                            <Link to="/playerInfo">Player Info</Link>|
+                            <Link to="/groupPlay">Group Play</Link>|
+                            {/* <Link to="/newMatch">New NewMatch</Link> */}
+                            <Route exact path="/addTeam" component={NewTeam} />
+                            <Route
+                              exact
+                              path="/addTeamMember/:id"
+                              component={NewTeamMember}
+                            />
+                            <Route
+                              exact
+                              path="/newReferee"
+                              component={NewReferee}
+                            />
+                            <Route
+                              exact
+                              path="/newArena"
+                              component={NewArena}
+                            />
+                            <Route
+                              exact
+                              path="/createBrackets"
+                              component={CreateBrackets}
+                            />
+                            <Route
+                              exact
+                              path="/playerInfo"
+                              component={PlayerInfo}
+                            />
+                            <Route
+                              exact
+                              path="/userLogin"
+                              component={UserLogin}
+                            />
+                            <Route
+                              exact
+                              path="/groupPlay"
+                              component={GroupPlay}
+                            />
+                            {/* <Route exact path="/newMatch" component={NewMatch} /> */}
+                          </main>
+                        </Router>
+                      </FieldContextProvider>
+                    </AddressContextProvider>
                   </ArenaContextProvider>
                   x{" "}
                 </RefereeContextProvider>

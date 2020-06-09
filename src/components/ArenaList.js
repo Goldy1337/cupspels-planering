@@ -1,13 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Table, Collapse } from "reactstrap";
 import { ArenaContext } from "../contexts/ArenaContextProvider";
+import { AddressContext } from "../contexts/AddressContextProvider";
 import NewField from "./NewField";
 import "../scss/style.scss";
+import LeafletMap from "./LeafletMap";
+import NewAddress from "./NewAddress";
+import ShowAddress from "./ShowAddress";
 
-export default function ArenaList() {
-  const { arenas } = useContext(ArenaContext);
-  const [isOpen, setIsOpen] = useState(null);
+export default function ArenaList(props) {
+  const { arenas, fetchArena, fetchArenas, arena } = useContext(ArenaContext);
+  const {fetchAddress} = useContext(AddressContext)
+  const [isOpen, setIsOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState("")
+
+  useEffect(async () => {
+    await fetchArenas()
+  },[])
 
   const toggle = (e) => {
     if( clickedRow === e.currentTarget.id) {
@@ -17,9 +26,13 @@ export default function ArenaList() {
       setIsOpen(true)
     }
     setClickedRow(e.currentTarget.id)
-    console.log(e.currentTarget.id)
+   
+    fetchArena(e.currentTarget.getAttribute('row_id'))
      
   }
+  // useEffect(() => {
+  //   fetchAddress(arena.addressId)
+  // })
   // const toggleNewField = (id) => {
   //   setShowArenaField(id);
   // };
@@ -37,23 +50,27 @@ export default function ArenaList() {
         </thead>
         {arenas.map((arena, i) => {
           return (
+            console.log(arenas),
             <tbody key={arena._id}>
-              <tr className="arena-table-row" id={i} onClick={toggle}>
+              <tr
+                className="arena-table-row"
+                row_id={arena._id}
+                id={i}
+                onClick={toggle}
+              >
                 <td>{i + 1}</td>
                 <td>{arena.name}</td>
                 <td>{arena.capacity}</td>
                 <td>{arena.homeTeam}</td>
               </tr>
-              {
-                (clickedRow == i ? (
-                
-                    <Collapse isOpen={isOpen}>
-                      <NewField arena_id={arena._id} />
-                    </Collapse>
-                  
-                 ) : 
-               "")
-              }
+              {isOpen && clickedRow == i ? (
+                <Collapse isOpen={isOpen}>
+                  <NewField arena={arena} />
+                  <ShowAddress addressId={arena.addressId}/>
+                </Collapse>
+              ) : (
+                ""
+              )}
             </tbody>
           );
         })}

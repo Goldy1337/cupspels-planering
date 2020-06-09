@@ -1,4 +1,5 @@
-import React, { Component, createRef, useEffect, useState } from "react";
+import React, { Component, createRef, useEffect, useState, useContext } from "react";
+import {AddressContext} from "../contexts/AddressContextProvider"
 import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
 import L from "leaflet";
 import * as ELG from "esri-leaflet-geocoder";
@@ -19,6 +20,7 @@ L.Icon.Default.mergeOptions({
 
 const LeafletMap = (props) => {
   const [center, setCenter] = useState([37.7833, -122.4167]);
+  const {address} = useContext(AddressContext)
   // const [streetName, setStreetName] = useState("");
   // const [foundAddresses, setFoundAddresses] = useState([]);
   // const [foundAddress, setFoundAddress] = useState("");
@@ -27,7 +29,9 @@ const LeafletMap = (props) => {
   const GeoSearchControlElement = withLeaflet(SearchControl);
 
   useEffect(() => {
-    setCenter([props.mapAddress.y, props.mapAddress.x])
+   setCenter([-70.44 , 10])
+  //  setCenter([props.mapAddress.y, props.mapAddress.x])
+    console.log(address)
   },[])
 
   
@@ -50,7 +54,7 @@ const LeafletMap = (props) => {
           attribution="&amp;copy Google"
           url={"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}
         />
-        <Marker key={props.mapAddress.raw.place_id} position={center}></Marker>
+        <Marker position={center}></Marker>
         {/* <div className="pointer"></div> */}
         {/* <GeoSearchControlElement
           provider={prov}

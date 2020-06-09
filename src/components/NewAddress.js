@@ -2,14 +2,18 @@ import React, { useState, useContext, useEffect } from "react";
 import "../scss/style.scss"
 import mongoosy from "mongoosy/frontend";
 import LeafletMap from "./LeafletMap";
+import { AddressContext } from "../contexts/AddressContextProvider"
+import ShowAddress from "./ShowAddress";
 
 export default function NewAddress(props) {
   const { Address } = mongoosy;
   const [addressInfo, setAddressInfo] = useState([]);
   const [savedAddress, setSavedAddress] = useState("");
+  const {fetchAddress} =useContext(AddressContext)
 
   useEffect(() => {
     getAddressInfo();
+    console.log(props)
   }, []);
 
   useEffect(() => {
@@ -18,16 +22,16 @@ export default function NewAddress(props) {
   }, [addressInfo]);
 
   const getAddressInfo = async () => {
-    const address = props.mapAddress.label;
-    await setAddressInfo(address.split(","));
-    console.log(address.split(","));
-    console.log(address.substring(0, address.indexOf(",")));
-    console.log(address);
+    // const address = props.address.label;
+     console.log("newAddress: ", props)
+    await setAddressInfo(props.address.label.split(","));
+    // console.log(address.split(","));
+    // console.log(address.substring(0, address.indexOf(",")));
+    // console.log(address);
   };
 
   const addAddress = async () => {
     let anAddress;
-    let ord = "Hej";
     if (addressInfo[0]) {
       if (!isNaN(addressInfo[0])) {
         anAddress = new Address({
@@ -35,42 +39,51 @@ export default function NewAddress(props) {
           postCode: addressInfo[9],
           city: addressInfo[5],
           country: addressInfo[10],
-          coordinates: [props.mapAddress.y, props.mapAddress.x],
+          coordinates: [props.address.y, props.address.x],
         });
-        console.log("option 1", isNaN(addressInfo[0]));
       } else if (addressInfo.length <= 5) {
-        console.log("option 2");
         anAddress = new Address({
           streetName: "-",
           postCode: "-",
           city: addressInfo[0],
           country: addressInfo[4],
-          coordinates: [props.mapAddress.y, props.mapAddress.x],
+          coordinates: [props.address.y, props.address.x],
         });
       } else {
-        console.log("option 3");
         anAddress = new Address({
           streetName: addressInfo[0],
           postCode: addressInfo[8],
           city: addressInfo[4],
           country: addressInfo[9],
-          coordinates: [props.mapAddress.y, props.mapAddress.x],
+          coordinates: [props.address.y, props.address.x],
         });
       }
 
       await anAddress.save();
 
-      setSavedAddress(await Address.findOne({ _id: anAddress._id }));
+      setSavedAddress(anAddress)
+      console.log("Saved address: ", savedAddress)
+
+      // fetchAddress(anAddress._id)
     }
+   
   };
 
   return (
-    <div className="address-info">
-      <div>{savedAddress.streetName}</div>
-      <div>{savedAddress.postCode}</div>
-      <div>{savedAddress.city}</div>
-      <div>{savedAddress.country}</div>
-      <LeafletMap mapAddress={props.mapAddress}></LeafletMap>
-    </div>
+    <>
+      {props.newAddress ? (
+        ""
+      ) : (
+
+        <ShowAddress address={savedAddress}/>
+        // <div className="address-info">
+        //   <div>{savedAddress.streetName}</div>
+        //   <div>{savedAddress.postCode}</div>
+        //   <div>{savedAddress.city}</div>
+        //   <div>{savedAddress.country}</div>
+        //   <LeafletMap mapAddress={props.address}></LeafletMap>
+        // </div>
+      )}
+    </>
   );
 }

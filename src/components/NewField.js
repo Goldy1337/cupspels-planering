@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import FieldList from './FieldList'
@@ -20,13 +20,13 @@ export default function NewField(props) {
   async function addField(e) {
     e.preventDefault()
     const fieldAdded = {
-      arenaId: props.arena_id,
+      arenaId: props.arena._id,
       name: field.name,
       size: field.size,
       surface: field.surface,
       outdoors: field.outdoors
     }
-    console.log("arena id: ", props.arena_id)
+    console.log("arena id: ", props.arena._Id)
     appendField(fieldAdded)
     sendToDatabase(fieldAdded)
     updateField({ name: '', size: '', surface: '' })
@@ -36,7 +36,7 @@ export default function NewField(props) {
   async function sendToDatabase(fieldAdded) {
 
     let NewField = new Field({
-      arenaId: props.arena_id,
+      arenaId: props.arena._id,
       name: fieldAdded.name,
       size: fieldAdded.size,
       surface: fieldAdded.surface,
@@ -68,7 +68,7 @@ export default function NewField(props) {
           <Button>Add Field</Button>
         </FormGroup>
       </Form>
-      <FieldList />
+      <FieldList arena={props.arena}/>
     </div>
   )
 }
