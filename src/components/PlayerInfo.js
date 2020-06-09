@@ -60,7 +60,7 @@ export default function PlayerInfo(props) {
       <h6 className="player-contact">{email} | tel: {phone}</h6>
 
       <h4 className="matches-title">Upcoming Games:</h4>
-      <Table dark className="matches-table">
+      <Table info className="matches-table">
         <thead>
           <tr>
             <th>Start Time</th>
