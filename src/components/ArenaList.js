@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { Table } from 'reactstrap';
-import { ArenaContext } from '../contexts/ArenaContextProvider'
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 export default function ArenaList() {
-  const { arenas } = useContext(ArenaContext)
+  const { arenas } = useContext(GlobalContext)
 
   return (
     <Table hover striped className="table-info">  

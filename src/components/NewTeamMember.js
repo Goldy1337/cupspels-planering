@@ -12,14 +12,13 @@ import {
 } from "reactstrap";
 import mongoosy from "mongoosy/frontend";
 import { useParams } from "react-router-dom";
-import { UserContext } from "../contexts/UserContextProvider";
 import "../scss/_variable-overrides.scss";
-import RegisterAccount from "./RegisterAccount";
+import { GlobalContext } from "../contexts/GlobalContextProvider";
 
 const NewTeamMember = () => {
   const { User } = mongoosy;
   const { Team } = mongoosy;
-  const { appendUser, saveUser, fetchUser } = useContext(UserContext);
+  const { appendUser, saveUser } = useContext(GlobalContext);
 
   const [name, setPlayerName] = useState("");
   const [email, setEmail] = useState("");

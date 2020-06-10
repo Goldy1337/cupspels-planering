@@ -2,12 +2,11 @@ import React, { useContext } from 'react'
 import { Card,
   Container, 
   Row, 
-  Col,
-  Table } from 'reactstrap';
-  import { RefereeContext } from '../contexts/RefereeContextProvider'
+  Col } from 'reactstrap';
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 export default function RefereeList() {
-  const { referees } = useContext(RefereeContext)
+  const { referees } = useContext(GlobalContext)
 
 
   const list = () => {

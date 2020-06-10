@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../scss/style.scss"
 import mongoosy from "mongoosy/frontend";
 import LeafletMap from "./LeafletMap";

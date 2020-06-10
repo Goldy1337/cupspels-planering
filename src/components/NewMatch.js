@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Button, Form, FormGroup, Input, Col } from 'reactstrap'
-import { MatchContext } from '../contexts/MatchContextProvider'
-import { teamContext, TeamContext } from '../contexts/TeamContextProvider'
-//import RefereeList from './RefereeList'
 import mongoosy from 'mongoosy/frontend';
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 const {
   Cup,
   Match,
@@ -16,9 +14,8 @@ const {
 
 function NewReferee() {
 
-  const { appendMatch } = useContext(MatchContext)
+  const { appendMatch, teams } = useContext(GlobalContext)
   const [newMatch, setNewMatch] = useState({ matchType: '', duration: 0, teams: [] })
-  const { teams } = useContext(TeamContext)
   const [cup, setCup] = useState()
   const [teamsInCup, setTeamsInCup] = useState([]) 
 

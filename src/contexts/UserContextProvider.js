@@ -28,8 +28,6 @@ export default function UserContextProvider(props) {
 
   const fetchUsers = async () => {
     let allUsers = await User.find();
-    // let res = await fetch("/api/users");
-    // res = await res.json();
     setUsers(allUsers);
      setUsers(allUsers);
   };

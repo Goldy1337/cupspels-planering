@@ -1,16 +1,16 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Input, Col, Jumbotron, Container, Row  } from 'reactstrap'
-import { RefereeContext } from '../contexts/RefereeContextProvider'
 import RefereeList from './RefereeList'
 import { ThemeContext } from '../contexts/ThemeContextProvider';
 import mongoosy from 'mongoosy/frontend';
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 const {
   User
 } = mongoosy;
 
 function NewReferee() {
 
-  const { appendReferee } = useContext(RefereeContext)
+  const { appendReferee } = useContext(GlobalContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')

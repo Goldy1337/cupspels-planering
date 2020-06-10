@@ -4,39 +4,34 @@ import mongoosy from 'mongoosy/frontend';
 import ArenaList from './ArenaList'
 import NewField from './NewField'
 import FieldList from './FieldList'
-import { ArenaContext } from '../contexts/ArenaContextProvider'
-import { ThemeContext } from '../contexts/ThemeContextProvider';
+import { GlobalContext } from "../contexts/GlobalContextProvider";
+const { Arena } = mongoosy;
 import SearchAddress from './SearchAddress';
-const {
-  Arena
-} = mongoosy;
 
 export default function NewArena() {
+  const { appendArena } = useContext(GlobalContext);
+  const [arena, setArena] = useState({ name: "", capacity: "", homeTeam: "" });
+  const updateArena = (update) => setArena({ ...arena, ...update });
 
-  const { appendArena } = useContext(ArenaContext)
-  const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
-  const updateArena = update => setArena({ ...arena, ...update })
-  const [colorTheme] = useContext(ThemeContext)
-    
   const addArena = (e) => {
     e.preventDefault();
     const arenaAdded = {
       name: arena.name,
       capacity: arena.capacity,
-      homeTeam: arena.homeTeam
-    }
-    appendArena(arenaAdded)
-    sendToDatabase(arenaAdded)
-    updateArena({ name: '', capacity: '', homeTeam: '' })
-  }
+      homeTeam: arena.homeTeam,
+    };
+    appendArena(arenaAdded);
+    sendToDatabase(arenaAdded);
+    updateArena({ name: "", capacity: "", homeTeam: "" });
+  };
 
   //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arenaAdded) {
-    console.log(arenaAdded)
+    console.log(arenaAdded);
     let NewArena = new Arena({
       name: arenaAdded.name,
       capacity: arenaAdded.capacity,
-      homeTeam: arenaAdded.homeTeam
+      homeTeam: arenaAdded.homeTeam,
     });
     await NewArena.save();
   }
