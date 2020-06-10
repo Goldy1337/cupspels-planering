@@ -9,14 +9,13 @@ const {
 
 export default function NewField() {
   
-  const { appendField } = useContext(GlobalContext)
+  const { appendField, colorTheme } = useContext(GlobalContext)
   const [field, setField] = useState({ name: '', size: '', surface: '', outdoors: 'Outdoors' })
   const updateField = update => setField({ ...field, ...update })
   // const [name, setName] = useState('')
   // const [size, setSize] = useState('')
   // const [surface, setSurface] = useState('')
   // const [outdoors, setOutdoors] = useState('Outdoors')
-  const [colorTheme] = useContext(ThemeContext)
 
   async function addField(e) {
     e.preventDefault()

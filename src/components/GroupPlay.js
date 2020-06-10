@@ -13,14 +13,6 @@ export default function GroupPlay(props) {
   const [numberOfGroups, setNumberOfGroups] = useState(1);
   const [warningMessage, setWarningMessage] = useState(false);
   const [groups, setGroups] = useState([]);
-
-  const [teamsInCup, setTeamsInCup] = useState([]) 
-  const [cup, setCup] = useState()
-  const [numberOfGroups, setNumberOfGroups] = useState(1)
-  const [warningMessage, setWarningMessage] = useState(false)
-  const [groups, setGroups] = useState([])
-  const [colorTheme] = useContext(ThemeContext)
-
   
 
   useEffect(() => {
@@ -119,70 +111,71 @@ export default function GroupPlay(props) {
       }
     }
 
-  return (
-    <div className="player-info">
-      <h1>Create Group Play</h1>
-      <h4>{teamsInCup.length} Teams in Cup</h4>
-      <br />
-      <Form>
-        <FormGroup>
-          <Label for="number-of-groups">Number of groups:</Label>
-          <Input
-            required
-            type="number"
-            min="1"
-            max="100"
-            id="number-of-groups"
-            value={numberOfGroups}
-            onChange={(e) => setNumberOfGroups(e.target.value)}
-          />
-        </FormGroup>
-        <Button color="info" className="m1-3 form-btn" onClick={ () => createGroups(numberOfGroups)}>Divide Teams Into Groups</Button>
-      </Form>
-      {
-        warningMessage ?
-          <h3>Needs at least two teams per group!</h3>
-          :
-          <div className="team-group-list">
-            {groups.map((group, i) => (
-              <div key={group + i}>
-                <h4>Group {i + 1}</h4>
-                <ul>
-                  {group.map((team) => (
-                    <li key={team._id + i}>
-                      {team.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-      }
-      {groups.length > 0 ?
+    return (
+      <div className="player-info">
+        <h1>Create Group Play</h1>
+        <h4>{teamsInCup.length} Teams in Cup</h4>
+        <br />
+        <Form>
+          <FormGroup>
+            <Label for="number-of-groups">Number of groups:</Label>
+            <Input
+              required
+              type="number"
+              min="1"
+              max="100"
+              id="number-of-groups"
+              value={numberOfGroups}
+              onChange={(e) => setNumberOfGroups(e.target.value)}
+            />
+          </FormGroup>
+          <Button color="info" className="m1-3 form-btn" onClick={() => createGroups(numberOfGroups)}>Divide Teams Into Groups</Button>
+        </Form>
+        {
+          warningMessage ?
+            <h3>Needs at least two teams per group!</h3>
+            :
+            <div className="team-group-list">
+              {groups.map((group, i) => (
+                <div key={group + i}>
+                  <h4>Group {i + 1}</h4>
+                  <ul>
+                    {group.map((team) => (
+                      <li key={team._id + i}>
+                        {team.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+        }
+        {groups.length > 0 ?
           <div>
             <Button color="info" onClick={() => groups.map((t) => (
               createGroupMatches(t)
             ))}>Create Matches</Button>
           </div>
-        : null
-      }
-      <h1>
-        {matches
-          .filter(function (match) {
-            return (
-              match.matchType.includes("Group play") && match.cup == cup._id
-            );
-          })
-          .sort((a, b) => (a.matchType > b.matchType ? 1 : -1))
-          .map((match, index) => (
-            <div>
-              <h3>{match}</h3>
-              <h3>
-                {match.teams[0].name} vs {match.teams[1].name}
-              </h3>
-            </div>
-          ))}
-      </h1>
-    </div>
-  );
+          : null
+        }
+        <h1>
+          {matches
+            .filter(function (match) {
+              return (
+                match.matchType.includes("Group play") && match.cup == cup._id
+              );
+            })
+            .sort((a, b) => (a.matchType > b.matchType ? 1 : -1))
+            .map((match, index) => (
+              <div>
+                <h3>{match}</h3>
+                <h3>
+                  {match.teams[0].name} vs {match.teams[1].name}
+                </h3>
+              </div>
+            ))}
+        </h1>
+      </div>
+    );
+  }
 }

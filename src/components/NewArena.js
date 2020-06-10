@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Input, Col, Jumbotron, Container, Row } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
+import SearchAddress from "./SearchAddress";
 import ArenaList from './ArenaList'
 import NewField from './NewField'
 import FieldList from './FieldList'
 import { GlobalContext } from "../contexts/GlobalContextProvider";
 const { Arena } = mongoosy;
-import SearchAddress from './SearchAddress';
 
 export default function NewArena() {
-  const { appendArena } = useContext(GlobalContext);
+  const { appendArena, colorTheme } = useContext(GlobalContext);
   const [arena, setArena] = useState({ name: "", capacity: "", homeTeam: "" });
   const updateArena = (update) => setArena({ ...arena, ...update });
 

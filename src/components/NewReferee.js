@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { Button, Form, FormGroup, Input, Col, Jumbotron, Container, Row  } from 'reactstrap'
 import RefereeList from './RefereeList'
-import { ThemeContext } from '../contexts/ThemeContextProvider';
 import mongoosy from 'mongoosy/frontend';
 import { GlobalContext } from '../contexts/GlobalContextProvider';
 const {
@@ -10,14 +9,12 @@ const {
 
 function NewReferee() {
 
-  const { appendReferee } = useContext(GlobalContext)
+  const { appendReferee, colorTheme } = useContext(GlobalContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [colorTheme] = useContext(ThemeContext)
-
 
   const addReferee = (e) => {
     e.preventDefault();

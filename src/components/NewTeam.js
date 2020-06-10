@@ -17,9 +17,8 @@ export default function NewTeam(props) {
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('N/A');
   const [ageGroup, setAgeGroup] = useState('');
-  const {clearTeams} = useContext(GlobalContext);
+  const { colorTheme } = useContext(GlobalContext);
   const { Team } = mongoosy;
-  const [colorTheme] = useContext(ThemeContext)
 
   async function addTeam() {
     let aTeam = new Team({

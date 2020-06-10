@@ -26,6 +26,8 @@ export default function LoginHeader(props) {
   const {
     loginStatus,
     updateLoginStatus,
+    colorTheme,
+    setColorTheme
   } = useContext(GlobalContext);
 
   const [modalCreateAccount, setModalCreateAccount] = useState(false);
