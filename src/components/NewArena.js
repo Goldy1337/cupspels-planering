@@ -98,7 +98,6 @@ export default function NewArena() {
           </Container>
       </Jumbotron>
       <FieldList /> */}
-      <Row>
         <Jumbotron fluid>
           <Container fluid>
             <Form onSubmit={addArena}>
@@ -138,9 +137,7 @@ export default function NewArena() {
             </Form>
           </Container>
         </Jumbotron>
-      </Row>
       {/* <ArenaList /> */}
-      <Row>
         <Jumbotron fluid>
           <Container fluid>
             <Form onSubmit={addArena}>
@@ -154,7 +151,6 @@ export default function NewArena() {
             </Form>
           </Container>
         </Jumbotron>
-      </Row>
       {/* <FieldList /> */}
     </div>
   );
