@@ -38,12 +38,10 @@ const NewTeamMember = () => {
   const toggle = () => setIsOpen(!isOpen);
   const generatePassword = () =>
     setPassword(Math.random().toString(36).slice(-8));
-  const generateSalt = () => setSalt(Math.random().toString(36).slice(-8));
 
   useEffect(() => {
     getTeamName();
     getTeamMembers();
-    generateSalt();
     generatePassword();
   }, []);
 
