@@ -23,6 +23,10 @@ export default function ArenaContextProvider(props) {
     fetchArenas()
   }, [])
   
+  useEffect(() => {
+    fetchArenas()
+  })
+
   const values = {
     arenas,
     appendArena,

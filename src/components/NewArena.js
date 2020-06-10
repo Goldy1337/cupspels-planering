@@ -33,18 +33,13 @@ export default function NewArena(props) {
   }
 
   useEffect(() => {
-    printSome()
+    //deleteSome()
   }, [])
 
-  const printSome = () => {
-    
-    console.log("Passed", props.cupInfo)
-    console.log("Name", props.cupInfo.name)
-    console.log("ID", props.cupInfo.id)
-    //console.log("ID", props.cupInfo._id)
-    //updateCup({name: props.cupInfo.name, id: props.cupInfo._id})
-    //console.log("CUP", cup)
-
+  const deleteSome = async () => {
+    let foundare = await Arena.find()
+    console.log("LEnGTH", foundare.length)
+    await Arena.deleteMany({})
   }
 
 
@@ -55,9 +50,15 @@ export default function NewArena(props) {
     let NewArena = new Arena({
       name: arenaAdded.name,
       capacity: arenaAdded.capacity,
-      homeTeam: arenaAdded.homeTeam
+      homeTeam: arenaAdded.homeTeam,
+      cups: [props.cupInfo.id]
     });
     await NewArena.save();
+
+    //let f = await Arena.find()
+
+    //console.log("FOND AREAN", f)
+    //console.log("cupid", props.cupInfo.id)
   }
 
   //The form for adding the arena
@@ -89,7 +90,7 @@ export default function NewArena(props) {
           <Button>Add Arena</Button>
         </FormGroup>
       </Form>
-      <ArenaList />
+      <ArenaList cupId={props.cupInfo.id}/>
       <NewField />
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Table } from 'reactstrap';
 import { ArenaContext } from '../contexts/ArenaContextProvider'
 
-export default function ArenaList() {
+export default function ArenaList(props) {
   const { arenas } = useContext(ArenaContext)
 
   return (
@@ -15,7 +15,15 @@ export default function ArenaList() {
         <th>Home Team</th>
       </tr>
     </thead>
-      {arenas.map((arena, i) => {
+      {arenas
+        .filter(function (arena) {
+          if (arena.cups == undefined || arena.cups.length == 0) { return false }
+          
+          for (let cup of arena.cups) {
+            if (cup == props.cupId) { return true }
+          }
+        })
+        .map((arena, i) => {
         return (
           <tbody key={arena._id}>
             <tr>
