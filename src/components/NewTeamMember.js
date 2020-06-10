@@ -25,19 +25,12 @@ const NewTeamMember = (props) => {
 
   const toggle = () => setIsOpen(!isOpen);
   const generatePassword = () => setPassword(Math.random().toString(36).slice(-8))
-  const generateSalt = () => setSalt(Math.random().toString(36).slice(-8))
    
 
   useEffect(()=> {
     getTeamMembers()
-  }, [])
-
-  useEffect(()=> {
-    generatePassword()
-  }, [])
-
-  useEffect(()=> {
-    generateSalt()
+  getTeamName();
+   generatePassword();
   }, [])
 
   async function getTeamName(){
@@ -57,8 +50,7 @@ const NewTeamMember = (props) => {
       subRole: subRole,
       email: email,
       phoneNumber: phoneNumber,
-      password: password,
-      salt: "hej",
+      password: password
     });
 
     await aMember.save();
@@ -84,7 +76,6 @@ const NewTeamMember = (props) => {
 
   }
 
-  getTeamName();
 
   return (
     <div>
