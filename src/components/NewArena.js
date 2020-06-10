@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { Button, Form, FormGroup, Input, Col, Jumbotron, Container, Row } from 'reactstrap'
+import React, { useState, useContext, useEffect } from 'react'
+import { Button, Form, FormGroup, Input } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import SearchAddress from "./SearchAddress";
 import ArenaList from './ArenaList'
@@ -8,11 +8,17 @@ import FieldList from './FieldList'
 import { GlobalContext } from "../contexts/GlobalContextProvider";
 const { Arena } = mongoosy;
 
-export default function NewArena() {
+export default function NewArena(props) {
   const { appendArena, colorTheme } = useContext(GlobalContext);
-  const [arena, setArena] = useState({ name: "", capacity: "", homeTeam: "" });
-  const updateArena = (update) => setArena({ ...arena, ...update });
 
+
+  // const [cup, setCup] = useState({name: '', id: 0})
+  // const updateCup = update => setCup({ ...cup, ...update })
+  
+  const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
+  const updateArena = update => setArena({ ...arena, ...update })
+
+    
   const addArena = (e) => {
     e.preventDefault();
     const arenaAdded = {
@@ -25,6 +31,18 @@ export default function NewArena() {
     updateArena({ name: "", capacity: "", homeTeam: "" });
   };
 
+  useEffect(() => {
+    //deleteSome()
+  }, [])
+
+  const deleteSome = async () => {
+    let foundare = await Arena.find()
+    console.log("LEnGTH", foundare.length)
+    await Arena.deleteMany({})
+  }
+
+
+
   //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arenaAdded) {
     console.log(arenaAdded);
@@ -32,121 +50,47 @@ export default function NewArena() {
       name: arenaAdded.name,
       capacity: arenaAdded.capacity,
       homeTeam: arenaAdded.homeTeam,
+      cups: [props.cupInfo.id]
     });
     await NewArena.save();
+
+    //let f = await Arena.find()
+
+    //console.log("FOND AREAN", f)
+    //console.log("cupid", props.cupInfo.id)
   }
 
   //The form for adding the arena
   return (
     <div>
-      {/* <Jumbotron fluid>
-        <Container fluid>
-          <Form onSubmit={addArena}>
-            <FormGroup>
-              <Row>
-                <Col sm="12" md={{ size: 6, offset: 3 }}>
-                  <Input
-                    type="text"
-                    placeholder="Add arena name"
-                    className="mb-3"
-                    value={arena.name}
-                    onChange={(e) => updateArena({ name: e.target.value })}
-                    required
-                  ></Input>
-                  <Input
-                    type="number"
-                    placeholder="Add arena capacity"
-                    className="mb-3"
-                    value={arena.capacity}
-                    onChange={(e) => updateArena({ capacity: e.target.value })}
-                    required
-                  ></Input>
-                  <Input
-                    type="text"
-                    placeholder="Add arena home team"
-                    className="mb-3"
-                    value={arena.homeTeam}
-                    onChange={(e) => updateArena({ homeTeam: e.target.value })}
-                  ></Input>
-                  <SearchAddress />
-                  <FormGroup align="center">
-                    <Button color={colorTheme} size="lg">Add Arena</Button>
-                  </FormGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Form>
-          </Container>
-      </Jumbotron>
-      <ArenaList />
-      <Jumbotron fluid>
-        <Container fluid>
-          <Form onSubmit={addArena}>
-            <FormGroup>
-              <Row>
-                <Col sm="12" md={{ size: 6, offset: 3 }}>
-                  <NewField />
-                </Col>
-                </Row>
-              </FormGroup>
-            </Form>
-          </Container>
-      </Jumbotron>
-      <FieldList /> */}
-        <Jumbotron fluid>
-          <Container fluid>
-            <Form onSubmit={addArena}>
-              <FormGroup>
-                <Row>
-                  <Col sm="12" md={{ size: 6, offset: 3 }}>
-                    <Input
-                      type="text"
-                      placeholder="Add arena name"
-                      className="mb-3"
-                      value={arena.name}
-                      onChange={(e) => updateArena({ name: e.target.value })}
-                      required
-                    ></Input>
-                    <Input
-                      type="number"
-                      placeholder="Add arena capacity"
-                      className="mb-3"
-                      value={arena.capacity}
-                      onChange={(e) => updateArena({ capacity: e.target.value })}
-                      required
-                    ></Input>
-                    <Input
-                      type="text"
-                      placeholder="Add arena home team"
-                      className="mb-3"
-                      value={arena.homeTeam}
-                      onChange={(e) => updateArena({ homeTeam: e.target.value })}
-                    ></Input>
-                    <SearchAddress />
-                    <FormGroup align="center">
-                      <Button color={colorTheme} size="lg">Add Arena</Button>
-                    </FormGroup>
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Form>
-          </Container>
-        </Jumbotron>
-      {/* <ArenaList /> */}
-        <Jumbotron fluid>
-          <Container fluid>
-            <Form onSubmit={addArena}>
-              <FormGroup>
-                <Row>
-                  <Col sm="12" md={{ size: 6, offset: 3 }}>
-                    <NewField />
-                  </Col>
-                </Row>
-              </FormGroup>
-            </Form>
-          </Container>
-        </Jumbotron>
-      {/* <FieldList /> */}
+      <Form onSubmit={addArena}>
+        <FormGroup>
+          <Input
+            type="text"
+            placeholder="Add arena name"
+            value={arena.name}
+            onChange={(e) => updateArena({ name: e.target.value })}
+            required
+          ></Input>
+          <Input
+            type="number"
+            placeholder="Add arena capacity"
+            value={arena.capacity}
+            onChange={(e) => updateArena({ capacity: e.target.value })}
+            required
+          ></Input>
+          <Input
+            type="text"
+            placeholder="Add arena home team"
+            value={arena.homeTeam}
+            onChange={(e) => updateArena({ homeTeam: e.target.value })}
+          ></Input>
+          <SearchAddress />
+          <Button>Add Arena</Button>
+        </FormGroup>
+      </Form>
+      <ArenaList cupId={props.cupInfo.id}/>
+      <NewField />
     </div>
   );
 }
