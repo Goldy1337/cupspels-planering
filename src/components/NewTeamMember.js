@@ -77,6 +77,7 @@ const NewTeamMember = () => {
 
   const getTeamMembers = async () => {
     let teamUsers = await User.find({ teamId: id });
+    console.log(id)
     setTeamMembers(teamUsers);
   };
 
