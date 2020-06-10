@@ -112,7 +112,7 @@ export default function App() {
                       </Router>
                     </FieldContextProvider>
                   </ArenaContextProvider>
-                  x{" "}
+                  {" "}
                 </RefereeContextProvider>
               </UserContextProvider>
             </TeamContextProvider>

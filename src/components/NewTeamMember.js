@@ -26,7 +26,6 @@ const NewTeamMember = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [subRole, setSubRole] = useState("");
   const [password, setPassword] = useState("");
-  const [salt, setSalt] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [createAccount, setCreateAccount] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -63,8 +62,8 @@ const NewTeamMember = () => {
       password: password
     });
 
-    // appendUser(aMember);
-    // saveUser(aMember);
+     appendUser(aMember);
+    //  saveUser(aMember);
    
     setCreateAccount(true)
      await setTeamMember(aMember);
@@ -82,11 +81,10 @@ const NewTeamMember = () => {
   };
 
   useEffect(() => {
-    console.log(teamMember.password, " ", createAccount)
-  },[teamMember])
+    console.log(teamMembers)
+  },[teamMembers])
   return (
     <div>
-      {createAccount ? (<UserLogin teamMember={teamMember} isTeamMember={createAccount} />):("")}
       <h1>{teamName}</h1>
       {teamMembers[0] ? (
         <Table dark>
@@ -165,6 +163,11 @@ const NewTeamMember = () => {
       <Button color="primary" onClick={toggle} style={{ marginBottom: "1rem" }}>
         Add player +
       </Button>
+      {createAccount ? (
+        <UserLogin teamMember={teamMember} isTeamMember={createAccount} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

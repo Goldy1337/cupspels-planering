@@ -75,7 +75,9 @@ export default function LoginHeader(props) {
   }
   
   const createMemberAccount = async (e) => {
-    //  e.preventDefault()
+
+    if(e){e.preventDefault();}
+  
 
     let newMember; 
 
@@ -141,6 +143,8 @@ export default function LoginHeader(props) {
   // }
 
   return (
+    <>
+     {props.isTeamMember ? "" :
     <div>
       <Navbar className="loginHeader" color={colorTheme} dark>
         <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
@@ -224,5 +228,7 @@ export default function LoginHeader(props) {
       <br></br>
       <Button onClick={toggleColorMode} color={colorTheme}>Change Colormode</Button>
     </div>
+    }
+    </>
   );
 };
