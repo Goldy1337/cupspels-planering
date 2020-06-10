@@ -66,7 +66,8 @@ const NewTeamMember = () => {
     //  saveUser(aMember);
    
     setCreateAccount(true)
-     await setTeamMember(aMember);
+    setTeamMember(aMember);
+    toggle();
 
     setPlayerName("");
     setEmail("");
@@ -86,6 +87,11 @@ const NewTeamMember = () => {
   },[teamMembers])
   return (
     <div>
+      {createAccount ? (
+        <UserLogin teamMember={teamMember} isTeamMember={createAccount} />
+      ) : (
+        ""
+      )}
       <h1>{teamName}</h1>
       {teamMembers[0] ? (
         <Table dark>
@@ -164,11 +170,6 @@ const NewTeamMember = () => {
       <Button color="primary" onClick={toggle} style={{ marginBottom: "1rem" }}>
         Add player +
       </Button>
-      {createAccount ? (
-        <UserLogin teamMember={teamMember} isTeamMember={createAccount} />
-      ) : (
-        ""
-      )}
     </div>
   );
 };
