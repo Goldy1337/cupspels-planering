@@ -12,8 +12,8 @@ const {
 
 export default function NewArena() {
 
-  const { appendArena, arenas } = useContext(ArenaContext)
-  const { fetchAddress, address, fetchArenaAddress, arenaAddress } = useContext(AddressContext)
+  const { appendArena, arenas, fetchArena } = useContext(ArenaContext)
+  const { fetchAddress, address, arenaAddress, fetchArenaAddress } = useContext(AddressContext)
   const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
   const [hideMap, setHideMap] = useState(false);
   const [newAddress, setNewAddress] = useState(false)
@@ -23,7 +23,7 @@ export default function NewArena() {
   const addArena = async (e) => {
     e.preventDefault();
     const arenaAdded = {
-      addressId: address.raw.place_id,
+      addressId: arenaAddress._id,
       name: arena.name,
       capacity: arena.capacity,
       homeTeam: arena.homeTeam
@@ -31,7 +31,8 @@ export default function NewArena() {
     
     appendArena(arenaAdded)
     sendToDatabase(arenaAdded)
-    await fetchArenaAddress(address.raw.place_id)
+    console.log(arenaAddress)
+    // await fetchArenaAddress(address._id)
     updateArena({ name: '', capacity: '', homeTeam: '' })
     setNewAddress(true)
     setHideMap(true)
@@ -40,13 +41,16 @@ export default function NewArena() {
   //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arenaAdded) {
     console.log(arenaAdded)
-    let NewArena = new Arena({
+    let newArena = new Arena({
       addressId: arenaAdded.addressId,
       name: arenaAdded.name,
       capacity: arenaAdded.capacity,
       homeTeam: arenaAdded.homeTeam
     });
-    await NewArena.save();
+    await newArena.save();
+
+    console.log(newArena)
+    fetchArena(newArena)
 
   }
 
@@ -79,14 +83,8 @@ export default function NewArena() {
           <Button>Add Arena</Button>
         </FormGroup>
       </Form>
-      {newAddress ? (
-        <NewAddress address={address} newAddress={newAddress} />
-      ): ("")}
-      {address? (
-      <ArenaList address={address}/>
-      ):(
         <ArenaList/>
-      )}
+
     </>
   );
 }

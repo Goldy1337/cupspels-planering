@@ -26,7 +26,6 @@ const { Login, User, Address, Arena } = mongoosy;
 
 export default function App() {
   async function doStuff() {
-    // await Team.deleteMany({})
     // Use mongoose from the frontend
     // through mongoosy
     // Create a new admin and save to db
@@ -122,7 +121,7 @@ export default function App() {
                       </FieldContextProvider>
                     </AddressContextProvider>
                   </ArenaContextProvider>
-                  x{" "}
+                  {" "}
                 </RefereeContextProvider>
               </UserContextProvider>
             </TeamContextProvider>

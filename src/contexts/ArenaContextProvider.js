@@ -24,9 +24,6 @@ export default function ArenaContextProvider(props) {
     setArenas([...arenas, arena])
   }
 
-  useEffect(() => {
-    fetchArenas()
-  }, [])
   
   const values = {
     arenas,

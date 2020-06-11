@@ -8,7 +8,7 @@ import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 const SearchAddress = (props) => {
   const [addAddress, setAddAddress] = useState(false);
   const [foundAddresses, setFoundAddresses] = useState([]);
-  const { fetchAddress, address, appendAddress } = useContext(AddressContext);
+  const { addUnformattedAddress, unformattedAddress, appendAddress } = useContext(AddressContext);
   const prov = OpenStreetMapProvider();
 
   let throttleSearch;
@@ -19,15 +19,15 @@ const SearchAddress = (props) => {
     console.log(mapAddress)
     // setMapAddress(mapAddress)
     appendAddress(mapAddress)
-     fetchAddress(mapAddress)
+     addUnformattedAddress(mapAddress)
     //show map = true, <NewAddress address={mapAddress}
     //dela upp address i delar, return <LeafletMap> & address info
-        setAddAddress(true)
+        // setAddAddress(true)
   }
   useEffect(() => {
-     console.log(address);
+     console.log(unformattedAddress);
 
-  },[address])
+  },[unformattedAddress])
 
   const doSearch = async (input) => {
     //  useEffect( async () => {
@@ -59,10 +59,10 @@ const SearchAddress = (props) => {
 
   return (
     <div>
-      {addAddress  ? (
-        <NewAddress address={address} newAddress={addAddress}></NewAddress>
+      {unformattedAddress  ? (
+        <NewAddress address={unformattedAddress}/>
         // <LeafletMap mapAddress={mapAddress} />
-      ) : (
+      ) : ("")}
         <Form id="form" autoComplete="off">
           <FormGroup className="col-sm-10 col-md-6 col-lg-4">
             <Col>
@@ -94,7 +94,6 @@ const SearchAddress = (props) => {
             </Col>
           </FormGroup>
         </Form>
-      )}
     </div>
   );
 };

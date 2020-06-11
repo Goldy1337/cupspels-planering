@@ -9,7 +9,7 @@ export default function NewAddress(props) {
   const { Address } = mongoosy;
   const [addressInfo, setAddressInfo] = useState([]);
   const [savedAddress, setSavedAddress] = useState("");
-  const {fetchAddress} =useContext(AddressContext)
+  const {fetchArenaAddress, arenaAddress} =useContext(AddressContext)
 
   useEffect(() => {
     getAddressInfo();
@@ -38,7 +38,7 @@ export default function NewAddress(props) {
           streetName: addressInfo[1],
           postCode: addressInfo[9],
           city: addressInfo[5],
-          country: addressInfo[10],
+          country: addressInfo[addressInfo.length - 1],
           coordinates: [props.address.y, props.address.x],
         });
       } else if (addressInfo.length <= 5) {
@@ -46,7 +46,7 @@ export default function NewAddress(props) {
           streetName: "-",
           postCode: "-",
           city: addressInfo[0],
-          country: addressInfo[4],
+          country: addressInfo[addressInfo.length - 1],
           coordinates: [props.address.y, props.address.x],
         });
       } else {
@@ -54,7 +54,7 @@ export default function NewAddress(props) {
           streetName: addressInfo[0],
           postCode: addressInfo[8],
           city: addressInfo[4],
-          country: addressInfo[9],
+          country: addressInfo[addressInfo.length-1],
           coordinates: [props.address.y, props.address.x],
         });
       }
@@ -62,20 +62,22 @@ export default function NewAddress(props) {
       await anAddress.save();
 
       setSavedAddress(anAddress)
-      console.log("Saved address: ", savedAddress)
+      console.log("Saved address: ", anAddress)
+      
 
-      // fetchAddress(anAddress._id)
+       await fetchArenaAddress(anAddress.coordinates)
+       console.log(arenaAddress)
     }
    
   };
 
   return (
     <>
-      {props.newAddress ? (
+      {/* {props.newAddress ? (
         ""
       ) : (
 
-        <ShowAddress address={savedAddress}/>
+        // <ShowAddress address={savedAddress}/>
         // <div className="address-info">
         //   <div>{savedAddress.streetName}</div>
         //   <div>{savedAddress.postCode}</div>
@@ -83,7 +85,7 @@ export default function NewAddress(props) {
         //   <div>{savedAddress.country}</div>
         //   <LeafletMap mapAddress={props.address}></LeafletMap>
         // </div>
-      )}
+      )} */}
     </>
   );
 }

@@ -6,46 +6,46 @@ import { AddressContext } from "../contexts/AddressContextProvider";
 
 export default function ShowAddress(props) {
   const { Address } = mongoosy;
-  const { fetchArenaAddress, arenaAddress } = useContext(AddressContext);
+  const { fetchAddress, address } = useContext(AddressContext);
   const [mapAddress, setMapAddress] = useState("")
 
 
-  useEffect(async () => {
-    console.log(props)
-    await fetchArenaAddress(props.addressId);
-    getAddress()
-  },[])
+  // useEffect(() => {
+  //   fetchAddress(props.addressId);
+  //     // getAddress();
+  // },[])
 
-  const getAddress = async () => {
-    console.log(props);
-    if (props.addressId) {
-      console.log("propsid")
-      // try{
-      //      let arenaAddress = await fetchArenaAddress(props.addressId);
-      //    }catch{  console.log("Promise rejected ", 400)}
+
+  // const getAddress = async () => {
+  //   console.log(props);
+  //   // if (props.addressId) {
+
+  //     // try{
+  //     //      let arenaAddress = await fetchArenaAddress(props.addressId);
+  //     //    }catch{  console.log("Promise rejected ", 400)}
     
-        setMapAddress(arenaAddress);
+  //       setMapAddress(address);
        
-    } else {
-      setMapAddress(props.address);
-    }
+  //   // } else {
+  //   //   setMapAddress(arenaAddress);
+  //   // }
      
-  }
+  // }
   useEffect(() => {
-    console.log(mapAddress)
-  })
+    console.log(address)
+  }, [])
 
   return (
     <>
-    {mapAddress ? (
+    {address ? (
     <div className="address-info">
-      <div>{mapAddress.streetName}</div>
-      <div>{mapAddress.postCode}</div>
-      <div>{mapAddress.city}</div>
-      <div>{mapAddress.country}</div>
-      <LeafletMap mapAddress={mapAddress}></LeafletMap>
+      <div>{address.streetName}</div>
+      <div>{address.postCode}</div>
+      <div>{address.city}</div>
+      <div>{address.country}</div>
+      <LeafletMap mapAddress={address}></LeafletMap>
     </div>
-    ):("")}
+):("")} 
     </>
   );
 }
