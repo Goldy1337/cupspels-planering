@@ -46,7 +46,8 @@ export default function NewTeam(props) {
 
   return (
     <div>
-        <Jumbotron fluid>
+      <Jumbotron fluid>
+              <h4 style={{textAlign: 'center', marginBottom: '30px', opacity: '0.7'}}>Team Details</h4>
           <Container fluid>
             <Form>
               <FormGroup>

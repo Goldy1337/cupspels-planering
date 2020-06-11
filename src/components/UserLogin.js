@@ -177,7 +177,7 @@ export default function LoginHeader(props) {
   return (
     <div>
       <Navbar className="loginHeader" color={colorTheme} dark>
-        <NavbarBrand href="/" className="loginHeaderText">Cupplanner</NavbarBrand>
+        <NavbarBrand href="/" className="loginHeaderText">The Cup Manager</NavbarBrand>
         <Nav navbar>
           {loginStatus.user ? <Button className="loginHeaderButton" color={colorTheme}>My Account</Button> : <Button className="loginHeaderButton" onClick={toggleCreateAccount} color={colorTheme}>Create Account</Button>}
           <Modal isOpen={modalCreateAccount} toggle={modalCreateAccount}>
