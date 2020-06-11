@@ -5,18 +5,15 @@ import ArenaList from './ArenaList'
 import {ArenaContext} from '../contexts/ArenaContextProvider'
 import SearchAddress from './SearchAddress';
 import { AddressContext } from '../contexts/AddressContextProvider';
-import NewAddress from './NewAddress';
 const {
   Arena
 } = mongoosy;
 
 export default function NewArena() {
 
-  const { appendArena, arenas, fetchArena } = useContext(ArenaContext)
-  const { fetchAddress, address, arenaAddress, fetchArenaAddress } = useContext(AddressContext)
+  const { appendArena, fetchArena } = useContext(ArenaContext)
+  const { arenaAddress } = useContext(AddressContext)
   const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
-  const [hideMap, setHideMap] = useState(false);
-  const [newAddress, setNewAddress] = useState(false)
   const updateArena = update => setArena({ ...arena, ...update })
 
     
@@ -34,8 +31,6 @@ export default function NewArena() {
     console.log(arenaAddress)
     // await fetchArenaAddress(address._id)
     updateArena({ name: '', capacity: '', homeTeam: '' })
-    setNewAddress(true)
-    setHideMap(true)
   }
 
   //Creates a new Arena entry and saves it to the database
@@ -79,7 +74,7 @@ export default function NewArena() {
             value={arena.homeTeam}
             onChange={(e) => updateArena({ homeTeam: e.target.value })}
           ></Input>
-          <SearchAddress hideMap={hideMap}/>
+          <SearchAddress />
           <Button>Add Arena</Button>
         </FormGroup>
       </Form>

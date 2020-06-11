@@ -10,7 +10,7 @@ import ShowAddress from "./ShowAddress";
 
 export default function ArenaList(props) {
   const { arenas, fetchArena, fetchArenas, arena } = useContext(ArenaContext);
-  const {fetchAddress} = useContext(AddressContext)
+  const {fetchAddress, address} = useContext(AddressContext)
   const [isOpen, setIsOpen] = useState(false);
   const [clickedRow, setClickedRow] = useState("")
 
@@ -18,7 +18,7 @@ export default function ArenaList(props) {
      fetchArenas()
   },[])
 
-  const toggle = (e) => {
+  const toggle = (e, ar) => {
     if( clickedRow === e.currentTarget.id) {
       setIsOpen(!isOpen);
     }
@@ -27,16 +27,17 @@ export default function ArenaList(props) {
     }
     setClickedRow(e.currentTarget.id)
    
-    fetchArena(e.currentTarget.getAttribute('row_id'))
-    fetchAddress(arena.addressId)
+    fetchArena(ar._id)
+
+    fetchAddress(ar.addressId)
+    console.log(ar)
+    
      
   }
-  // useEffect(() => {
-  //   fetchAddress(arena.addressId)
-  // })
-  // const toggleNewField = (id) => {
-  //   setShowArenaField(id);
-  // };
+  useEffect(() => {
+    console.log(address)
+  },[arena])
+
 
   return (
     <>
@@ -54,16 +55,15 @@ export default function ArenaList(props) {
             <tbody key={arena._id}>
               <tr
                 className="arena-table-row"
-                row_id={arena._id}
                 id={i}
-                onClick={toggle}
+                onClick={((e) => toggle(e, arena))}
               >
                 <td>{i + 1}</td>
                 <td>{arena.name}</td>
                 <td>{arena.capacity}</td>
                 <td>{arena.homeTeam}</td>
               </tr>
-              { clickedRow == i ? (
+              { isOpen && clickedRow == i ? (
                 <Collapse isOpen={isOpen}>
                   <NewField arena={arena} />
                   <ShowAddress/>
