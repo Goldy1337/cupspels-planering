@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Form, FormGroup, Input } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Jumbotron, Label } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import SearchAddress from "./SearchAddress";
 import ArenaList from './ArenaList'
@@ -57,9 +57,13 @@ export default function NewArena(props) {
   //The form for adding the arena
   return (
     <div>
-      <Form onSubmit={addArena}>
-        <FormGroup>
-          <Input
+      <br />
+      <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
+      <h4 style={{textAlign: 'center', marginBottom: '30px', opacity: '0.7'}}>Arena Details</h4>
+      <Form style={{padding: '0px 50px', width: '40vw'}} onSubmit={addArena}>
+          <FormGroup style={{}}>
+            <Input
+              style={{width: '40vw'}}
             type="text"
             placeholder="Add arena name"
             value={arena.name}
@@ -82,7 +86,9 @@ export default function NewArena(props) {
           <SearchAddress />
           <Button>Add Arena</Button>
         </FormGroup>
-      </Form>
+        </Form>
+      </Jumbotron>
+      <br />
       <ArenaList cupId={props.cupInfo.id}/>
       <NewField />
     </div>
