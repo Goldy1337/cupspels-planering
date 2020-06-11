@@ -21,6 +21,7 @@ export default function GlobalContextProvider(props) {
   const [matches, setMatches] = useState([]);
   const [referees, setReferees] = useState([]);
   const [teams, setTeams] = useState([]);
+  const [users, setUsers] = useState([]);
   const [colorTheme, setColorTheme] = useState(getStoredColorTheme);
 
   const [loginStatus, setloginStatus] = useState({ user: null });
@@ -31,9 +32,9 @@ export default function GlobalContextProvider(props) {
     localStorage.setItem("colorTheme", JSON.stringify(colorTheme));
   }, [colorTheme]);
 
-  useEffect(() => {
-    fetchArenas()
-  })
+  // useEffect(() => {
+  //   fetchArenas()
+  // })
 
   //#region UPDATE METHODS
 
@@ -45,15 +46,15 @@ export default function GlobalContextProvider(props) {
   //#region FETCH REQUESTS
 
   async function fetchArenas() {
-    let initArenas = await Arena.find();
+    let initArenas = await Arena.find({});
     setArenas(initArenas);
   }
   async function fetchFields() {
-    let initFields = await Field.find();
+    let initFields = await Field.find({});
     setFields(initFields);
   }
   const fetchMatches = async () => {
-    let initMatches = await Match.find().populate("teams").exec();
+    let initMatches = await Match.find({}).populate("teams").exec();
     setMatches(initMatches);
   };
   async function fetchReferees() {
@@ -61,8 +62,8 @@ export default function GlobalContextProvider(props) {
     setReferees(initReferees);
   }
   const fetchTeams = async () => {
-    let res = await fetch("/api/teams");
-    res = await res.json();
+    let res = await Team.find({}) // fetch("/api/teams");
+    //res = await res.json();
     setTeams(res);
   };
 
@@ -85,6 +86,10 @@ export default function GlobalContextProvider(props) {
   const appendTeam = (team) => {
     setTeams([...teams, team]);
   };
+  const appendUser = (user) => {
+    setUsers([...users, user]);
+  }
+
 
   //#endregion
 
@@ -133,6 +138,7 @@ export default function GlobalContextProvider(props) {
     fetchFields,
     appendArena,
     appendField,
+    appendUser,
 
     matches,
     fetchMatches,

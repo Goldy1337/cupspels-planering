@@ -11,8 +11,11 @@ import {
 } from "reactstrap";
 import mongoosy from "mongoosy/frontend";
 import { GlobalContext } from "../contexts/GlobalContextProvider";
+import { useHistory } from 'react-router-dom'
 
 export default function NewTeam(props) {
+
+  const history = useHistory()
   const [clubName, setClubName] = useState('');
   const [teamName, setTeamName] = useState('');
   const [teamGender, setTeamGender] = useState('N/A');
@@ -34,7 +37,8 @@ export default function NewTeam(props) {
     let allTeams = await Team.find();
     console.log("allTeams", allTeams.js);
 
-    props.history.push("/addTeamMember/" + aTeam._id);
+
+    history.push("/addTeamMember/" + aTeam._id);
   }
 
   // async function clearTeams(){

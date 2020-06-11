@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import {UserContext} from '../contexts/UserContextProvider'
 import {
   Collapse,
   Card,
@@ -18,7 +19,8 @@ import { GlobalContext } from "../contexts/GlobalContextProvider";
 const NewTeamMember = () => {
   const { User } = mongoosy;
   const { Team } = mongoosy;
-  const { appendUser, saveUser } = useContext(GlobalContext);
+  //const { appendUser, saveUser } = useContext(GlobalContext);
+  const { appendUser, saveUser } = useContext(UserContext)
 
   const [name, setPlayerName] = useState("");
   const [email, setEmail] = useState("");

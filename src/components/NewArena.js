@@ -35,7 +35,7 @@ export default function NewArena(props) {
   }, [])
 
   const deleteSome = async () => {
-    let foundare = await Arena.find()
+    let foundare = await Arena.find({})
     console.log("LEnGTH", foundare.length)
     await Arena.deleteMany({})
   }
