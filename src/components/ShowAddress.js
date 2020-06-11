@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import "../scss/style.scss";
 import mongoosy from "mongoosy/frontend";
 import LeafletMap from "./LeafletMap";
-import { AddressContext } from "../contexts/AddressContextProvider";
+import { GlobalContext } from "../contexts/GlobalContextProvider";
 
 export default function ShowAddress(props) {
   const { Address } = mongoosy;
-  const { fetchAddress, address } = useContext(AddressContext);
+  const { fetchAddress, address } = useContext(GlobalContext);
   const [mapAddress, setMapAddress] = useState("")
 
 

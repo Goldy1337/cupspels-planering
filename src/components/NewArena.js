@@ -1,18 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Form, FormGroup, Input } from 'reactstrap'
+import { Button, Form, FormGroup, Input, Jumbotron, Label } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
+import SearchAddress from "./SearchAddress";
 import ArenaList from './ArenaList'
-import {ArenaContext} from '../contexts/ArenaContextProvider'
-import SearchAddress from './SearchAddress';
-import { AddressContext } from '../contexts/AddressContextProvider';
-const {
-  Arena
-} = mongoosy;
+import NewField from './NewField'
+import { GlobalContext } from "../contexts/GlobalContextProvider";
+const { Arena } = mongoosy;
 
-export default function NewArena() {
+export default function NewArena(props) {
+  const { appendArena, colorTheme, arenaAddress, fetchArena } = useContext(GlobalContext);
 
-  const { appendArena, fetchArena } = useContext(ArenaContext)
-  const { arenaAddress } = useContext(AddressContext)
+  // const { appendArena, fetchArena } = useContext(ArenaContext)
+  // const { arenaAddress } = useContext(AddressContext)
   const [arena, setArena] = useState({name: '', capacity: '', homeTeam: ''})
   const updateArena = update => setArena({ ...arena, ...update })
 
@@ -23,15 +22,24 @@ export default function NewArena() {
       addressId: arenaAddress._id,
       name: arena.name,
       capacity: arena.capacity,
-      homeTeam: arena.homeTeam
-    }
-    
-    appendArena(arenaAdded)
-    sendToDatabase(arenaAdded)
-    console.log(arenaAddress)
-    // await fetchArenaAddress(address._id)
-    updateArena({ name: '', capacity: '', homeTeam: '' })
+      homeTeam: arena.homeTeam,
+    };
+    appendArena(arenaAdded);
+    sendToDatabase(arenaAdded);
+    updateArena({ name: "", capacity: "", homeTeam: "" });
+  };
+
+  useEffect(() => {
+    //deleteSome()
+  }, [])
+
+  const deleteSome = async () => {
+    let foundare = await Arena.find({})
+    console.log("LEnGTH", foundare.length)
+    await Arena.deleteMany({})
   }
+
+
 
   //Creates a new Arena entry and saves it to the database
   async function sendToDatabase(arenaAdded) {
@@ -40,7 +48,8 @@ export default function NewArena() {
       addressId: arenaAdded.addressId,
       name: arenaAdded.name,
       capacity: arenaAdded.capacity,
-      homeTeam: arenaAdded.homeTeam
+      homeTeam: arenaAdded.homeTeam,
+      //cups: [props.cupInfo.id]
     });
     await newArena.save();
 
@@ -51,10 +60,14 @@ export default function NewArena() {
 
   //The form for adding the arena
   return (
-    <>
-      <Form onSubmit={addArena}>
-        <FormGroup>
-          <Input
+    <div>
+      <br />
+      <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
+      <h4 style={{textAlign: 'center', marginBottom: '30px', opacity: '0.7'}}>Arena Details</h4>
+      <Form style={{padding: '0px 50px', width: '40vw'}} onSubmit={addArena}>
+          <FormGroup style={{}}>
+            <Input
+              style={{width: '40vw'}}
             type="text"
             placeholder="Add arena name"
             value={arena.name}
@@ -77,9 +90,12 @@ export default function NewArena() {
           <SearchAddress />
           <Button>Add Arena</Button>
         </FormGroup>
-      </Form>
-        <ArenaList/>
-
-    </>
+        </Form>
+      </Jumbotron>
+      <br />
+      {props.cupInfo ?
+      (<ArenaList cupId={props.cupInfo.id}/>)
+      : (<ArenaList/>)}
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import React, {
   useState,
   useContext,
 } from "react";
-import { AddressContext } from "../contexts/AddressContextProvider";
+import { GlobalContext } from "../contexts/GlobalContextProvider";
 import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
 import L from "leaflet";
 import * as ELG from "esri-leaflet-geocoder";
@@ -26,7 +26,7 @@ L.Icon.Default.mergeOptions({
 
 const LeafletMap = (props) => {
   const [center, setCenter] = useState([37.7833, -122.4167]);
-  const { address } = useContext(AddressContext);
+  const { address } = useContext(GlobalContext);
   // const [streetName, setStreetName] = useState("");
   // const [foundAddresses, setFoundAddresses] = useState([]);
   // const [foundAddress, setFoundAddress] = useState("");

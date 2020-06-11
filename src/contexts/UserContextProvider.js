@@ -21,15 +21,15 @@ export default function UserContextProvider(props) {
   const removeUser = (id) => {
     setUsers(users.filter((u) => u.id !== id));
 
-    fetch("/api/users/" + id, {
-      method: "DELETE",
-    });
+    User.remove({_id: id})
+
+    // fetch("/api/users/" + id, {
+    //   method: "DELETE",
+    // });
   };
 
   const fetchUsers = async () => {
     let allUsers = await User.find();
-    // let res = await fetch("/api/users");
-    // res = await res.json();
     setUsers(allUsers);
      setUsers(allUsers);
   };

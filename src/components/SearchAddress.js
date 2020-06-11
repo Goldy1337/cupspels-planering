@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext} from "react";
 import mongoosy from "mongoosy/frontend";
 import { Form, FormGroup, Input, Col } from "reactstrap";
 import NewAddress from "./NewAddress";
-import {AddressContext} from "../contexts/AddressContextProvider"
+import {GlobalContext} from "../contexts/GlobalContextProvider"
 import { OpenStreetMapProvider } from "react-leaflet-geosearch";
 
 const SearchAddress = (props) => {
   const [addAddress, setAddAddress] = useState(false);
   const [foundAddresses, setFoundAddresses] = useState([]);
-  const { addUnformattedAddress, unformattedAddress, appendAddress } = useContext(AddressContext);
+  const { addUnformattedAddress, unformattedAddress, appendAddress } = useContext(GlobalContext);
   const prov = OpenStreetMapProvider();
 
   let throttleSearch;
@@ -59,41 +59,42 @@ const SearchAddress = (props) => {
 
   return (
     <div>
-      {unformattedAddress  ? (
-        <NewAddress address={unformattedAddress}/>
+      {unformattedAddress ? (
+        <NewAddress address={unformattedAddress} />
+      ) : (
         // <LeafletMap mapAddress={mapAddress} />
-      ) : ("")}
-        <Form id="form" autoComplete="off">
-          <FormGroup className="col-sm-10 col-md-6 col-lg-4">
-            <Col>
+        ""
+      )}
+      <Form id="form" autoComplete="off">
+        <FormGroup className="col-sm-10 col-md-6 col-lg-4">
+          <Col>
+            <Input
+              style={{ width: "40vw" }}
+              type="text"
+              placeholder="Please enter address"
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+            {foundAddresses[0] ? (
               <Input
-                type="text"
-                placeholder="Please enter address"
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-              {foundAddresses[0] ? (
-                <Input
-                  type="select"
-                  name="selectMulti"
-                  id="exampleSelectMulti"
-                  multiple
-                >
-                  {foundAddresses.map((f) => (
-                    <option
-                      key={f.raw.place_id}
-                      onClick={() => saveAddress(f)}
-                    >
-                      {f.label}
-                    </option>
-                    // console.log("f ", f)
-                  ))}
-                </Input>
-              ) : (
-                ""
-              )}
-            </Col>
-          </FormGroup>
-        </Form>
+                style={{ width: "40vw" }}
+                type="select"
+                name="selectMulti"
+                id="exampleSelectMulti"
+                multiple
+              >
+                {foundAddresses.map((f) => (
+                  <option key={f.raw.place_id} onClick={() => saveAddress(f)}>
+                    {f.label}
+                  </option>
+                  // console.log("f ", f)
+                ))}
+              </Input>
+            ) : (
+              ""
+            )}
+          </Col>
+        </FormGroup>
+      </Form>
     </div>
   );
 };

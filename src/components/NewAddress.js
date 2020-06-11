@@ -1,15 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../scss/style.scss"
 import mongoosy from "mongoosy/frontend";
-import LeafletMap from "./LeafletMap";
-import { AddressContext } from "../contexts/AddressContextProvider"
-import ShowAddress from "./ShowAddress";
+import { GlobalContext } from "../contexts/GlobalContextProvider"
 
 export default function NewAddress(props) {
   const { Address } = mongoosy;
   const [addressInfo, setAddressInfo] = useState([]);
   const [savedAddress, setSavedAddress] = useState("");
-  const {fetchArenaAddress, arenaAddress} =useContext(AddressContext)
+  const {fetchArenaAddress, arenaAddress} =useContext(GlobalContext)
 
   useEffect(() => {
     getAddressInfo();
@@ -22,12 +20,8 @@ export default function NewAddress(props) {
   }, [addressInfo]);
 
   const getAddressInfo = async () => {
-    // const address = props.address.label;
      console.log("newAddress: ", props)
     await setAddressInfo(props.address.label.split(","));
-    // console.log(address.split(","));
-    // console.log(address.substring(0, address.indexOf(",")));
-    // console.log(address);
   };
 
   const addAddress = async () => {
@@ -73,19 +67,7 @@ export default function NewAddress(props) {
 
   return (
     <>
-      {/* {props.newAddress ? (
-        ""
-      ) : (
-
-        // <ShowAddress address={savedAddress}/>
-        // <div className="address-info">
-        //   <div>{savedAddress.streetName}</div>
-        //   <div>{savedAddress.postCode}</div>
-        //   <div>{savedAddress.city}</div>
-        //   <div>{savedAddress.country}</div>
-        //   <LeafletMap mapAddress={props.address}></LeafletMap>
-        // </div>
-      )} */}
+      <div></div>
     </>
   );
 }

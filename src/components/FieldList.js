@@ -1,26 +1,26 @@
-import React, { useContext, useEffect } from "react";
-import { Table } from "reactstrap";
-import { FieldContext } from "../contexts/FieldContextProvider";
+import React, { useContext, useEffect } from 'react'
+import { Table } from 'reactstrap';
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 export default function FieldList(props) {
-  const { arenaFields, fetchArenaFields } = useContext(FieldContext);
+  const { fields, fetchArenaFields } = useContext(GlobalContext)
 
   useEffect(() => {
     fetchArenaFields(props.arena._Id);
   }, []);
 
   return (
-    <Table dark className="field-list">     
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Surface</th>
-          <th>Outdoors/Indoors</th>
-        </tr>
-      </thead>
-      {arenaFields.map((field, i) => {
+    <Table hover striped className="table-info">  
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Surface</th>
+        <th>Outdoors/Indoors</th>
+      </tr>
+    </thead>
+      {fields.map((field, i) => {
         return (
           <>
             <tbody key={i} className="field-list">

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react'
-import { UserContext } from '../contexts/UserContextProvider'
 import {withRouter} from 'react-router-dom'
+import { GlobalContext } from '../contexts/GlobalContextProvider';
 
 const RegisterAccount = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { fetchUser } = useContext(UserContext);
+  const { fetchUser } = useContext(GlobalContext);
 
   async function nodeRegister() {
     const user = fetchUser()
