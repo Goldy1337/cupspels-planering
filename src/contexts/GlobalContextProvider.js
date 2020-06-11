@@ -110,8 +110,14 @@ export default function GlobalContextProvider(props) {
   }
 
   function getStoredColorTheme() {
-    const storedColorTheme = JSON.parse(localStorage.getItem("colorTheme"));
-    return storedColorTheme || "info";
+    const storedColorTheme = JSON.parse(localStorage.getItem('colorTheme'))
+    if (storedColorTheme === 'dark') {
+      document.querySelector('body').classList.toggle('darkMode', true);
+    }
+    if (storedColorTheme === 'info') {
+      document.querySelector('body').classList.toggle('darkMode', false);
+    }
+    return storedColorTheme || 'info'
   }
 
   //#endregion
