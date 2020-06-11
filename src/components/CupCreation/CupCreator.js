@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Form,
@@ -12,6 +12,7 @@ import {
 import TeamsModule from "../NewTeam";
 import ArenaModule from "../NewArena";
 import mongoosy from 'mongoosy/frontend';
+import { GlobalContext } from "../../contexts/GlobalContextProvider";
 import { stat } from "fs";
 const {
   Cup
@@ -26,6 +27,8 @@ export default function CupCreator() {
     endDate: "",
     id: 0
   });
+
+  const { colorTheme } = useContext(GlobalContext);
 
   const updateCupInfo = (update) => {
     setCupInfo({...cupInfo, ...update})
@@ -147,18 +150,18 @@ export default function CupCreator() {
             </div>
        
             <FormGroup style={{display: 'flex', justifyContent: 'center', paddingTop: '30px', marginBottom: '0px'}} >
-              <Button style={{ width: '10vw' }} className="ml-4">Confirm</Button>
+              <Button style={{ width: '10vw' }} className="ml-4" color={colorTheme}>Confirm</Button>
             </FormGroup>
           </Form>
         </Container>
       </Jumbotron>
 
       <div style={{ textAlign: "center" }}>
-        <button onClick={() => toggleMenu("arenaMenu")}>Add Arenas</button>
-        <button onClick={() => toggleMenu("teamsMenu")}>Add Teams</button>
-        <button onClick={() => toggleMenu("generateMatchMenu")}>
+        <Button onClick={() => toggleMenu("arenaMenu")} color={colorTheme}>Add Arenas</Button>
+        <Button onClick={() => toggleMenu("teamsMenu")} color={colorTheme}>Add Teams</Button>
+        <Button onClick={() => toggleMenu("generateMatchMenu")} color={colorTheme}>
           Generate Matches
-        </button>
+        </Button>
         <div style={{}}>{states.teamsMenu ? <TeamsModule cupInfo={cupInfo}/> : <></>}</div>
         <div style={{}}>{states.arenaMenu ? <ArenaModule cupInfo={cupInfo}/> : <></>}</div>
       </div>
