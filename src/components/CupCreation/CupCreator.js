@@ -139,7 +139,7 @@ export default function CupCreator() {
                   />
                 </Col>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {showError ? <Label style={{color: 'red', textAlign: 'center', paddingTop: '5px'}}>Invalid dates</Label> : <> </>}
+                  {/* {showError ? <Label style={{color: 'red', textAlign: 'center', paddingTop: '5px'}}>Invalid dates</Label> : <> </>} */}
                 </div>
 
               </FormGroup>
@@ -159,7 +159,7 @@ export default function CupCreator() {
         <button onClick={() => toggleMenu("generateMatchMenu")}>
           Generate Matches
         </button>
-        <div style={{}}>{states.teamsMenu ? <TeamsModule /> : <></>}</div>
+        <div style={{}}>{states.teamsMenu ? <TeamsModule cupInfo={cupInfo}/> : <></>}</div>
         <div style={{}}>{states.arenaMenu ? <ArenaModule cupInfo={cupInfo}/> : <></>}</div>
       </div>
    
