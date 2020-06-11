@@ -44,6 +44,7 @@ export default function App() {
               <Route exact path="/playerInfo" component={PlayerInfo} />
               <Route exact path="/userLogin" component={UserLogin} />
               <Route exact path="/CupGenerator" component={CupGenerator} />
+              <Route exact path="/groupPlay" component={GroupPlay} />
             </main>
           </Router>
         </UserContextProvider>

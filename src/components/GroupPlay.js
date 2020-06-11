@@ -17,6 +17,7 @@ export default function GroupPlay(props) {
 
   useEffect(() => {
     //deleteGroupData()
+    console.log("HOWDT")
     fetchTeams("5ec2f7915c58b4ee74925cd8");
   }, []);
 
@@ -62,7 +63,7 @@ export default function GroupPlay(props) {
         ? setWarningMessage(true)
         : setWarningMessage(false);
     if (condition) {
-      return;
+      return null;
     }
 
     let groups = getGroupSequence();
@@ -82,7 +83,7 @@ export default function GroupPlay(props) {
 
   const createGroupMatches = async (teams) => {
     if (warningMessage) {
-      return;
+      return null;
     }
 
     let date = new Date();
@@ -111,7 +112,10 @@ export default function GroupPlay(props) {
       }
     }
 
-    return (
+    
+  }
+
+  return !cup ? null :  (
       <div className="player-info">
         <h1>Create Group Play</h1>
         <h4>{teamsInCup.length} Teams in Cup</h4>
@@ -177,5 +181,4 @@ export default function GroupPlay(props) {
         </h1>
       </div>
     );
-  }
 }
