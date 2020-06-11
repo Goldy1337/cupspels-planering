@@ -6,7 +6,7 @@ export default function ArenaList(props) {
   const { arenas } = useContext(GlobalContext)
 
   return (
-    <Table hover striped className="table-info">  
+    <Table style={{width: '60vw', margin: 'auto'}} hover striped className="table-info">  
     <thead>
       <tr>
         <th>#</th>
@@ -24,7 +24,8 @@ export default function ArenaList(props) {
           }
         })
         .map((arena, i) => {
-        return (
+          return (
+              
           <tbody key={arena._id}>
             <tr>
               <td>{i + 1}</td>
@@ -32,9 +33,10 @@ export default function ArenaList(props) {
               <td>{arena.capacity}</td>
               <td>{arena.homeTeam}</td>
             </tr>
-          </tbody>
+              </tbody>
         )
-        })}
+              })}
       </Table>
+
   );
 }

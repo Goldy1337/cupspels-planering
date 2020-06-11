@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Button, ButtonGroup, Form, FormGroup, Input} from 'reactstrap'
+import { Button, ButtonGroup, Form, FormGroup, Input, Jumbotron } from 'reactstrap'
 import mongoosy from 'mongoosy/frontend';
 import FieldList from './FieldList'
 import { GlobalContext } from '../contexts/GlobalContextProvider';
@@ -44,7 +44,10 @@ export default function NewField() {
   //The form for adding the field
   return (
     <div>
-      <Form onSubmit={addField}>
+      <br />
+      <Jumbotron style={{ width: '60vw', margin: 'auto', paddingTop: '40px' }} fluid>
+      <h4 style={{textAlign: 'center', marginBottom: '30px', opacity: '0.7'}}>Field Details</h4>
+      <Form style={{width: '50vw', margin: 'auto'}} onSubmit={addField}>
         <FormGroup>
           <Input type="text" placeholder="Add field name" 
           value={field.name} onChange={e => updateField({name: e.target.value})} 
@@ -63,11 +66,12 @@ export default function NewField() {
             <Button color={colorTheme} onClick={() => updateField({outdoors: 'Indoors'})} active={field.outdoors === 'Indoors'}>Indoors</Button>
           </ButtonGroup>
           <br></br>
-          <FormGroup align="center">
+          <FormGroup style={{paddingTop: '20px'}} align="center">
             <Button color={colorTheme} size="lg">Add Field</Button>
           </FormGroup>
         </FormGroup>
-      </Form>
+        </Form>
+        </Jumbotron>
     </div>
   )
 }
