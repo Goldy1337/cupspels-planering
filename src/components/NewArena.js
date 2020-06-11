@@ -4,7 +4,6 @@ import mongoosy from 'mongoosy/frontend';
 import SearchAddress from "./SearchAddress";
 import ArenaList from './ArenaList'
 import NewField from './NewField'
-import FieldList from './FieldList'
 import { GlobalContext } from "../contexts/GlobalContextProvider";
 const { Arena } = mongoosy;
 

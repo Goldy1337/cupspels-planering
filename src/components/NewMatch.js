@@ -16,7 +16,7 @@ const {
 
 function NewMatch() {
 
-  const { appendMatch, teams } = useContext(GlobalContext)
+  const { appendMatch, teams, createMatch } = useContext(GlobalContext)
   const [newMatch, setNewMatch] = useState({ matchType: '', duration: 0, teams: [], field: ''})
   const [cup, setCup] = useState()
   const [teamsInCup, setTeamsInCup] = useState([]) 
