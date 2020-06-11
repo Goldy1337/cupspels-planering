@@ -95,7 +95,7 @@ export default function CupCreator() {
                 <Input
                   style={{ width: '40vw' }}
                   required
-                  placeholder="Cup name..."
+                  placeholder="cup name..."
                   value={cupInfo.name}
                   onChange={(e) => updateCupInfo({name: e.target.value})}
                 />
@@ -108,7 +108,7 @@ export default function CupCreator() {
                 <Input
                   style={{ width: '40vw' }}
                   required
-                  placeholder="Name of cup organizers..."
+                  placeholder="name of cup organizers..."
                   value={cupInfo.organizer}
                   onChange={(e) => updateCupInfo({organizer: e.target.value})}
                 />
