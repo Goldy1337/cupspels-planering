@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { TeamContext } from "../contexts/TeamContextProvider"
 import {
   Button,
@@ -19,12 +19,21 @@ export default function NewTeam(props) {
   const {clearTeams} = useContext(TeamContext);
   const { Team } = mongoosy;
 
+  useEffect(() => {
+    print()
+  }, [])
+
+  const print = async () => {
+    console.log(props.cupInfo.id)
+  }
+
   async function addTeam() {
     let aTeam = new Team({
       club: clubName,
       name: teamName,
       gender: teamGender,
       age: ageGroup,
+      cups: props.cupInfo.id
     });
     await aTeam.save();
     console.log("aTeam", aTeam._id);
