@@ -31,6 +31,10 @@ export default function GlobalContextProvider(props) {
     localStorage.setItem("colorTheme", JSON.stringify(colorTheme));
   }, [colorTheme]);
 
+  useEffect(() => {
+    fetchArenas()
+  })
+
   //#region UPDATE METHODS
 
   const updateLoginStatus = (update) =>

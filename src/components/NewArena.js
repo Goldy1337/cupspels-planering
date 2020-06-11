@@ -52,11 +52,6 @@ export default function NewArena(props) {
       cups: [props.cupInfo.id]
     });
     await NewArena.save();
-
-    //let f = await Arena.find()
-
-    //console.log("FOND AREAN", f)
-    //console.log("cupid", props.cupInfo.id)
   }
 
   //The form for adding the arena

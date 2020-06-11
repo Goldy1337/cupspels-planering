@@ -26,6 +26,7 @@ export default function NewTeam(props) {
       name: teamName,
       gender: teamGender,
       age: ageGroup,
+      cups: props.cupInfo.id
     });
     await aTeam.save();
     console.log("aTeam", aTeam._id);
