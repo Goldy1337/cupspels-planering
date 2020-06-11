@@ -13,6 +13,8 @@ import GroupPlay from "./components/GroupPlay";
 import GlobalContext from "./contexts/GlobalContextProvider";
 import CupGenerator from "./components/CupCreation/CupCreator";
 
+// import Home from './pages/Home'
+
 export default function App() {
   return (
     <div className="App">
@@ -35,6 +37,7 @@ export default function App() {
                 path="/addTeamMember/:id"
                 component={NewTeamMember}
               />
+              {/* <Route exact path="/" component={Home} /> */}
               <Route exact path="/newReferee" component={NewReferee} />
               <Route exact path="/newArena" component={NewArena} />
               <Route exact path="/createBrackets" component={CreateBrackets} />
@@ -43,7 +46,6 @@ export default function App() {
               <Route exact path="/CupGenerator" component={CupGenerator} />
             </main>
           </Router>
-          x{" "}
         </UserContextProvider>
       </GlobalContext>
     </div>
