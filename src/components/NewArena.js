@@ -96,9 +96,9 @@ export default function NewArena(props) {
           </Form>
         </Container>
       </Jumbotron>
+      <ArenaList cupId={props.cupInfo.id}/>
+      <br />
       <NewField />
-      {/* <br /> */}
-      {/* <ArenaList cupId={props.cupInfo.id}/> */}
     </div>
   );
 }

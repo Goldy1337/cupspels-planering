@@ -87,6 +87,7 @@ export default function NewField() {
           </Form>
         </Container>
       </Jumbotron>
+      {/* <FieldList cupId={props.cupInfo.id}/> */}
     </div>
   )
 }
