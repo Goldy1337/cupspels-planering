@@ -8,11 +8,11 @@
     "@testing-library/user-event": "^7.2.1",
     "express": "^4.17.1",
     "mongoose": "^5.9.10",
-    "node-sass": "^4.13.1",
+    "node-sass": "^9.0.0",
     "react": "^16.13.1",
     "react-amazing-proxy": "^1.0.63",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "reactstrap": "^8.4.1"
   },
   "scripts": {
